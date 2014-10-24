@@ -1,0 +1,358 @@
+---- AspectJ Properties ---
+AspectJ Compiler 1.6.11 built on Tuesday Mar 15, 2011 at 15:31:04 GMT
+---- Dump Properties ---
+Dump file: ajcore.20141016.163439.550.txt
+Dump reason: org.aspectj.apache.bcel.classfile.ClassFormatException
+Dump on exception: true
+Dump at exit condition: abort
+---- Exception Information ---
+org.aspectj.apache.bcel.classfile.ClassFormatException: File: 'java/lang/CharSequence.class': Invalid byte tag in constant pool: 18
+	at org.aspectj.apache.bcel.classfile.ClassParser.readConstantPool(ClassParser.java:192)
+	at org.aspectj.apache.bcel.classfile.ClassParser.parse(ClassParser.java:131)
+	at org.aspectj.weaver.bcel.BcelWorld.lookupJavaClass(BcelWorld.java:424)
+	at org.aspectj.weaver.bcel.BcelWorld.resolveDelegate(BcelWorld.java:376)
+	at org.aspectj.weaver.World.resolveToReferenceType(World.java:467)
+	at org.aspectj.weaver.World.resolve(World.java:308)
+	at org.aspectj.weaver.World.resolve(World.java:218)
+	at org.aspectj.weaver.bcel.BcelGenericSignatureToTypeXConverter.classTypeSignature2TypeX(BcelGenericSignatureToTypeXConverter.java:97)
+	at org.aspectj.weaver.bcel.BcelGenericSignatureToTypeXConverter.classTypeSignature2TypeX(BcelGenericSignatureToTypeXConverter.java:41)
+	at org.aspectj.weaver.bcel.BcelObjectType.ensureGenericSignatureUnpacked(BcelObjectType.java:810)
+	at org.aspectj.weaver.bcel.BcelObjectType.getDeclaredInterfaces(BcelObjectType.java:257)
+	at org.aspectj.weaver.ReferenceType.getDeclaredInterfaces(ReferenceType.java:624)
+	at org.aspectj.weaver.ResolvedType.getDirectSupertypes(ResolvedType.java:76)
+	at org.aspectj.weaver.patterns.TypePattern.matchesSubtypes(TypePattern.java:178)
+	at org.aspectj.weaver.patterns.ExactTypePattern.matchesSubtypes(ExactTypePattern.java:74)
+	at org.aspectj.weaver.patterns.TypePattern.matchesStatically(TypePattern.java:130)
+	at org.aspectj.weaver.patterns.AndTypePattern.matchesStatically(AndTypePattern.java:62)
+	at org.aspectj.weaver.patterns.DeclareParents.match(DeclareParents.java:63)
+	at org.aspectj.weaver.patterns.DeclareParents.findMatchingNewParents(DeclareParents.java:358)
+	at org.aspectj.ajdt.internal.compiler.lookup.AjLookupEnvironment.doDeclareParents(AjLookupEnvironment.java:880)
+	at org.aspectj.ajdt.internal.compiler.lookup.AjLookupEnvironment.weaveInterTypeDeclarations(AjLookupEnvironment.java:730)
+	at org.aspectj.ajdt.internal.compiler.lookup.AjLookupEnvironment.weaveInterTypeDeclarations(AjLookupEnvironment.java:652)
+	at org.aspectj.ajdt.internal.compiler.lookup.AjLookupEnvironment.createBinaryTypeFrom(AjLookupEnvironment.java:1398)
+	at org.aspectj.org.eclipse.jdt.internal.compiler.lookup.LookupEnvironment.createBinaryTypeFrom(LookupEnvironment.java:599)
+	at org.aspectj.org.eclipse.jdt.internal.compiler.Compiler.accept(Compiler.java:276)
+	at org.aspectj.org.eclipse.jdt.internal.compiler.lookup.LookupEnvironment.askForType(LookupEnvironment.java:113)
+	at org.aspectj.org.eclipse.jdt.internal.compiler.lookup.UnresolvedReferenceBinding.resolve(UnresolvedReferenceBinding.java:49)
+	at org.aspectj.org.eclipse.jdt.internal.compiler.lookup.BinaryTypeBinding.resolveType(BinaryTypeBinding.java:133)
+	at org.aspectj.org.eclipse.jdt.internal.compiler.lookup.BinaryTypeBinding.resolveTypesFor(BinaryTypeBinding.java:974)
+	at org.aspectj.org.eclipse.jdt.internal.compiler.lookup.BinaryTypeBinding.methodsBase(BinaryTypeBinding.java:957)
+	at org.aspectj.org.eclipse.jdt.internal.compiler.lookup.BinaryTypeBinding.methods(BinaryTypeBinding.java:1116)
+	at org.aspectj.org.eclipse.jdt.internal.compiler.ast.Annotation.resolveType(Annotation.java:243)
+	at org.aspectj.org.eclipse.jdt.internal.compiler.ast.ASTNode.resolveAnnotations(ASTNode.java:594)
+	at org.aspectj.ajdt.internal.compiler.AjPipeliningCompilerAdapter.isAspect(AjPipeliningCompilerAdapter.java:649)
+	at org.aspectj.ajdt.internal.compiler.AjPipeliningCompilerAdapter.containsAnAspect(AjPipeliningCompilerAdapter.java:607)
+	at org.aspectj.ajdt.internal.compiler.AjPipeliningCompilerAdapter.afterDietParsing(AjPipeliningCompilerAdapter.java:206)
+	at org.aspectj.ajdt.internal.compiler.CompilerAdapter.ajc$afterReturning$org_aspectj_ajdt_internal_compiler_CompilerAdapter$4$2cef295e(CompilerAdapter.aj:93)
+	at org.aspectj.org.eclipse.jdt.internal.compiler.Compiler.beginToCompile(Compiler.java:358)
+	at org.aspectj.org.eclipse.jdt.internal.compiler.Compiler.compile(Compiler.java:371)
+	at org.aspectj.ajdt.internal.core.builder.AjBuildManager.performCompilation(AjBuildManager.java:1021)
+	at org.aspectj.ajdt.internal.core.builder.AjBuildManager.performBuild(AjBuildManager.java:268)
+	at org.aspectj.ajdt.internal.core.builder.AjBuildManager.batchBuild(AjBuildManager.java:181)
+	at org.aspectj.ajdt.ajc.AjdtCommand.doCommand(AjdtCommand.java:112)
+	at org.aspectj.ajdt.ajc.AjdtCommand.runCommand(AjdtCommand.java:60)
+	at org.aspectj.tools.ajc.Main.run(Main.java:371)
+	at org.aspectj.tools.ajc.Main.runMain(Main.java:248)
+	at org.codehaus.mojo.aspectj.AbstractAjcCompiler.execute(AbstractAjcCompiler.java:378)
+	at org.apache.maven.plugin.DefaultBuildPluginManager.executeMojo(DefaultBuildPluginManager.java:101)
+	at org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:209)
+	at org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:153)
+	at org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:145)
+	at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject(LifecycleModuleBuilder.java:84)
+	at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject(LifecycleModuleBuilder.java:59)
+	at org.apache.maven.lifecycle.internal.LifecycleStarter.singleThreadedBuild(LifecycleStarter.java:183)
+	at org.apache.maven.lifecycle.internal.LifecycleStarter.execute(LifecycleStarter.java:161)
+	at org.apache.maven.DefaultMaven.doExecute(DefaultMaven.java:320)
+	at org.apache.maven.DefaultMaven.execute(DefaultMaven.java:156)
+	at org.apache.maven.cli.MavenCli.execute(MavenCli.java:537)
+	at org.apache.maven.cli.MavenCli.doMain(MavenCli.java:196)
+	at org.apache.maven.cli.MavenCli.main(MavenCli.java:141)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:483)
+	at org.codehaus.plexus.classworlds.launcher.Launcher.launchEnhanced(Launcher.java:289)
+	at org.codehaus.plexus.classworlds.launcher.Launcher.launch(Launcher.java:229)
+	at org.codehaus.plexus.classworlds.launcher.Launcher.mainWithExitCode(Launcher.java:415)
+	at org.codehaus.plexus.classworlds.launcher.Launcher.main(Launcher.java:356)
+---- System Properties ---
+java.runtime.name=Java(TM) SE Runtime Environment
+sun.boot.library.path=/home/martellinic/mobile/jdk1.8.0_20/jre/lib/amd64
+java.vm.version=25.20-b23
+java.vm.vendor=Oracle Corporation
+java.vendor.url=http://java.oracle.com/
+guice.disable.misplaced.annotation.check=true
+path.separator=:
+java.vm.name=Java HotSpot(TM) 64-Bit Server VM
+file.encoding.pkg=sun.io
+user.country=US
+sun.java.launcher=SUN_STANDARD
+sun.os.patch.level=unknown
+java.vm.specification.name=Java Virtual Machine Specification
+user.dir=/home/martellinic/workspace2/FTParent/FTModelDB
+java.runtime.version=1.8.0_20-b26
+java.awt.graphicsenv=sun.awt.X11GraphicsEnvironment
+java.endorsed.dirs=/home/martellinic/mobile/jdk1.8.0_20/jre/lib/endorsed
+os.arch=amd64
+java.io.tmpdir=/tmp
+line.separator=
+
+java.vm.specification.vendor=Oracle Corporation
+os.name=Linux
+classworlds.conf=/usr/share/maven/bin/m2.conf
+sun.jnu.encoding=UTF-8
+java.library.path=/usr/java/packages/lib/amd64:/usr/lib64:/lib64:/lib:/usr/lib
+java.specification.name=Java Platform API Specification
+java.class.version=52.0
+sun.management.compiler=HotSpot 64-Bit Tiered Compilers
+os.version=3.13.0-37-generic
+user.home=/home/martellinic
+user.timezone=Europe/Rome
+java.awt.printerjob=sun.print.PSPrinterJob
+file.encoding=UTF-8
+java.specification.version=1.8
+java.class.path=/usr/share/maven/boot/plexus-classworlds-2.x.jar
+user.name=martellinic
+java.vm.specification.version=1.8
+sun.java.command=org.codehaus.plexus.classworlds.launcher.Launcher compile
+java.home=/home/martellinic/mobile/jdk1.8.0_20/jre
+sun.arch.data.model=64
+user.language=en
+java.specification.vendor=Oracle Corporation
+awt.toolkit=sun.awt.X11.XToolkit
+java.vm.info=mixed mode
+java.version=1.8.0_20
+securerandom.source=file:/dev/./urandom
+java.ext.dirs=/home/martellinic/mobile/jdk1.8.0_20/jre/lib/ext:/usr/java/packages/lib/ext
+sun.boot.class.path=/home/martellinic/mobile/jdk1.8.0_20/jre/lib/resources.jar:/home/martellinic/mobile/jdk1.8.0_20/jre/lib/rt.jar:/home/martellinic/mobile/jdk1.8.0_20/jre/lib/sunrsasign.jar:/home/martellinic/mobile/jdk1.8.0_20/jre/lib/jsse.jar:/home/martellinic/mobile/jdk1.8.0_20/jre/lib/jce.jar:/home/martellinic/mobile/jdk1.8.0_20/jre/lib/charsets.jar:/home/martellinic/mobile/jdk1.8.0_20/jre/lib/jfr.jar:/home/martellinic/mobile/jdk1.8.0_20/jre/classes
+java.vendor=Oracle Corporation
+maven.home=/usr/share/maven
+file.separator=/
+java.vendor.url.bug=http://bugreport.sun.com/bugreport/
+sun.io.unicode.encoding=UnicodeLittle
+sun.cpu.endian=little
+sun.desktop=gnome
+sun.cpu.isalist=
+---- Command Line ---
+-outxml
+-source
+1.6
+-target
+1.6
+-classpath
+/home/martellinic/.m2/repository/aopalliance/aopalliance/1.0/aopalliance-1.0.jar:/home/martellinic/.m2/repository/cglib/cglib-nodep/2.2/cglib-nodep-2.2.jar:/home/martellinic/.m2/repository/com/googlecode/concurrentlinkedhashmap/concurrentlinkedhashmap-lru/1.3.1/concurrentlinkedhashmap-lru-1.3.1.jar:/home/martellinic/.m2/repository/net/sf/opencsv/opencsv/2.0/opencsv-2.0.jar:/home/martellinic/.m2/repository/org/apache/geronimo/specs/geronimo-jta_1.1_spec/1.1.1/geronimo-jta_1.1_spec-1.1.1.jar:/home/martellinic/.m2/repository/org/apache/lucene/lucene-core/3.6.2/lucene-core-3.6.2.jar:/home/martellinic/.m2/repository/org/aspectj/aspectjrt/1.8.2/aspectjrt-1.8.2.jar:/home/martellinic/.m2/repository/org/aspectj/aspectjweaver/1.8.2/aspectjweaver-1.8.2.jar:/home/martellinic/.m2/repository/org/hibernate/javax/persistence/hibernate-jpa-2.0-api/1.0.0.Final/hibernate-jpa-2.0-api-1.0.0.Final.jar:/home/martellinic/.m2/repository/org/neo4j/neo4j/2.1.2/neo4j-2.1.2.jar:/home/martellinic/.m2/repository/org/neo4j/neo4j-cypher/2.1.2/neo4j-cypher-2.1.2.jar:/home/martellinic/.m2/repository/org/neo4j/neo4j-cypher-commons/2.1.2/neo4j-cypher-commons-2.1.2.jar:/home/martellinic/.m2/repository/org/neo4j/neo4j-cypher-compiler-1.9/2.0.3/neo4j-cypher-compiler-1.9-2.0.3.jar:/home/martellinic/.m2/repository/org/neo4j/neo4j-cypher-compiler-2.0/2.0.3/neo4j-cypher-compiler-2.0-2.0.3.jar:/home/martellinic/.m2/repository/org/neo4j/neo4j-cypher-compiler-2.1/2.1.2/neo4j-cypher-compiler-2.1-2.1.2.jar:/home/martellinic/.m2/repository/org/neo4j/neo4j-cypher-dsl/2.0.1/neo4j-cypher-dsl-2.0.1.jar:/home/martellinic/.m2/repository/org/neo4j/neo4j-graph-algo/2.1.2/neo4j-graph-algo-2.1.2.jar:/home/martellinic/.m2/repository/org/neo4j/neo4j-graph-matching/2.1.2/neo4j-graph-matching-2.1.2.jar:/home/martellinic/.m2/repository/org/neo4j/neo4j-jmx/2.1.2/neo4j-jmx-2.1.2.jar:/home/martellinic/.m2/repository/org/neo4j/neo4j-kernel/2.1.2/neo4j-kernel-2.1.2.jar:/home/martellinic/.m2/repository/org/neo4j/neo4j-lucene-index/2.1.2/neo4j-lucene-index-2.1.2.jar:/home/martellinic/.m2/repository/org/neo4j/neo4j-primitive-collections/2.1.2/neo4j-primitive-collections-2.1.2.jar:/home/martellinic/.m2/repository/org/neo4j/neo4j-udc/2.1.2/neo4j-udc-2.1.2.jar:/home/martellinic/.m2/repository/org/parboiled/parboiled-core/1.1.6/parboiled-core-1.1.6.jar:/home/martellinic/.m2/repository/org/parboiled/parboiled-scala_2.10/1.1.6/parboiled-scala_2.10-1.1.6.jar:/home/martellinic/.m2/repository/org/scala-lang/scala-library/2.10.4/scala-library-2.10.4.jar:/home/martellinic/.m2/repository/org/slf4j/slf4j-api/1.7.7/slf4j-api-1.7.7.jar:/home/martellinic/.m2/repository/org/springframework/spring-aop/4.0.7.RELEASE/spring-aop-4.0.7.RELEASE.jar:/home/martellinic/.m2/repository/org/springframework/spring-aspects/4.0.7.RELEASE/spring-aspects-4.0.7.RELEASE.jar:/home/martellinic/.m2/repository/org/springframework/spring-beans/4.0.7.RELEASE/spring-beans-4.0.7.RELEASE.jar:/home/martellinic/.m2/repository/org/springframework/spring-context/4.0.7.RELEASE/spring-context-4.0.7.RELEASE.jar:/home/martellinic/.m2/repository/org/springframework/spring-core/4.0.7.RELEASE/spring-core-4.0.7.RELEASE.jar:/home/martellinic/.m2/repository/org/springframework/spring-expression/4.0.7.RELEASE/spring-expression-4.0.7.RELEASE.jar:/home/martellinic/.m2/repository/org/springframework/spring-tx/4.0.7.RELEASE/spring-tx-4.0.7.RELEASE.jar:/home/martellinic/.m2/repository/org/springframework/data/spring-data-commons/1.9.0.RELEASE/spring-data-commons-1.9.0.RELEASE.jar:/home/martellinic/.m2/repository/org/springframework/data/spring-data-neo4j/3.2.0.RELEASE/spring-data-neo4j-3.2.0.RELEASE.jar:/home/martellinic/workspace2/FTParent/FTModelDB/target/classes
+-aspectpath
+/home/martellinic/.m2/repository/org/springframework/spring-aspects/4.0.7.RELEASE/spring-aspects-4.0.7.RELEASE.jar:/home/martellinic/.m2/repository/org/springframework/data/spring-data-neo4j/3.2.0.RELEASE/spring-data-neo4j-3.2.0.RELEASE.jar
+-d
+/home/martellinic/workspace2/FTParent/FTModelDB/target/classes
+/home/martellinic/workspace2/FTParent/FTModelDB/src/main/java/com/foodtrip/ftmodeldb/model/Movie.java
+/home/martellinic/workspace2/FTParent/FTModelDB/src/main/java/com/foodtrip/ftmodeldb/model/Person.java
+/home/martellinic/workspace2/FTParent/FTModelDB/src/main/java/com/foodtrip/ftmodeldb/repo/MovieRepository.java
+/home/martellinic/workspace2/FTParent/FTModelDB/src/main/java/com/foodtrip/ftmodeldb/repo/PersonRepository.java
+/home/martellinic/workspace2/FTParent/FTModelDB/src/main/java/com/foodtrip/ftmodeldb/App.java
+---- Full Classpath ---
+/home/martellinic/mobile/jdk1.8.0_20/jre/lib/resources.jar(3500527 bytes)
+/home/martellinic/mobile/jdk1.8.0_20/jre/lib/rt.jar(65525270 bytes)
+/home/martellinic/mobile/jdk1.8.0_20/jre/lib/sunrsasign.jar(missing)
+/home/martellinic/mobile/jdk1.8.0_20/jre/lib/jsse.jar(615948 bytes)
+/home/martellinic/mobile/jdk1.8.0_20/jre/lib/jce.jar(113481 bytes)
+/home/martellinic/mobile/jdk1.8.0_20/jre/lib/charsets.jar(3131363 bytes)
+/home/martellinic/mobile/jdk1.8.0_20/jre/lib/jfr.jar(559892 bytes)
+/home/martellinic/mobile/jdk1.8.0_20/jre/classes(missing)
+/home/martellinic/.m2/repository/org/springframework/spring-aspects/4.0.7.RELEASE/spring-aspects-4.0.7.RELEASE.jar(52320 bytes)
+/home/martellinic/.m2/repository/org/springframework/data/spring-data-neo4j/3.2.0.RELEASE/spring-data-neo4j-3.2.0.RELEASE.jar(502644 bytes)
+/home/martellinic/mobile/jdk1.8.0_20/jre/lib/ext/sunjce_provider.jar(278033 bytes)
+/home/martellinic/mobile/jdk1.8.0_20/jre/lib/ext/zipfs.jar(68835 bytes)
+/home/martellinic/mobile/jdk1.8.0_20/jre/lib/ext/nashorn.jar(1618832 bytes)
+/home/martellinic/mobile/jdk1.8.0_20/jre/lib/ext/dnsns.jar(8286 bytes)
+/home/martellinic/mobile/jdk1.8.0_20/jre/lib/ext/sunec.jar(39773 bytes)
+/home/martellinic/mobile/jdk1.8.0_20/jre/lib/ext/sunpkcs11.jar(249280 bytes)
+/home/martellinic/mobile/jdk1.8.0_20/jre/lib/ext/localedata.jar(1179307 bytes)
+/home/martellinic/mobile/jdk1.8.0_20/jre/lib/ext/cldrdata.jar(3860522 bytes)
+/home/martellinic/mobile/jdk1.8.0_20/jre/lib/ext/jfxrt.jar(17257493 bytes)
+/home/martellinic/.m2/repository/aopalliance/aopalliance/1.0/aopalliance-1.0.jar(4467 bytes)
+/home/martellinic/.m2/repository/cglib/cglib-nodep/2.2/cglib-nodep-2.2.jar(322362 bytes)
+/home/martellinic/.m2/repository/com/googlecode/concurrentlinkedhashmap/concurrentlinkedhashmap-lru/1.3.1/concurrentlinkedhashmap-lru-1.3.1.jar(54436 bytes)
+/home/martellinic/.m2/repository/net/sf/opencsv/opencsv/2.0/opencsv-2.0.jar(15347 bytes)
+/home/martellinic/.m2/repository/org/apache/geronimo/specs/geronimo-jta_1.1_spec/1.1.1/geronimo-jta_1.1_spec-1.1.1.jar(16030 bytes)
+/home/martellinic/.m2/repository/org/apache/lucene/lucene-core/3.6.2/lucene-core-3.6.2.jar(1539086 bytes)
+/home/martellinic/.m2/repository/org/aspectj/aspectjrt/1.8.2/aspectjrt-1.8.2.jar(117099 bytes)
+/home/martellinic/.m2/repository/org/aspectj/aspectjweaver/1.8.2/aspectjweaver-1.8.2.jar(1859293 bytes)
+/home/martellinic/.m2/repository/org/hibernate/javax/persistence/hibernate-jpa-2.0-api/1.0.0.Final/hibernate-jpa-2.0-api-1.0.0.Final.jar(100884 bytes)
+/home/martellinic/.m2/repository/org/neo4j/neo4j/2.1.2/neo4j-2.1.2.jar(24047 bytes)
+/home/martellinic/.m2/repository/org/neo4j/neo4j-cypher/2.1.2/neo4j-cypher-2.1.2.jar(181946 bytes)
+/home/martellinic/.m2/repository/org/neo4j/neo4j-cypher-commons/2.1.2/neo4j-cypher-commons-2.1.2.jar(213647 bytes)
+/home/martellinic/.m2/repository/org/neo4j/neo4j-cypher-compiler-1.9/2.0.3/neo4j-cypher-compiler-1.9-2.0.3.jar(3038246 bytes)
+/home/martellinic/.m2/repository/org/neo4j/neo4j-cypher-compiler-2.0/2.0.3/neo4j-cypher-compiler-2.0-2.0.3.jar(5406416 bytes)
+/home/martellinic/.m2/repository/org/neo4j/neo4j-cypher-compiler-2.1/2.1.2/neo4j-cypher-compiler-2.1-2.1.2.jar(7427243 bytes)
+/home/martellinic/.m2/repository/org/neo4j/neo4j-cypher-dsl/2.0.1/neo4j-cypher-dsl-2.0.1.jar(92797 bytes)
+/home/martellinic/.m2/repository/org/neo4j/neo4j-graph-algo/2.1.2/neo4j-graph-algo-2.1.2.jar(167497 bytes)
+/home/martellinic/.m2/repository/org/neo4j/neo4j-graph-matching/2.1.2/neo4j-graph-matching-2.1.2.jar(57019 bytes)
+/home/martellinic/.m2/repository/org/neo4j/neo4j-jmx/2.1.2/neo4j-jmx-2.1.2.jar(48834 bytes)
+/home/martellinic/.m2/repository/org/neo4j/neo4j-kernel/2.1.2/neo4j-kernel-2.1.2.jar(2561442 bytes)
+/home/martellinic/.m2/repository/org/neo4j/neo4j-lucene-index/2.1.2/neo4j-lucene-index-2.1.2.jar(256639 bytes)
+/home/martellinic/.m2/repository/org/neo4j/neo4j-primitive-collections/2.1.2/neo4j-primitive-collections-2.1.2.jar(109073 bytes)
+/home/martellinic/.m2/repository/org/neo4j/neo4j-udc/2.1.2/neo4j-udc-2.1.2.jar(39344 bytes)
+/home/martellinic/.m2/repository/org/parboiled/parboiled-core/1.1.6/parboiled-core-1.1.6.jar(187091 bytes)
+/home/martellinic/.m2/repository/org/parboiled/parboiled-scala_2.10/1.1.6/parboiled-scala_2.10-1.1.6.jar(237780 bytes)
+/home/martellinic/.m2/repository/org/scala-lang/scala-library/2.10.4/scala-library-2.10.4.jar(7126372 bytes)
+/home/martellinic/.m2/repository/org/slf4j/slf4j-api/1.7.7/slf4j-api-1.7.7.jar(29257 bytes)
+/home/martellinic/.m2/repository/org/springframework/spring-aop/4.0.7.RELEASE/spring-aop-4.0.7.RELEASE.jar(352811 bytes)
+/home/martellinic/.m2/repository/org/springframework/spring-aspects/4.0.7.RELEASE/spring-aspects-4.0.7.RELEASE.jar(52320 bytes)
+/home/martellinic/.m2/repository/org/springframework/spring-beans/4.0.7.RELEASE/spring-beans-4.0.7.RELEASE.jar(670318 bytes)
+/home/martellinic/.m2/repository/org/springframework/spring-context/4.0.7.RELEASE/spring-context-4.0.7.RELEASE.jar(978170 bytes)
+/home/martellinic/.m2/repository/org/springframework/spring-core/4.0.7.RELEASE/spring-core-4.0.7.RELEASE.jar(977413 bytes)
+/home/martellinic/.m2/repository/org/springframework/spring-expression/4.0.7.RELEASE/spring-expression-4.0.7.RELEASE.jar(205367 bytes)
+/home/martellinic/.m2/repository/org/springframework/spring-tx/4.0.7.RELEASE/spring-tx-4.0.7.RELEASE.jar(248343 bytes)
+/home/martellinic/.m2/repository/org/springframework/data/spring-data-commons/1.9.0.RELEASE/spring-data-commons-1.9.0.RELEASE.jar(496389 bytes)
+/home/martellinic/.m2/repository/org/springframework/data/spring-data-neo4j/3.2.0.RELEASE/spring-data-neo4j-3.2.0.RELEASE.jar(502644 bytes)
+/home/martellinic/workspace2/FTParent/FTModelDB/target/classes(4 entries)
+---- Compiler Messages ---
+warning bad version number found in /home/martellinic/.m2/repository/org/aspectj/aspectjrt/1.8.2/aspectjrt-1.8.2.jar expected 1.6.11 found 1.8.2
+info directory classpath entry does not exist: /home/martellinic/mobile/jdk1.8.0_20/jre/lib/sunrsasign.jar
+info zipfile classpath entry does not exist: /home/martellinic/mobile/jdk1.8.0_20/jre/classes
+info Pipelining compilation
+error at (no source information available)
+/home/martellinic/workspace2/FTParent/FTModelDB/src/main/java/com/foodtrip/ftmodeldb/App.java:0::0 Internal compiler error
+org.aspectj.apache.bcel.classfile.ClassFormatException: File: 'java/lang/CharSequence.class': Invalid byte tag in constant pool: 18
+	at org.aspectj.apache.bcel.classfile.ClassParser.readConstantPool(ClassParser.java:192)
+	at org.aspectj.apache.bcel.classfile.ClassParser.parse(ClassParser.java:131)
+	at org.aspectj.weaver.bcel.BcelWorld.lookupJavaClass(BcelWorld.java:424)
+	at org.aspectj.weaver.bcel.BcelWorld.resolveDelegate(BcelWorld.java:376)
+	at org.aspectj.weaver.World.resolveToReferenceType(World.java:467)
+	at org.aspectj.weaver.World.resolve(World.java:308)
+	at org.aspectj.weaver.World.resolve(World.java:218)
+	at org.aspectj.weaver.bcel.BcelGenericSignatureToTypeXConverter.classTypeSignature2TypeX(BcelGenericSignatureToTypeXConverter.java:97)
+	at org.aspectj.weaver.bcel.BcelGenericSignatureToTypeXConverter.classTypeSignature2TypeX(BcelGenericSignatureToTypeXConverter.java:41)
+	at org.aspectj.weaver.bcel.BcelObjectType.ensureGenericSignatureUnpacked(BcelObjectType.java:810)
+	at org.aspectj.weaver.bcel.BcelObjectType.getDeclaredInterfaces(BcelObjectType.java:257)
+	at org.aspectj.weaver.ReferenceType.getDeclaredInterfaces(ReferenceType.java:624)
+	at org.aspectj.weaver.ResolvedType.getDirectSupertypes(ResolvedType.java:76)
+	at org.aspectj.weaver.patterns.TypePattern.matchesSubtypes(TypePattern.java:178)
+	at org.aspectj.weaver.patterns.ExactTypePattern.matchesSubtypes(ExactTypePattern.java:74)
+	at org.aspectj.weaver.patterns.TypePattern.matchesStatically(TypePattern.java:130)
+	at org.aspectj.weaver.patterns.AndTypePattern.matchesStatically(AndTypePattern.java:62)
+	at org.aspectj.weaver.patterns.DeclareParents.match(DeclareParents.java:63)
+	at org.aspectj.weaver.patterns.DeclareParents.findMatchingNewParents(DeclareParents.java:358)
+	at org.aspectj.ajdt.internal.compiler.lookup.AjLookupEnvironment.doDeclareParents(AjLookupEnvironment.java:880)
+	at org.aspectj.ajdt.internal.compiler.lookup.AjLookupEnvironment.weaveInterTypeDeclarations(AjLookupEnvironment.java:730)
+	at org.aspectj.ajdt.internal.compiler.lookup.AjLookupEnvironment.weaveInterTypeDeclarations(AjLookupEnvironment.java:652)
+	at org.aspectj.ajdt.internal.compiler.lookup.AjLookupEnvironment.createBinaryTypeFrom(AjLookupEnvironment.java:1398)
+	at org.aspectj.org.eclipse.jdt.internal.compiler.lookup.LookupEnvironment.createBinaryTypeFrom(LookupEnvironment.java:599)
+	at org.aspectj.org.eclipse.jdt.internal.compiler.Compiler.accept(Compiler.java:276)
+	at org.aspectj.org.eclipse.jdt.internal.compiler.lookup.LookupEnvironment.askForType(LookupEnvironment.java:113)
+	at org.aspectj.org.eclipse.jdt.internal.compiler.lookup.UnresolvedReferenceBinding.resolve(UnresolvedReferenceBinding.java:49)
+	at org.aspectj.org.eclipse.jdt.internal.compiler.lookup.BinaryTypeBinding.resolveType(BinaryTypeBinding.java:133)
+	at org.aspectj.org.eclipse.jdt.internal.compiler.lookup.BinaryTypeBinding.resolveTypesFor(BinaryTypeBinding.java:974)
+	at org.aspectj.org.eclipse.jdt.internal.compiler.lookup.BinaryTypeBinding.methodsBase(BinaryTypeBinding.java:957)
+	at org.aspectj.org.eclipse.jdt.internal.compiler.lookup.BinaryTypeBinding.methods(BinaryTypeBinding.java:1116)
+	at org.aspectj.org.eclipse.jdt.internal.compiler.ast.Annotation.resolveType(Annotation.java:243)
+	at org.aspectj.org.eclipse.jdt.internal.compiler.ast.ASTNode.resolveAnnotations(ASTNode.java:594)
+	at org.aspectj.ajdt.internal.compiler.AjPipeliningCompilerAdapter.isAspect(AjPipeliningCompilerAdapter.java:649)
+	at org.aspectj.ajdt.internal.compiler.AjPipeliningCompilerAdapter.containsAnAspect(AjPipeliningCompilerAdapter.java:607)
+	at org.aspectj.ajdt.internal.compiler.AjPipeliningCompilerAdapter.afterDietParsing(AjPipeliningCompilerAdapter.java:206)
+	at org.aspectj.ajdt.internal.compiler.CompilerAdapter.ajc$afterReturning$org_aspectj_ajdt_internal_compiler_CompilerAdapter$4$2cef295e(CompilerAdapter.aj:93)
+	at org.aspectj.org.eclipse.jdt.internal.compiler.Compiler.beginToCompile(Compiler.java:358)
+	at org.aspectj.org.eclipse.jdt.internal.compiler.Compiler.compile(Compiler.java:371)
+	at org.aspectj.ajdt.internal.core.builder.AjBuildManager.performCompilation(AjBuildManager.java:1021)
+	at org.aspectj.ajdt.internal.core.builder.AjBuildManager.performBuild(AjBuildManager.java:268)
+	at org.aspectj.ajdt.internal.core.builder.AjBuildManager.batchBuild(AjBuildManager.java:181)
+	at org.aspectj.ajdt.ajc.AjdtCommand.doCommand(AjdtCommand.java:112)
+	at org.aspectj.ajdt.ajc.AjdtCommand.runCommand(AjdtCommand.java:60)
+	at org.aspectj.tools.ajc.Main.run(Main.java:371)
+	at org.aspectj.tools.ajc.Main.runMain(Main.java:248)
+	at org.codehaus.mojo.aspectj.AbstractAjcCompiler.execute(AbstractAjcCompiler.java:378)
+	at org.apache.maven.plugin.DefaultBuildPluginManager.executeMojo(DefaultBuildPluginManager.java:101)
+	at org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:209)
+	at org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:153)
+	at org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:145)
+	at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject(LifecycleModuleBuilder.java:84)
+	at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject(LifecycleModuleBuilder.java:59)
+	at org.apache.maven.lifecycle.internal.LifecycleStarter.singleThreadedBuild(LifecycleStarter.java:183)
+	at org.apache.maven.lifecycle.internal.LifecycleStarter.execute(LifecycleStarter.java:161)
+	at org.apache.maven.DefaultMaven.doExecute(DefaultMaven.java:320)
+	at org.apache.maven.DefaultMaven.execute(DefaultMaven.java:156)
+	at org.apache.maven.cli.MavenCli.execute(MavenCli.java:537)
+	at org.apache.maven.cli.MavenCli.doMain(MavenCli.java:196)
+	at org.apache.maven.cli.MavenCli.main(MavenCli.java:141)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:483)
+	at org.codehaus.plexus.classworlds.launcher.Launcher.launchEnhanced(Launcher.java:289)
+	at org.codehaus.plexus.classworlds.launcher.Launcher.launch(Launcher.java:229)
+	at org.codehaus.plexus.classworlds.launcher.Launcher.mainWithExitCode(Launcher.java:415)
+	at org.codehaus.plexus.classworlds.launcher.Launcher.main(Launcher.java:356)
+
+abort ABORT -- (ClassFormatException) File: 'java/lang/CharSequence.class': Invalid byte tag in constant pool: 18
+File: 'java/lang/CharSequence.class': Invalid byte tag in constant pool: 18
+org.aspectj.apache.bcel.classfile.ClassFormatException: File: 'java/lang/CharSequence.class': Invalid byte tag in constant pool: 18
+	at org.aspectj.apache.bcel.classfile.ClassParser.readConstantPool(ClassParser.java:192)
+	at org.aspectj.apache.bcel.classfile.ClassParser.parse(ClassParser.java:131)
+	at org.aspectj.weaver.bcel.BcelWorld.lookupJavaClass(BcelWorld.java:424)
+	at org.aspectj.weaver.bcel.BcelWorld.resolveDelegate(BcelWorld.java:376)
+	at org.aspectj.weaver.World.resolveToReferenceType(World.java:467)
+	at org.aspectj.weaver.World.resolve(World.java:308)
+	at org.aspectj.weaver.World.resolve(World.java:218)
+	at org.aspectj.weaver.bcel.BcelGenericSignatureToTypeXConverter.classTypeSignature2TypeX(BcelGenericSignatureToTypeXConverter.java:97)
+	at org.aspectj.weaver.bcel.BcelGenericSignatureToTypeXConverter.classTypeSignature2TypeX(BcelGenericSignatureToTypeXConverter.java:41)
+	at org.aspectj.weaver.bcel.BcelObjectType.ensureGenericSignatureUnpacked(BcelObjectType.java:810)
+	at org.aspectj.weaver.bcel.BcelObjectType.getDeclaredInterfaces(BcelObjectType.java:257)
+	at org.aspectj.weaver.ReferenceType.getDeclaredInterfaces(ReferenceType.java:624)
+	at org.aspectj.weaver.ResolvedType.getDirectSupertypes(ResolvedType.java:76)
+	at org.aspectj.weaver.patterns.TypePattern.matchesSubtypes(TypePattern.java:178)
+	at org.aspectj.weaver.patterns.ExactTypePattern.matchesSubtypes(ExactTypePattern.java:74)
+	at org.aspectj.weaver.patterns.TypePattern.matchesStatically(TypePattern.java:130)
+	at org.aspectj.weaver.patterns.AndTypePattern.matchesStatically(AndTypePattern.java:62)
+	at org.aspectj.weaver.patterns.DeclareParents.match(DeclareParents.java:63)
+	at org.aspectj.weaver.patterns.DeclareParents.findMatchingNewParents(DeclareParents.java:358)
+	at org.aspectj.ajdt.internal.compiler.lookup.AjLookupEnvironment.doDeclareParents(AjLookupEnvironment.java:880)
+	at org.aspectj.ajdt.internal.compiler.lookup.AjLookupEnvironment.weaveInterTypeDeclarations(AjLookupEnvironment.java:730)
+	at org.aspectj.ajdt.internal.compiler.lookup.AjLookupEnvironment.weaveInterTypeDeclarations(AjLookupEnvironment.java:652)
+	at org.aspectj.ajdt.internal.compiler.lookup.AjLookupEnvironment.createBinaryTypeFrom(AjLookupEnvironment.java:1398)
+	at org.aspectj.org.eclipse.jdt.internal.compiler.lookup.LookupEnvironment.createBinaryTypeFrom(LookupEnvironment.java:599)
+	at org.aspectj.org.eclipse.jdt.internal.compiler.Compiler.accept(Compiler.java:276)
+	at org.aspectj.org.eclipse.jdt.internal.compiler.lookup.LookupEnvironment.askForType(LookupEnvironment.java:113)
+	at org.aspectj.org.eclipse.jdt.internal.compiler.lookup.UnresolvedReferenceBinding.resolve(UnresolvedReferenceBinding.java:49)
+	at org.aspectj.org.eclipse.jdt.internal.compiler.lookup.BinaryTypeBinding.resolveType(BinaryTypeBinding.java:133)
+	at org.aspectj.org.eclipse.jdt.internal.compiler.lookup.BinaryTypeBinding.resolveTypesFor(BinaryTypeBinding.java:974)
+	at org.aspectj.org.eclipse.jdt.internal.compiler.lookup.BinaryTypeBinding.methodsBase(BinaryTypeBinding.java:957)
+	at org.aspectj.org.eclipse.jdt.internal.compiler.lookup.BinaryTypeBinding.methods(BinaryTypeBinding.java:1116)
+	at org.aspectj.org.eclipse.jdt.internal.compiler.ast.Annotation.resolveType(Annotation.java:243)
+	at org.aspectj.org.eclipse.jdt.internal.compiler.ast.ASTNode.resolveAnnotations(ASTNode.java:594)
+	at org.aspectj.ajdt.internal.compiler.AjPipeliningCompilerAdapter.isAspect(AjPipeliningCompilerAdapter.java:649)
+	at org.aspectj.ajdt.internal.compiler.AjPipeliningCompilerAdapter.containsAnAspect(AjPipeliningCompilerAdapter.java:607)
+	at org.aspectj.ajdt.internal.compiler.AjPipeliningCompilerAdapter.afterDietParsing(AjPipeliningCompilerAdapter.java:206)
+	at org.aspectj.ajdt.internal.compiler.CompilerAdapter.ajc$afterReturning$org_aspectj_ajdt_internal_compiler_CompilerAdapter$4$2cef295e(CompilerAdapter.aj:93)
+	at org.aspectj.org.eclipse.jdt.internal.compiler.Compiler.beginToCompile(Compiler.java:358)
+	at org.aspectj.org.eclipse.jdt.internal.compiler.Compiler.compile(Compiler.java:371)
+	at org.aspectj.ajdt.internal.core.builder.AjBuildManager.performCompilation(AjBuildManager.java:1021)
+	at org.aspectj.ajdt.internal.core.builder.AjBuildManager.performBuild(AjBuildManager.java:268)
+	at org.aspectj.ajdt.internal.core.builder.AjBuildManager.batchBuild(AjBuildManager.java:181)
+	at org.aspectj.ajdt.ajc.AjdtCommand.doCommand(AjdtCommand.java:112)
+	at org.aspectj.ajdt.ajc.AjdtCommand.runCommand(AjdtCommand.java:60)
+	at org.aspectj.tools.ajc.Main.run(Main.java:371)
+	at org.aspectj.tools.ajc.Main.runMain(Main.java:248)
+	at org.codehaus.mojo.aspectj.AbstractAjcCompiler.execute(AbstractAjcCompiler.java:378)
+	at org.apache.maven.plugin.DefaultBuildPluginManager.executeMojo(DefaultBuildPluginManager.java:101)
+	at org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:209)
+	at org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:153)
+	at org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:145)
+	at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject(LifecycleModuleBuilder.java:84)
+	at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject(LifecycleModuleBuilder.java:59)
+	at org.apache.maven.lifecycle.internal.LifecycleStarter.singleThreadedBuild(LifecycleStarter.java:183)
+	at org.apache.maven.lifecycle.internal.LifecycleStarter.execute(LifecycleStarter.java:161)
+	at org.apache.maven.DefaultMaven.doExecute(DefaultMaven.java:320)
+	at org.apache.maven.DefaultMaven.execute(DefaultMaven.java:156)
+	at org.apache.maven.cli.MavenCli.execute(MavenCli.java:537)
+	at org.apache.maven.cli.MavenCli.doMain(MavenCli.java:196)
+	at org.apache.maven.cli.MavenCli.main(MavenCli.java:141)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:483)
+	at org.codehaus.plexus.classworlds.launcher.Launcher.launchEnhanced(Launcher.java:289)
+	at org.codehaus.plexus.classworlds.launcher.Launcher.launch(Launcher.java:229)
+	at org.codehaus.plexus.classworlds.launcher.Launcher.mainWithExitCode(Launcher.java:415)
+	at org.codehaus.plexus.classworlds.launcher.Launcher.main(Launcher.java:356)
+

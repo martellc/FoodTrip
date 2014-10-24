@@ -1,0 +1,91 @@
+package com.foodtrip.ftmodeldb;
+
+import java.util.Iterator;
+
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
+
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.neo4j.support.Neo4jTemplate;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.foodtrip.ftmodeldb.model.Movie;
+import com.foodtrip.ftmodeldb.model.Person;
+import com.foodtrip.ftmodeldb.model.Role;
+import com.foodtrip.ftmodeldb.repo.MovieRepository;
+import com.foodtrip.ftmodeldb.repo.PersonRepository;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations={"applicationContext.xml"})
+public class AppTest extends TestCase
+{
+	/**
+	 * Create the test case
+	 *
+	 * @param testName name of the test case
+	 */
+	public AppTest( )
+	{
+	}
+
+	/**
+	 * @return the suite of tests being tested
+	 */
+	public static Test suite()
+	{
+		return new TestSuite( AppTest.class );
+	}
+
+	@org.junit.Test
+	public void testApp()
+	{
+		persistedMovieShouldBeRetrievableFromGraphDb();
+	}
+
+	@Autowired Neo4jTemplate template;
+	@Autowired MovieRepository movieRepository;
+	@Autowired PersonRepository personRepository;
+	
+	@Transactional
+	public void persistedMovieShouldBeRetrievableFromGraphDb() {
+		assertNotNull(template);
+		
+		
+		
+		Person tomHanks = new Person("Tom", "Hanks");
+		tomHanks = template.save(tomHanks);
+		
+		Long personID = tomHanks.getId();
+		
+		Movie forrestGump = new Movie("Forrest Gump");
+		
+		forrestGump = template.save(forrestGump);
+		
+		Role role = template.createRelationshipBetween(tomHanks,forrestGump, Role.class, "ACTS_IN",false);
+		role.setRole("gay");
+		template.save(role);
+		
+		Movie retrievedMovie = movieRepository.findByPropertyValue("title", "Forrest Gump");
+		Iterator<Role> itRole = retrievedMovie.getRoles().iterator();
+		while (itRole.hasNext()) {
+			Role r = itRole.next();
+			System.out.println("name" + r.getActor().getName());
+			System.out.println("surname" + r.getActor().getSurname());
+		}
+		
+		Person person = personRepository.findOne(personID);
+		Iterator<Role> personRoles = person.getRoles().iterator();
+		while (personRoles.hasNext()) {
+			Role r = personRoles.next();
+			System.out.println("role" + r.getRole());
+			System.out.println("movie" + r.getMovie().getTitle());
+		}
+		
+		//assertNotNull(role);
+		assertEquals("retrieved movie title matches", "Forrest Gump", retrievedMovie.getTitle());
+	}
+}

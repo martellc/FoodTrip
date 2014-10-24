@@ -1,0 +1,77 @@
+package com.foodtrip.ftmodeldb.model;
+
+import java.util.Set;
+
+import org.neo4j.graphdb.Direction;
+import org.springframework.data.neo4j.annotation.Fetch;
+import org.springframework.data.neo4j.annotation.GraphId;
+import org.springframework.data.neo4j.annotation.NodeEntity;
+import org.springframework.data.neo4j.annotation.RelatedTo;
+import org.springframework.data.neo4j.annotation.RelatedToVia;
+
+@NodeEntity
+public class Person {
+
+	public Person() {
+		
+	}
+	
+	public Person(Long id,String name, String surname) {
+		setId(id);
+		setName(name);
+		setSurname(surname);
+	}
+	
+	public Person(String name, String surname) {
+		setName(name);
+		setSurname(surname);
+	}
+	
+	@GraphId 
+	private Long id;
+
+
+	private String name;
+
+	private String surname;
+	
+	@Fetch 
+	@RelatedToVia(type = "ACTS_IN", direction = Direction.OUTGOING)
+	private Set<Role> roles;
+	
+
+    
+    
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getSurname() {
+		return surname;
+	}
+
+	public void setSurname(String surname) {
+		this.surname = surname;
+	}
+
+	public Set<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}
+	
+}
