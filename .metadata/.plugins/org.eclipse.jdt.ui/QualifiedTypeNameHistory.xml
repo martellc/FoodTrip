@@ -23,7 +23,6 @@
 <fullyQualifiedTypeName name="com.foodtrip.ftmodeldb.model.Person"/>
 <fullyQualifiedTypeName name="java.util.HashSet"/>
 <fullyQualifiedTypeName name="java.util.Set"/>
-<fullyQualifiedTypeName name="org.springframework.data.neo4j.annotation.Fetch"/>
 <fullyQualifiedTypeName name="org.neo4j.graphdb.Transaction"/>
 <fullyQualifiedTypeName name="org.junit.runner.RunWith"/>
 <fullyQualifiedTypeName name="org.springframework.beans.factory.annotation.Autowired"/>
@@ -31,9 +30,26 @@
 <fullyQualifiedTypeName name="org.springframework.data.neo4j.support.Neo4jTemplate"/>
 <fullyQualifiedTypeName name="java.lang.Exception"/>
 <fullyQualifiedTypeName name="java.util.List"/>
-<fullyQualifiedTypeName name="com.foodtrip.ftmodeldb.model.Address"/>
-<fullyQualifiedTypeName name="com.foodtrip.ftmodeldb.model.Farm"/>
+<fullyQualifiedTypeName name="org.neo4j.graphdb.Direction"/>
 <fullyQualifiedTypeName name="org.springframework.data.neo4j.annotation.Indexed"/>
 <fullyQualifiedTypeName name="org.springframework.data.neo4j.annotation.RelatedTo"/>
-<fullyQualifiedTypeName name="org.neo4j.graphdb.Direction"/>
+<fullyQualifiedTypeName name="org.springframework.data.neo4j.annotation.Fetch"/>
+<fullyQualifiedTypeName name="com.foodtrip.ftmodeldb.model.OrderReferToRel"/>
+<fullyQualifiedTypeName name="com.foodtrip.ftmodeldb.model.Farm"/>
+<fullyQualifiedTypeName name="org.springframework.data.neo4j.annotation.NodeEntity"/>
+<fullyQualifiedTypeName name="org.springframework.data.neo4j.annotation.RelationshipEntity"/>
+<fullyQualifiedTypeName name="org.springframework.data.neo4j.annotation.StartNode"/>
+<fullyQualifiedTypeName name="org.springframework.data.neo4j.annotation.EndNode"/>
+<fullyQualifiedTypeName name="com.foodtrip.ftmodeldb.model.NextStepRel"/>
+<fullyQualifiedTypeName name="com.foodtrip.ftmodeldb.model.Product.ProductType"/>
+<fullyQualifiedTypeName name="com.foodtrip.ftmodeldb.model.Address"/>
+<fullyQualifiedTypeName name="com.foodtrip.ftmodeldb.model.City"/>
+<fullyQualifiedTypeName name="com.foodtrip.ftmodeldb.model.Company"/>
+<fullyQualifiedTypeName name="com.foodtrip.ftmodeldb.model.Order"/>
+<fullyQualifiedTypeName name="com.foodtrip.ftmodeldb.model.Product"/>
+<fullyQualifiedTypeName name="com.foodtrip.ftmodeldb.repo.CityRepository"/>
+<fullyQualifiedTypeName name="com.foodtrip.ftmodeldb.repo.OrderRepository"/>
+<fullyQualifiedTypeName name="com.foodtrip.ftmodeldb.repo.ProductRepository"/>
+<fullyQualifiedTypeName name="javax.ejb.Stateless"/>
+<fullyQualifiedTypeName name="com.foodtrip.ftcontroller.FTController"/>
 </qualifiedTypeNameHistroy>

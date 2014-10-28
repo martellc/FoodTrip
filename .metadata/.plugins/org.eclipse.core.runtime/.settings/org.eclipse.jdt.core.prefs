@@ -1,7 +1,7 @@
 eclipse.preferences.version=1
 org.eclipse.jdt.core.builder.resourceCopyExclusionFilter=
-org.eclipse.jdt.core.classpathVariable.JRE_LIB=/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/rt.jar
-org.eclipse.jdt.core.classpathVariable.JRE_SRC=
+org.eclipse.jdt.core.classpathVariable.JRE_LIB=/home/martellinic/mobile/jdk1.8.0_20/jre/lib/rt.jar
+org.eclipse.jdt.core.classpathVariable.JRE_SRC=/home/martellinic/mobile/jdk1.8.0_20/src.zip
 org.eclipse.jdt.core.classpathVariable.JRE_SRCROOT=
 org.eclipse.jdt.core.codeComplete.visibilityCheck=enabled
 org.eclipse.jdt.core.compiler.codegen.inlineJsrBytecode=enabled

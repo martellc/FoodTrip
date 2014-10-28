@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+        xmlns:context="http://www.springframework.org/schema/context"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:neo4j="http://www.springframework.org/schema/data/neo4j"
+        xmlns:ws="http://jax-ws.dev.java.net/spring/core"
+        xmlns:wss="http://jax-ws.dev.java.net/spring/servlet"
+        xsi:schemaLocation="
+            http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.springframework.org/schema/context
+            http://www.springframework.org/schema/context/spring-context.xsd
+            http://www.springframework.org/schema/data/neo4j
+            http://www.springframework.org/schema/data/neo4j/spring-neo4j.xsd
+            http://jax-ws.dev.java.net/spring/servlet.xsd">
+
+    <context:annotation-config/>
+    <!--neo4j:config 
+           storeDirectory="data/graph.db"
+           base-package="com.foodtrip.ftmodeldb"/>
+   	< bean id="graphDatabaseService" class="org.springframework.data.neo4j.support.GraphDatabaseServiceFactoryBean"
+	        destroy-method="shutdown" scope="singleton">
+	    <constructor-arg value="target/config-test"/>
+	    <constructor-arg>
+	        <map>
+	            <entry key="allow_store_upgrade" value="true"/>
+	        </map>
+	    </constructor-arg>
+	</bean-->
+	
+
+<neo4j:config graphDatabaseService="graphDatabaseService" base-package="com.foodtrip.ftmodeldb"/>
+<bean id="graphDatabaseService"
+	class="org.springframework.data.neo4j.rest.SpringRestGraphDatabase">
+  <constructor-arg index="0" value="http://localhost:7474/db/data" />
+</bean>
+
+
+	<wss:binding url="/ftservice">
+        <wss:service>
+            <ws:service bean="#ftservice"/>
+        </wss:service>
+    </wss:binding>
+    
+	<bean id="ftService" class="com.foodtrip.ftservice.FTService">
+	    <property name="ftController" ref="ftController" />
+   </bean>
+ 
+   <bean id="ftController" class="com.foodtrip.ftcontroller.FTController" />
+	
+<neo4j:repositories base-package="com.foodtrip.ftmodeldb.repo"/>
+
+</beans>
