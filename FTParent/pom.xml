@@ -27,5 +27,6 @@
   	<module>FTModelWS</module>
   	<module>FTModelDB</module>
     <module>FTController</module>
+    <module>FTServiceRestFul</module>
   </modules>
 </project>

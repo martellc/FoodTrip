@@ -1,7 +1,2 @@
 INDEX VERSION 1.3+/home/martellinic/workspace2/.metadata/.plugins/org.eclipse.wst.jsdt.core/indexes
-306618233.index
-1253265956.index
-1973230325.index
 2457127850.index
-1881519476.index
-319226435.index

@@ -52,4 +52,6 @@
 <fullyQualifiedTypeName name="com.foodtrip.ftmodeldb.repo.ProductRepository"/>
 <fullyQualifiedTypeName name="javax.ejb.Stateless"/>
 <fullyQualifiedTypeName name="com.foodtrip.ftcontroller.FTController"/>
+<fullyQualifiedTypeName name="javax.ws.rs.core.MediaType"/>
+<fullyQualifiedTypeName name="javax.ws.rs.Produces"/>
 </qualifiedTypeNameHistroy>

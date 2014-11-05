@@ -38,12 +38,14 @@
 			<item value="com.foodtrip"/>
 		</list>
 		<list key="package">
+			<item value="com.foodtrip.ftservicerest"/>
 			<item value="com.foodtrip.ftmodeldb"/>
 			<item value="com.foodtrip.ftmodelws"/>
 			<item value="com.foodtrip.ftservice"/>
 			<item value="com.foodtrip.ftparent"/>
 		</list>
 		<list key="artifactId">
+			<item value="FTServiceRest"/>
 			<item value="FTModelDB"/>
 			<item value="FTModelWS"/>
 			<item value="FTService"/>
@@ -76,6 +78,7 @@
 	</section>
 	<section name="MavenModuleWizardParentPage">
 		<list key="moduleName">
+			<item value="FTServiceRest"/>
 			<item value="FTModelDB"/>
 			<item value="FTModelWS"/>
 			<item value="FTService"/>
@@ -95,7 +98,7 @@
 		<list key="name">
 		</list>
 		<list key="artifactId">
-			<item value="FTModelDB"/>
+			<item value="FTServiceRest"/>
 			<item value="FTParent"/>
 		</list>
 		<list key="projectNameTemplate">

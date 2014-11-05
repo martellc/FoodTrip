@@ -15,7 +15,7 @@ public class FTService {
 
 	@WebMethod
 	public String addCompany(CompanyWS company) {
-		return new FTController().addCompany();
+		return new FTController().saveCompany();
 	}
 	
 	@WebMethod

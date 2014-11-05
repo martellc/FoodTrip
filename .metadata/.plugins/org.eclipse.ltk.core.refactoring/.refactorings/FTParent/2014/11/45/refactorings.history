@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy element &apos;FTWebStartListener.java&apos; to &apos;FTServiceRestFul/src/main/java/com.foodtrip.ftService.listener&apos;&#x0A;- Original project: &apos;FTParent&apos;&#x0A;- Destination element: &apos;FTServiceRestFul/src/main/java/com.foodtrip.ftService.listener&apos;&#x0A;- Original element: &apos;FTWebStartListener.java&apos;" description="Copy file" destination="=FTServiceRestFul/src\/main\/java&lt;com.foodtrip.ftService.listener" element1="FTService/src/main/java/com/foodtrip/ftservice/start/FTWebStartListener.java" files="1" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1415187567834" units="0" version="1.0"/>
+</session>

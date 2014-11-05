@@ -1,9 +1,0 @@
-package com.foodtrip.ftcontroller;
-
-import javax.ejb.Stateless;
-
-@Stateless
-public class FTController {
-
-	
-}

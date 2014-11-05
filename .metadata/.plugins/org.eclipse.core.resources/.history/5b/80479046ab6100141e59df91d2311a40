@@ -1,0 +1,41 @@
+package com.foodtrip.ftmodeldb;
+
+import org.neo4j.graphdb.GraphDatabaseService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.neo4j.config.EnableNeo4jRepositories;
+import org.springframework.data.neo4j.config.Neo4jConfiguration;
+import org.springframework.data.neo4j.support.Neo4jTemplate;
+
+import com.foodtrip.ftmodeldb.repo.CityRepository;
+import com.foodtrip.ftmodeldb.repo.CompanyRepository;
+import com.foodtrip.ftmodeldb.repo.FarmRepository;
+import com.foodtrip.ftmodeldb.repo.OrderRepository;
+import com.foodtrip.ftmodeldb.repo.PersonRepository;
+import com.foodtrip.ftmodeldb.repo.ProductRepository;
+
+@Configuration
+@EnableNeo4jRepositories(basePackages="com.foodtrip.ftmodeldb.repo")
+public class Neo4JConnector extends Neo4jConfiguration {
+	public Neo4JConnector()
+	{
+		setBasePackage("com.foodtrip.ftmodeldb");
+	}
+
+	@Autowired
+	public Neo4jTemplate t;
+
+	@Autowired PersonRepository personRepository;
+	@Autowired CityRepository cityRepository;
+	@Autowired OrderRepository orderRepository;
+	@Autowired ProductRepository productRepository;
+	@Autowired CompanyRepository companyRepository;
+	@Autowired FarmRepository farmRepository;
+
+	
+	@Bean
+	public GraphDatabaseService graphDatabaseService() {
+		return t.getGraphDatabaseService();
+	}
+}

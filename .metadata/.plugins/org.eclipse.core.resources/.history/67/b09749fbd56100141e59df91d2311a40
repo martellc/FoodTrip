@@ -1,0 +1,28 @@
+package com.foodtrip.ftservice;
+
+import javax.jws.WebMethod;
+import javax.jws.WebService;
+
+import org.springframework.stereotype.Service;
+
+import com.foodtrip.ftcontroller.FTController;
+import com.foodtrip.ftmodelws.CompanyWS;
+
+@Service
+@WebService(
+		targetNamespace = "http://com.foodtrip.ftservice",
+		name = "ftservice",
+		serviceName = "ftservice"
+		)
+public class FTService {
+
+	@WebMethod
+	public String addCompany(CompanyWS company) {
+		return new FTController().addCompany();
+	}
+	
+	@WebMethod
+	public String getUniqueID() {
+		return null;
+	}
+}

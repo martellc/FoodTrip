@@ -14,14 +14,14 @@
 	</section>
 	<section name="WorkbenchPreferenceDialogSettings">
 		<item value="81" key="DIALOG_Y_ORIGIN"/>
-		<item value="280" key="DIALOG_X_ORIGIN"/>
+		<item value="176" key="DIALOG_X_ORIGIN"/>
 	</section>
 	<section name="ShowViewDialog">
 		<item value="414" key="DIALOG_WIDTH"/>
 		<item value="org.eclipse.egit.ui.RepositoriesView" key="ShowViewDialog.STORE_SELECTED_VIEW_ID"/>
 		<item value="216" key="DIALOG_Y_ORIGIN"/>
-		<item value="420" key="DIALOG_X_ORIGIN"/>
 		<item value="483" key="DIALOG_HEIGHT"/>
+		<item value="420" key="DIALOG_X_ORIGIN"/>
 		<item value="1|Ubuntu|11.0|0|GTK|1|" key="DIALOG_FONT_NAME"/>
 		<list key="ShowViewDialog.STORE_EXPANDED_CATEGORIES_ID">
 			<item value="org.eclipse.egit.ui.GitCategory"/>
