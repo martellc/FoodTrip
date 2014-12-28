@@ -1,30 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <syncparticipants>
-<participant displayName="Git (FTService, FT...ice, FTService)" id="org.eclipse.egit.ui.modelCompareParticipant" secondary_id="1414495603120">
+<participant displayName="Git (FTController,...ServiceRestFul)" id="org.eclipse.egit.ui.modelCompareParticipant" secondary_id="1419774926680">
 <data forceFetch="false" root="false">
-<org.eclipse.team.ui.MODEL_PARTICIPANT_SETTINGS org.eclipse.team.ui.MODEL_PARTICIPANT_DESCRIPTION="FTService, FT...ice, FTService" startupAction="none">
+<org.eclipse.team.ui.MODEL_PARTICIPANT_SETTINGS org.eclipse.team.ui.MODEL_PARTICIPANT_DESCRIPTION="FTController,...ServiceRestFul" startupAction="none">
 <org.eclipse.team.ui.MODEL_PARTICIPANT_REFRESH_SCHEDULE org.eclipse.team.ui.CTX_REFRESHSCHEDULE_ENABLED="false" org.eclipse.team.ui.CTX_REFRESHSCHEDULE_INTERVAL="3600" org.eclipse.team.ui.CTX_REFRESHSCHEDULE_RUNONCE="false"/>
-<org.eclipse.team.ui.MODEL_PARTICIPANT_MAPPINGS modelProviderId="org.eclipse.jdt.ui.modelProvider">
-<mappings>
-<resources resourcePath="/FTService" resourceType="4"/>
-</mappings>
-</org.eclipse.team.ui.MODEL_PARTICIPANT_MAPPINGS>
 <org.eclipse.team.ui.MODEL_PARTICIPANT_MAPPINGS modelProviderId="org.eclipse.core.resources.modelProvider">
 <mappings>
-<resources resourcePath="/FTService" resourceType="4"/>
-</mappings>
-</org.eclipse.team.ui.MODEL_PARTICIPANT_MAPPINGS>
-<org.eclipse.team.ui.MODEL_PARTICIPANT_MAPPINGS modelProviderId="org.eclipse.wst.jsdt.ui.modelProvider">
-<mappings>
-<resources resourcePath="/FTService" resourceType="4"/>
+<resources resourcePath="/FTModelWS" resourceType="4"/>
+<resources resourcePath="/FTController" resourceType="4"/>
+<resources resourcePath="/FTModelDB" resourceType="4"/>
+<resources resourcePath="/FTServiceRestFul" resourceType="4"/>
+<resources resourcePath="/FTParent" resourceType="4"/>
 </mappings>
 </org.eclipse.team.ui.MODEL_PARTICIPANT_MAPPINGS>
 </org.eclipse.team.ui.MODEL_PARTICIPANT_SETTINGS>
-<gitSynchronizeData container="/home/martellinic/workspace2/FTParent/FTController" dstRev="HEAD" inludeLocal="true" srcRev="HEAD">
-<includedPaths>
-<path path="/home/martellinic/workspace2/FTParent/FTService"/>
-</includedPaths>
-</gitSynchronizeData>
+<gitSynchronizeData container="/home/martellinic/workspace2/FTParent/FTController" dstRev="refs/remotes/origin/master" inludeLocal="true" srcRev="HEAD"/>
 </data>
 </participant>
 </syncparticipants>

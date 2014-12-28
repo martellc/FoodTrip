@@ -2,25 +2,41 @@ package com.foodtrip.ftmodelws;
 
 import java.util.Collection;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
 public class CompanyWS {
 
-	private String id;
+	private Long id;
 	private String name;
 	private String number;
-	
-	private PersonWS founder;
 	private String type;
 	private String vatNumber;
 	
+	
+	private PersonWS owner;
+	private PersonWS president;
 	private AddressWS address;
 	
 	private Collection<Property> properties;
-	private Collection<PersonWS> people;
+	private Collection<PersonWS> employee;
 	
-	public String getId() {
+	public CompanyWS() {
+		
+	}
+		
+	public CompanyWS(Long id, String name, String number, String type) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.number = number;
+		this.type = type;
+	}
+	
+	public Long getId() {
 		return id;
 	}
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	public String getName() {
@@ -41,11 +57,11 @@ public class CompanyWS {
 	public void setProperties(Collection<Property> properties) {
 		this.properties = properties;
 	}
-	public PersonWS getFounder() {
-		return founder;
+	public PersonWS getOwner() {
+		return owner;
 	}
-	public void setFounder(PersonWS founder) {
-		this.founder = founder;
+	public void setOwner(PersonWS founder) {
+		this.owner = founder;
 	}
 	public String getType() {
 		return type;
@@ -59,17 +75,25 @@ public class CompanyWS {
 	public void setVatNumber(String vatNumber) {
 		this.vatNumber = vatNumber;
 	}
-	public Collection<PersonWS> getPeople() {
-		return people;
+	public Collection<PersonWS> getEmployee() {
+		return employee;
 	}
-	public void setPeople(Collection<PersonWS> people) {
-		this.people = people;
+	public void setEmployee(Collection<PersonWS> employee) {
+		this.employee = employee;
 	}
 	public AddressWS getAddress() {
 		return address;
 	}
 	public void setAddress(AddressWS address) {
 		this.address = address;
+	}
+
+	public PersonWS getPresident() {
+		return president;
+	}
+
+	public void setPresident(PersonWS president) {
+		this.president = president;
 	}
 	
 	

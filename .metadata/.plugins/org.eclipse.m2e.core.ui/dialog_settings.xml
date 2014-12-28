@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="MavenProjectWizardArchetypePage">
-		<item value="All Catalogs" key="catalog"/>
+		<item value="http://download.java.net/maven/2/archetype-catalog.xml" key="catalog"/>
 		<list key="projectNameTemplate">
 			<item value="[artifactId]"/>
 			<item value="[artifactId]-TRUNK"/>
@@ -22,6 +22,8 @@
 	</section>
 	<section name="org.eclipse.m2e.core.pom.dependencies">
 	</section>
+	<section name="org.eclipse.m2e.core.ui.internal.wizards.CustomArchetypeDialog">
+	</section>
 	<section name="MavenProjectWizardLocationPage">
 		<list key="location">
 		</list>
@@ -38,18 +40,12 @@
 			<item value="com.foodtrip"/>
 		</list>
 		<list key="package">
-			<item value="com.foodtrip.ftservicerest"/>
-			<item value="com.foodtrip.ftmodeldb"/>
-			<item value="com.foodtrip.ftmodelws"/>
-			<item value="com.foodtrip.ftservice"/>
-			<item value="com.foodtrip.ftparent"/>
+			<item value="com.foodtrip.ftService.rs"/>
+			<item value="org.afaf"/>
 		</list>
 		<list key="artifactId">
-			<item value="FTServiceRest"/>
-			<item value="FTModelDB"/>
-			<item value="FTModelWS"/>
-			<item value="FTService"/>
-			<item value="FTParent"/>
+			<item value="FTServiceRestFul"/>
+			<item value="afaf"/>
 		</list>
 		<list key="projectNameTemplate">
 			<item value="[artifactId]"/>
@@ -78,6 +74,8 @@
 	</section>
 	<section name="MavenModuleWizardParentPage">
 		<list key="moduleName">
+			<item value="FTServiceRestFul"/>
+			<item value="afaf"/>
 			<item value="FTServiceRest"/>
 			<item value="FTModelDB"/>
 			<item value="FTModelWS"/>
@@ -91,6 +89,11 @@
 			<item value="[groupId].[artifactId]-[version]"/>
 		</list>
 	</section>
+	<section name="org.eclipse.m2e.core.ui.internal.preferences.RemoteArchetypeCatalogDialog">
+		<list key="catalogUrl">
+			<item value="http://download.java.net/maven/2/archetype-catalog.xml"/>
+		</list>
+	</section>
 	<section name="MavenProjectWizardArtifactPage">
 		<list key="groupId">
 			<item value="com.foodtrip"/>
@@ -98,7 +101,7 @@
 		<list key="name">
 		</list>
 		<list key="artifactId">
-			<item value="FTServiceRest"/>
+			<item value="FTServiceRestFul"/>
 			<item value="FTParent"/>
 		</list>
 		<list key="projectNameTemplate">

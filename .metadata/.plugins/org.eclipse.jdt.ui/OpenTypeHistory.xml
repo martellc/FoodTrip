@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <typeInfoHistroy>
-<typeInfo handle="=FTController/src\/main\/java&lt;com.foodtrip.ftcontroller{FTController.java[FTController" modifiers="1" timestamp="1415115712000"/>
-<typeInfo handle="=FTService/src\/main\/java&lt;com.foodtrip.ftservice{FTService.java[FTService" modifiers="1" timestamp="1415118174000"/>
+<typeInfo handle="=FTServiceRestFul/src\/main\/java&lt;com.foodtrip.ftService.rs{FTServiceCompany.java[FTServiceCompany" modifiers="1" timestamp="1417692715000"/>
+<typeInfo handle="=FTModelWS/src\/main\/java&lt;com.foodtrip.ftmodelws{CompanyWS.java[CompanyWS" modifiers="1" timestamp="1417535473000"/>
+<typeInfo handle="=FTModelDB/src\/main\/java&lt;com.foodtrip.ftmodeldb.model{Person.java[Person" modifiers="1" timestamp="1417692310000"/>
+<typeInfo handle="=FTModelDB/src\/main\/java&lt;com.foodtrip.ftmodeldb.model{Farm.java[Farm" modifiers="1" timestamp="1414160852000"/>
+<typeInfo handle="=FTModelDB/src\/main\/java&lt;com.foodtrip.ftmodeldb.model{Product.java[Product" modifiers="1" timestamp="1414160814000"/>
+<typeInfo handle="=FTModelDB/src\/main\/java&lt;com.foodtrip.ftmodeldb{Neo4JConnector.java[Neo4JConnector" modifiers="1" timestamp="1414854540000"/>
 </typeInfoHistroy>

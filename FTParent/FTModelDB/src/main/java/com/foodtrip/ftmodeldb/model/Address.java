@@ -15,15 +15,18 @@ public class Address {
 		super();
 	}
 
-	private String street;
+	private String streetName;
 	
-	private String number;
+	private String streetNumber;
 	
 	private String zipCode;
 	
 	@RelatedTo(type = "RESIDE_ON", direction = Direction.OUTGOING)
 	private City city;
 
+	private String state;
+	
+	
 	public Long getId() {
 		return id;
 	}
@@ -32,20 +35,20 @@ public class Address {
 		this.id = id;
 	}
 
-	public String getStreet() {
-		return street;
+	public String getStreetName() {
+		return streetName;
 	}
 
-	public void setStreet(String street) {
-		this.street = street;
+	public void setStreetName(String street) {
+		this.streetName = street;
 	}
 
-	public String getNumber() {
-		return number;
+	public String getStreetNumber() {
+		return streetNumber;
 	}
 
-	public void setNumber(String number) {
-		this.number = number;
+	public void setStreetNumber(String number) {
+		this.streetNumber = number;
 	}
 
 	public String getZipCode() {
@@ -62,5 +65,13 @@ public class Address {
 
 	public void setCity(City city) {
 		this.city = city;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
 	}
 }

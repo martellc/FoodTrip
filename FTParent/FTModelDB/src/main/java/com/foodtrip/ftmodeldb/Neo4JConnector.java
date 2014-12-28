@@ -33,6 +33,55 @@ public class Neo4JConnector extends Neo4jConfiguration {
 	@Autowired OrderRepository orderRepository;
 	@Autowired ProductRepository productRepository;
 	
+	public PersonRepository getPersonRepository() {
+		return personRepository;
+	}
+
+
+	public void setPersonRepository(PersonRepository personRepository) {
+		this.personRepository = personRepository;
+	}
+
+
+	public CityRepository getCityRepository() {
+		return cityRepository;
+	}
+
+
+	public void setCityRepository(CityRepository cityRepository) {
+		this.cityRepository = cityRepository;
+	}
+
+
+	public OrderRepository getOrderRepository() {
+		return orderRepository;
+	}
+
+
+	public void setOrderRepository(OrderRepository orderRepository) {
+		this.orderRepository = orderRepository;
+	}
+
+
+	public ProductRepository getProductRepository() {
+		return productRepository;
+	}
+
+
+	public void setProductRepository(ProductRepository productRepository) {
+		this.productRepository = productRepository;
+	}
+
+
+	public FarmRepository getFarmRepository() {
+		return farmRepository;
+	}
+
+
+	public void setFarmRepository(FarmRepository farmRepository) {
+		this.farmRepository = farmRepository;
+	}
+
 	@Autowired 
 	private CompanyRepository companyRepository;
 	

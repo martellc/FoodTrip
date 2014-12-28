@@ -1,5 +1,7 @@
 package com.foodtrip.ftmodeldb.model;
 
+import java.sql.Timestamp;
+
 import org.neo4j.graphdb.Direction;
 import org.springframework.data.neo4j.annotation.Fetch;
 import org.springframework.data.neo4j.annotation.GraphId;
@@ -19,15 +21,22 @@ public class Order {
 	@GraphId
 	private Long id;
 	
+	//not used
 	@Indexed(indexName="serialNumber",indexType=IndexType.FULLTEXT)
 	private String serialNumber;
 	
 	@Fetch @RelatedToVia(type = "REFER_TO", direction = Direction.OUTGOING)
 	private OrderProductRel orderProductRel;
 	
+	//start point
 	@Fetch @RelatedTo(type="EMITTED_BY", direction=Direction.INCOMING)
 	private Farm farm;
 
+	//the company id end point
+	private Long endPoint;
+	
+	private Timestamp date;
+	
 	public Long getId() {
 		return id;
 	}
@@ -58,6 +67,22 @@ public class Order {
 
 	public void setFarm(Farm farm) {
 		this.farm = farm;
+	}
+
+	public Timestamp getDate() {
+		return date;
+	}
+
+	public void setDate(Timestamp date) {
+		this.date = date;
+	}
+
+	public Long getEndPoint() {
+		return endPoint;
+	}
+
+	public void setEndPoint(Long endPoint) {
+		this.endPoint = endPoint;
 	}
 	
 }

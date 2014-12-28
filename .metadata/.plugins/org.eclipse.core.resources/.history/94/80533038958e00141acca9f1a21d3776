@@ -1,0 +1,114 @@
+package com.foodtrip.ftcontroller;
+
+import java.util.HashSet;
+import java.util.List;
+
+import javax.ejb.Stateless;
+
+import org.apache.log4j.Logger;
+import org.neo4j.graphdb.GraphDatabaseService;
+
+import com.foodtrip.ftmodeldb.Neo4JConnector;
+import com.foodtrip.ftmodeldb.model.Company;
+import com.foodtrip.ftmodeldb.model.CompanyToCompanyRel;
+import com.foodtrip.ftmodeldb.model.Farm;
+import com.foodtrip.ftmodeldb.model.Order;
+import com.foodtrip.ftmodeldb.model.OrderProductRel;
+import com.foodtrip.ftmodeldb.model.Product;
+import com.foodtrip.ftmodeldb.repo.CompanyRepository;
+import com.foodtrip.ftmodeldb.repo.OrderRepository;
+
+@Stateless
+public class FTOperationController {
+	public static Neo4JConnector connector;
+	private static final Logger logger = Logger.getLogger(FTOperationController.class);
+
+	public Order startTrip(Product p, Farm farm) {
+		Order order = new Order();
+		order.setFarm(farm);
+		OrderProductRel op = new OrderProductRel(order,p);
+		order.setOrderProductRel(op);
+
+		GraphDatabaseService graph = connector.graphDatabaseService();
+		OrderRepository orderRepository = connector.getOrderRepository();
+		graph.beginTx();
+		try {
+			order = orderRepository.save(order);
+			return order;
+		} catch(Exception e) {
+			logger.error("Error: ", e);
+		}
+
+		return null;
+	}
+	
+	public List<Company> getCompaniesPath(Long orderID) {
+
+		if (orderID == null) {
+			logger.error("orderNullError");
+			return null;
+		}
+		
+		OrderRepository orderRepository = connector.getOrderRepository();
+		CompanyRepository companyRepository = connector.getCompanyRepository();
+
+		Order order = orderRepository.findOne(orderID);
+		if (order == null) {
+			logger.error("orderNullError");
+			return null;
+		}
+		
+		return companyRepository.getCompaniesPath(order.getFarm().getId(), order.getEndPoint(), orderID);
+	}
+	
+	public void addStep(Long orderID, Company company) {
+		
+		if (orderID == null) {
+			logger.error("orderNullError");
+			return;
+		}
+		
+		/*get an order*/
+		GraphDatabaseService graph = connector.graphDatabaseService();
+		OrderRepository orderRepository = connector.getOrderRepository();
+		CompanyRepository companyRepository = connector.getCompanyRepository();
+		
+		Order order = orderRepository.findOne(orderID);
+		if (order == null) {
+			logger.error("orderNullError");
+			return;
+		}
+		
+		graph.beginTx();
+		try {
+			/*save company if needed*/
+			company = companyRepository.save(company);
+			
+			/*get the trip current end-point*/
+			Long previousEndPoint = order.getEndPoint();
+			Company previousEPCompany = null;
+			if(order.getEndPoint() == null) {
+				previousEPCompany = order.getFarm();
+			} else {
+				previousEPCompany = companyRepository.findOne(previousEndPoint);
+			}
+			
+			/*create a new relation between old and new end-point*/
+			CompanyToCompanyRel rel = new CompanyToCompanyRel();
+			rel.setStart(previousEPCompany);
+			rel.setEnd(company);
+			rel.setOriginalOrderID(orderID);
+			if(company.getCompanyToCompanyRel() == null) {
+				company.setCompanyToCompanyRel(new HashSet<CompanyToCompanyRel>());
+			}
+			company.getCompanyToCompanyRel().add(rel);
+			companyRepository.save(company);
+			
+			//update order end-point with the id of the new company
+			order.setEndPoint(company.getId());
+			orderRepository.save(order);
+		} catch(Exception e) {
+			logger.error("Error: ", e);
+		}
+	}
+}

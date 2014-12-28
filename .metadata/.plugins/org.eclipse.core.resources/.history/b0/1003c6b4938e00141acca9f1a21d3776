@@ -1,0 +1,6 @@
+package com.foodtrip.ftmodeldb.model.trsnt;
+
+public class Step {
+
+	private Company
+}

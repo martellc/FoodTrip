@@ -6,7 +6,6 @@ public class AddressWS {
 	private String streetNumber;
 	private String city;
 	private String zipCode;
-	private String province;
 	private String state;
 	
 	public String getStreetName() {
@@ -32,12 +31,6 @@ public class AddressWS {
 	}
 	public void setZipCode(String zipCode) {
 		this.zipCode = zipCode;
-	}
-	public String getProvince() {
-		return province;
-	}
-	public void setProvince(String province) {
-		this.province = province;
 	}
 	public String getState() {
 		return state;

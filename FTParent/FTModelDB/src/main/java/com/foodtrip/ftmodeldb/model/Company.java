@@ -1,6 +1,5 @@
 package com.foodtrip.ftmodeldb.model;
 
-import java.util.List;
 import java.util.Set;
 
 import org.neo4j.graphdb.Direction;
@@ -26,6 +25,8 @@ public class Company {
 
 	private String vatNumber;
 
+	private String type;
+
 	public Company() {
 
 	}
@@ -38,7 +39,7 @@ public class Company {
 		this.companyID = companyID;
 		this.vatNumber = vatNumber;
 		this.president = president;
-		this.ceo = ceo;
+		this.owner = ceo;
 		this.address = address;
 	}
 
@@ -55,13 +56,14 @@ public class Company {
 	@RelatedTo(type = "PRESIDENT_OF", direction = Direction.INCOMING)
 	private Person president;
 
-	@Fetch 
-	@RelatedTo(type = "CEO_OF", direction = Direction.INCOMING)
-	private Person ceo;
+	@Fetch
+	@RelatedTo(type = "OWNER_OF", direction = Direction.INCOMING)
+	private Person owner;
 
 	@RelatedTo(type = "WORKS_AT", direction = Direction.INCOMING)
-	private List<Person> employees;
+	private Set<Person> employees;
 
+	@Fetch
 	@RelatedTo(type = "LOCATED_AT", direction = Direction.OUTGOING)
 	private Address address;
 
@@ -100,19 +102,19 @@ public class Company {
 		this.president = president;
 	}
 
-	public Person getCeo() {
-		return ceo;
+	public Person getOwner() {
+		return owner;
 	}
 
-	public void setCeo(Person ceo) {
-		this.ceo = ceo;
+	public void setOwner(Person owner) {
+		this.owner = owner;
 	}
 
-	public List<Person> getEmployees() {
+	public Set<Person> getEmployees() {
 		return employees;
 	}
 
-	public void setEmployees(List<Person> employees) {
+	public void setEmployees(Set<Person> employees) {
 		this.employees = employees;
 	}
 
@@ -137,5 +139,15 @@ public class Company {
 
 	public void setCompanyToCompanyRel(Set<CompanyToCompanyRel> nextStepsRel) {
 		this.companyToCompanyRel = nextStepsRel;
+	}
+
+
+	public String getType() {
+		return type;
+	}
+
+
+	public void setType(String type) {
+		this.type = type;
 	}
 }

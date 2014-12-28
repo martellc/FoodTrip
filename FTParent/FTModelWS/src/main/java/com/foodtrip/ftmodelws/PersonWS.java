@@ -4,12 +4,14 @@ import java.util.Collection;
 
 public class PersonWS {
 
-	private String id;
+	private Long id;
 	private String name;
 	private String surname;
 	private String fiscalCode;
 	private int age;
 	private String facebookID;
+	private String googlePlusID;
+	
 	private String email;
 	private String mobileNumber;
 	
@@ -17,11 +19,11 @@ public class PersonWS {
 	
 	private Collection<Property> properties;
 
-	public String getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -95,6 +97,14 @@ public class PersonWS {
 
 	public void setAddress(AddressWS address) {
 		this.address = address;
+	}
+
+	public String getGooglePlusID() {
+		return googlePlusID;
+	}
+
+	public void setGooglePlusID(String googlePlusID) {
+		this.googlePlusID = googlePlusID;
 	}
 
 
