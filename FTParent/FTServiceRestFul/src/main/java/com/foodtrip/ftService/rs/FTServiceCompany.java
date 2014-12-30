@@ -9,8 +9,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import com.foodtrip.ftcontroller.FTCompanyController;
-import com.foodtrip.ftcontroller.ModelUtils;
-import com.foodtrip.ftmodeldb.model.Company;
 import com.foodtrip.ftmodelws.CompanyWS;
 
 @Path("/company")
@@ -26,12 +24,13 @@ public class FTServiceCompany {
     @GET
     @Produces({MediaType.APPLICATION_JSON })
     public CompanyWS getCompany(@PathParam(value = "id") Long id) {
-        return ModelUtils.toCompanyWS(new FTCompanyController().getCompany(id));
+        return new FTCompanyController().getCompany(id);
     }
     
     @POST
-    public Long createCompany(CompanyWS company) {
-    	Company newCompany = new FTCompanyController().createCompany(ModelUtils.toCompanyDB(company));
-    	return newCompany.getId();
+    @Produces({MediaType.APPLICATION_JSON })
+    public CompanyWS updateCompany(CompanyWS company) {
+    	CompanyWS updatedCompany = new FTCompanyController().updateCompany(company);
+    	return updatedCompany;
     }
 }

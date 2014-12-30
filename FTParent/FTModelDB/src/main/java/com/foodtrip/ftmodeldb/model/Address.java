@@ -21,6 +21,35 @@ public class Address {
 	
 	private String zipCode;
 	
+	//spatial info
+	private Float alt;
+	public Float getAlt() {
+		return alt;
+	}
+
+	public void setAlt(Float alt) {
+		this.alt = alt;
+	}
+
+	public Float getLng() {
+		return lng;
+	}
+
+	public void setLng(Float lng) {
+		this.lng = lng;
+	}
+
+	public Float getLat() {
+		return lat;
+	}
+
+	public void setLat(Float lat) {
+		this.lat = lat;
+	}
+
+	private Float lng;
+	private Float lat;
+	
 	@RelatedTo(type = "RESIDE_ON", direction = Direction.OUTGOING)
 	private City city;
 

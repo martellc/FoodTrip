@@ -8,7 +8,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.foodtrip.ftmodeldb.Neo4JConnector;
 import com.foodtrip.ftmodeldb.model.Company;
+import com.foodtrip.ftmodeldb.model.Farm;
 import com.foodtrip.ftmodeldb.repo.CompanyRepository;
+import com.foodtrip.ftmodeldb.repo.FarmRepository;
+import com.foodtrip.ftmodelws.CompanyWS;
+import com.foodtrip.ftmodelws.FarmWS;
 
 @Stateless
 public class FTCompanyController {
@@ -16,19 +20,19 @@ public class FTCompanyController {
 	private static final Logger logger = Logger.getLogger(FTCompanyController.class);
 
 	@Transactional
-	public Company createCompany(Company company) {
+	public CompanyWS createCompany(CompanyWS company) {
 		return updateCompany(company);
 	}
 	
 
 	@Transactional
-	public Company updateCompany(Company company) {
+	public CompanyWS updateCompany(CompanyWS company) {
 		GraphDatabaseService graph = connector.graphDatabaseService();
 		CompanyRepository repo = connector.getCompanyRepository();
 		graph.beginTx();
 		try {
-			Company updatedCompany = repo.save(company);
-			return updatedCompany;
+			Company updatedCompany = repo.save(ModelUtils.toCompanyDB(company));
+			return ModelUtils.toCompanyWS(updatedCompany);
 		} catch(Exception e) {
 			logger.error("Error",e);
 		}
@@ -37,24 +41,40 @@ public class FTCompanyController {
 	}
 	
 	@Transactional
-	public void removeCompany(Company company) {
+	public void removeCompany(CompanyWS company) {
 		GraphDatabaseService graph = connector.graphDatabaseService();
 		CompanyRepository repo = connector.getCompanyRepository();
 		graph.beginTx();
 		try {
-			repo.delete(company);
+			repo.delete(ModelUtils.toCompanyDB(company));
 		} catch(Exception e) {
 			logger.error("Error",e);
 		}
 	}
 	
 	@Transactional
-	public Company getCompany(Long id) {
+	public CompanyWS getCompany(Long id) {
 		GraphDatabaseService graph = connector.graphDatabaseService();
 		CompanyRepository repo = connector.getCompanyRepository();
 		graph.beginTx();
 		try {
-			return repo.findOne(id);
+			Company c = repo.findOne(id);
+			return ModelUtils.toCompanyWS(c);
+		} catch(Exception e) {
+			logger.error("Error",e);
+		}
+		
+		return null;
+	}
+
+
+	public FarmWS updateFarm(FarmWS farm) {
+		GraphDatabaseService graph = connector.graphDatabaseService();
+		FarmRepository repo = connector.getFarmRepository();
+		graph.beginTx();
+		try {
+			Farm f = repo.save(ModelUtils.toFarmDB(farm));
+			return ModelUtils.toFarmWS(f);
 		} catch(Exception e) {
 			logger.error("Error",e);
 		}

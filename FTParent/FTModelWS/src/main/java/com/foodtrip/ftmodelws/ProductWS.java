@@ -35,6 +35,7 @@ public class ProductWS {
 	}
 
 	//general info
+	private Long id;
 	private String name;
 	private String type;
 	private String serialNumber;
@@ -167,5 +168,13 @@ public class ProductWS {
 
 	public void setHarvestDate(int harvestDate) {
 		this.harvestDate = harvestDate;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 }

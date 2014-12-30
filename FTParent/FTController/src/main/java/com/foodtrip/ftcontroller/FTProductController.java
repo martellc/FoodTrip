@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.foodtrip.ftmodeldb.Neo4JConnector;
 import com.foodtrip.ftmodeldb.model.Product;
 import com.foodtrip.ftmodeldb.repo.ProductRepository;
+import com.foodtrip.ftmodelws.ProductWS;
 
 @Stateless
 public class FTProductController {
@@ -16,19 +17,19 @@ public class FTProductController {
 	private static final Logger logger = Logger.getLogger(FTProductController.class);
 
 	@Transactional
-	public Product createProduct(Product company) {
-		return updateProduct(company);
+	public ProductWS createProduct(ProductWS pWS) {
+		return updateProduct(pWS);
 	}
 	
 
 	@Transactional
-	public Product updateProduct(Product company) {
+	public ProductWS updateProduct(ProductWS pWS) {
 		GraphDatabaseService graph = connector.graphDatabaseService();
 		ProductRepository repo = connector.getProductRepository();
 		graph.beginTx();
 		try {
-			Product updatedProduct = repo.save(company);
-			return updatedProduct;
+			Product updatedProduct = repo.save(ModelUtils.toProductDB(pWS));
+			return ModelUtils.toProductWS(updatedProduct);
 		} catch(Exception e) {
 			logger.error("Error",e);
 		}
@@ -37,24 +38,25 @@ public class FTProductController {
 	}
 	
 	@Transactional
-	public void removeProduct(Product company) {
+	public void removeProduct(ProductWS pWS) {
 		GraphDatabaseService graph = connector.graphDatabaseService();
 		ProductRepository repo = connector.getProductRepository();
 		graph.beginTx();
 		try {
-			repo.delete(company);
+			repo.delete(ModelUtils.toProductDB(pWS));
 		} catch(Exception e) {
 			logger.error("Error",e);
 		}
 	}
 	
 	@Transactional
-	public Product getProduct(Long id) {
+	public ProductWS getProduct(Long id) {
 		GraphDatabaseService graph = connector.graphDatabaseService();
 		ProductRepository repo = connector.getProductRepository();
 		graph.beginTx();
 		try {
-			return repo.findOne(id);
+			Product p = repo.findOne(id);
+			return ModelUtils.toProductWS(p);
 		} catch(Exception e) {
 			logger.error("Error",e);
 		}

@@ -9,10 +9,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import com.foodtrip.ftcontroller.FTProductController;
-import com.foodtrip.ftcontroller.FTProductController;
-import com.foodtrip.ftcontroller.ModelUtils;
-import com.foodtrip.ftmodeldb.model.Product;
-import com.foodtrip.ftmodelws.ProductWS;
 import com.foodtrip.ftmodelws.ProductWS;
 
 @Path("/product")
@@ -28,12 +24,12 @@ public class FTServiceProduct {
     @GET
     @Produces({MediaType.APPLICATION_JSON })
     public ProductWS getProduct(@PathParam(value = "id") Long id) {
-        return ModelUtils.toProductWS(new FTProductController().getProduct(id));
+        return new FTProductController().getProduct(id);
     }
     
     @POST
     public Long createProduct(ProductWS product) {
-    	Product p = new FTProductController().createProduct(ModelUtils.toProductDB(product));
+    	ProductWS p = new FTProductController().createProduct(product);
     	return p.getId();
     }
 }

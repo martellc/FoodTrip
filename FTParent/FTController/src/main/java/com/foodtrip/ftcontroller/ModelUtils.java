@@ -29,6 +29,7 @@ public class ModelUtils {
 	}
 
 	private static void populateCompanyOrFarm(Company ret, CompanyWS companyWS) {
+		ret.setId(companyWS.getId());
 		ret.setAddress(toAddressDB(companyWS.getAddress()));
 		ret.setOwner(toPersonDB(companyWS.getOwner()));
 		ret.setCompanyID(companyWS.getNumber());
@@ -176,6 +177,7 @@ public class ModelUtils {
 
 	public static ProductWS toProductWS(Product pDB) {
 		ProductWS pWS = new ProductWS();
+		pWS.setId(pDB.getId());
 		pWS.setBilogical(pDB.isBilogical());
 		pWS.setBiodynamic(pDB.isBiodynamic());
 		pWS.setCertifications(pDB.getCertifications());
@@ -193,14 +195,14 @@ public class ModelUtils {
 	}
 
 	
-	private static FarmWS toFarmWS(Farm farm) {
+	public static FarmWS toFarmWS(Farm farm) {
 		FarmWS fWS = new FarmWS();
 		populateCompanyOrFarmWS(fWS, farm);
 		
 		return fWS;
 	}
 
-	private static Farm toFarmDB(FarmWS farm) {
+	public static Farm toFarmDB(FarmWS farm) {
 		Farm fDB = new Farm();
 		populateCompanyOrFarm(fDB, farm);
 		

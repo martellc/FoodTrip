@@ -11,7 +11,6 @@ import javax.ejb.Stateless;
 import org.apache.log4j.Logger;
 import org.neo4j.graphdb.GraphDatabaseService;
 
-import com.foodtrip.ftcontroller.view.Step;
 import com.foodtrip.ftmodeldb.Neo4JConnector;
 import com.foodtrip.ftmodeldb.model.Company;
 import com.foodtrip.ftmodeldb.model.CompanyToCompanyRel;
@@ -21,11 +20,14 @@ import com.foodtrip.ftmodeldb.model.OrderProductRel;
 import com.foodtrip.ftmodeldb.model.Product;
 import com.foodtrip.ftmodeldb.repo.CompanyRepository;
 import com.foodtrip.ftmodeldb.repo.OrderRepository;
+import com.foodtrip.ftmodelws.CompanyWS;
+import com.foodtrip.ftmodelws.Step;
+import com.foodtrip.ftmodelws.TripView;
 
 @Stateless
-public class FTOperationController {
+public class FTTripController {
 	public static Neo4JConnector connector;
-	private static final Logger logger = Logger.getLogger(FTOperationController.class);
+	private static final Logger logger = Logger.getLogger(FTTripController.class);
 
 	public Order startTrip(Product p, Farm farm) {
 		Order order = new Order();
@@ -65,7 +67,25 @@ public class FTOperationController {
 		return companyRepository.getCompaniesPath(order.getFarm().getId(), order.getEndPoint(), orderID);
 	}
 	
-	public Collection<Step> getSteps(Long orderID) {
+	public TripView getTrip(Long orderID) {		
+		TripView t = new TripView();
+		Collection<Step> steps = getSteps(orderID);
+		
+		OrderRepository orderRepository = connector.getOrderRepository();
+		Order order = orderRepository.findOne(orderID);
+		if (order == null) {
+			logger.error("Invalid ID. Could not retrieve order inside the db");
+			return null;
+		}
+		
+		t.setSteps(steps);
+		t.setProduct(ModelUtils.toProductWS(order.getOrderProductRel().getProduct()));
+		t.setProducer(ModelUtils.toFarmWS(order.getFarm()));
+		
+		return t;
+	}
+	
+	private Collection<Step> getSteps(Long orderID) {
 		List<Step> steps = new ArrayList<Step>();
 		Collection<Company> companies = getCompaniesPath(orderID);
 		
@@ -114,7 +134,7 @@ public class FTOperationController {
 		return null;
 	}
 
-	public void addStep(Long orderID, Company company) {
+	public void addStep(Long orderID, CompanyWS company) {
 		
 		if (orderID == null) {
 			logger.error("Invalid null order");
@@ -135,7 +155,7 @@ public class FTOperationController {
 		graph.beginTx();
 		try {
 			/*save company if needed*/
-			company = companyRepository.save(company);
+			Company c = companyRepository.save(ModelUtils.toCompanyDB(company));
 			
 			/*get the trip current end-point*/
 			Long previousEndPoint = order.getEndPoint();
@@ -149,16 +169,16 @@ public class FTOperationController {
 			/*create a new relation between old and new end-point*/
 			CompanyToCompanyRel rel = new CompanyToCompanyRel();
 			rel.setStart(previousEPCompany);
-			rel.setEnd(company);
+			rel.setEnd(c);
 			rel.setOriginalOrderID(orderID);
-			if(company.getCompanyToCompanyRel() == null) {
-				company.setCompanyToCompanyRel(new HashSet<CompanyToCompanyRel>());
+			if(c.getCompanyToCompanyRel() == null) {
+				c.setCompanyToCompanyRel(new HashSet<CompanyToCompanyRel>());
 			}
-			company.getCompanyToCompanyRel().add(rel);
-			companyRepository.save(company);
+			c.getCompanyToCompanyRel().add(rel);
+			companyRepository.save(c);
 			
 			//update order end-point with the id of the new company
-			order.setEndPoint(company.getId());
+			order.setEndPoint(c.getId());
 			orderRepository.save(order);
 		} catch(Exception e) {
 			logger.error("Error: ", e);

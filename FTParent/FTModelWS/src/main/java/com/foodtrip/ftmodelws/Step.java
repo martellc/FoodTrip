@@ -1,4 +1,4 @@
-package com.foodtrip.ftcontroller.view;
+package com.foodtrip.ftmodelws;
 
 import java.sql.Timestamp;
 
