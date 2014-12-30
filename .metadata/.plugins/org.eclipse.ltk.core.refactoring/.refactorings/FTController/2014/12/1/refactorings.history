@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">
-<refactoring comment="Copy element &apos;FTProductController.java&apos; to &apos;com.foodtrip.ftcontroller.FTProductController.java&apos;&#x0A;- Original project: &apos;FTController&apos;&#x0A;- Destination element: &apos;com.foodtrip.ftcontroller.FTProductController.java&apos;&#x0A;- Original element: &apos;com.foodtrip.ftcontroller.FTProductController.java&apos;" description="Copy compilation unit" destination="/src\/main\/java&lt;com.foodtrip.ftcontroller{FTProductController.java" element1="/src\/main\/java&lt;com.foodtrip.ftcontroller{FTProductController.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1419769137753" units="1" version="1.0"/>
-</session>

@@ -1,6 +1,0 @@
-#Tomcat publish data
-#Wed Nov 05 11:24:56 CET 2014
-org.eclipse.jst.j2ee.server\:FTModelWS=WEB-INF/lib/FTModelWS-0.0.1-SNAPSHOT.jar
-org.eclipse.jst.j2ee.server\:FTController=WEB-INF/lib/FTController-0.0.1-SNAPSHOT.jar
-org.eclipse.jst.j2ee.server\:FTModelDB=WEB-INF/lib/FTModelDB-0.0.1-SNAPSHOT.jar
-org.eclipse.jst.j2ee.server\:/binary\:/home/martellinic/.m2/repository/org/springframework/spring-web/4.0.7.RELEASE/spring-web-4.0.7.RELEASE.jar=WEB-INF/lib/spring-web-4.0.7.RELEASE.jar

@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">
-<refactoring comment="Rename type &apos;com.foodtrip.ftService.rs.MyResource&apos; to &apos;FTServiceCompany&apos;&#x0A;- Original project: &apos;FTServiceRestFul&apos;&#x0A;- Original element: &apos;com.foodtrip.ftService.rs.MyResource&apos;&#x0A;- Renamed element: &apos;com.foodtrip.ftService.rs.FTServiceCompany&apos;&#x0A;- Update references to refactored element&#x0A;- Update textual occurrences in comments and strings" description="Rename type &apos;MyResource&apos;" flags="589830" id="org.eclipse.jdt.ui.rename.type" input="/src\/main\/java&lt;com.foodtrip.ftService.rs{MyResource.java[MyResource" matchStrategy="1" name="FTServiceCompany" qualified="false" references="true" similarDeclarations="false" stamp="1415182996163" textual="false" version="1.0"/>
-</session>
