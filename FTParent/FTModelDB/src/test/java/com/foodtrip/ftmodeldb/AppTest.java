@@ -1,7 +1,8 @@
 package com.foodtrip.ftmodeldb;
 
+import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
+import java.util.Iterator;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -59,6 +60,14 @@ public class AppTest extends Neo4jConfiguration
 	@Autowired ProductRepository productRepository;
 	@Autowired CompanyRepository companyRepository;
 	@Autowired FarmRepository farmRepository;
+
+	private Company c1;
+
+	private Company c2;
+
+	private Company c3;
+
+	private Company c4;
 
 	/**
 	 * @return the suite of tests being tested
@@ -122,10 +131,10 @@ public class AppTest extends Neo4jConfiguration
 		Farm aziendaCacca = createFarm();
 		pomodoro.setFarm(aziendaCacca);
 
-		Company c1 = new Company("Company 1","1", "11111");
-		Company c2 = new Company("Company 2","2", "22222");
-		Company c3 = new Company("Company 3","3", "33333");
-		Company c4 = new Company("Company 4","4", "44444");
+		c1 = new Company("Company 1","1", "11111");
+		c2 = new Company("Company 2","2", "22222");
+		c3 = new Company("Company 3","3", "33333");
+		c4 = new Company("Company 4","4", "44444");
 
 		productRepository.save(pomodoro);
 		farmRepository.save(aziendaCacca);
@@ -136,7 +145,7 @@ public class AppTest extends Neo4jConfiguration
 
 		//create first order
 		Order order = new Order();
-		order.setFarm(aziendaCacca);
+		//order.setFarm(aziendaCacca);
 		order.setSerialNumber("00000001");
 		OrderProductRel op = new OrderProductRel(order,pomodoro);
 		op.setAmount(100000d);
@@ -144,70 +153,84 @@ public class AppTest extends Neo4jConfiguration
 		order.setOrderProductRel(op);
 		orderRepository.save(order);
 
-		//Long orderID = order.getId();
-
-		//create second order		
-		Order order2 = new Order();
-		order2.setFarm(aziendaCacca);
-		order2.setSerialNumber("00000002");
-		OrderProductRel op2 = new OrderProductRel(order2,pomodoro);
-		op2.setAmount(100000d);
-		op2.setQuantity(100d);
-		order2.setOrderProductRel(op2);
-		orderRepository.save(order2);
-
-		//Long order2ID = order2.getId();
-
-
+		c1.setCompanyToCompanyRel(new HashSet<CompanyToCompanyRel>());
+		c2.setCompanyToCompanyRel(new HashSet<CompanyToCompanyRel>());
+		c3.setCompanyToCompanyRel(new HashSet<CompanyToCompanyRel>());
+		c4.setCompanyToCompanyRel(new HashSet<CompanyToCompanyRel>());
+		
 		//start the steps
-		sell(order,aziendaCacca,c1,100000d,100d);
-		sell(order,c1,c2,50000d,50d);
-		sell(order,c1,c3,50000d,50d);
-
-		sell(order2,aziendaCacca,c1,10000d,100d);
-		sell(order2,c1,c4,10000d,100d);
-
+		CompanyToCompanyRel rel1 = createStep(order,aziendaCacca,c1,100000d,100d);
+		c1.getCompanyToCompanyRel().add(rel1);
+		c1 =  companyRepository.save(c1);
 		
-		Long startID = order.getFarm().getId();
-		Long endID = c3.getId();
-		List<Company> companiesPath = companyRepository.getCompaniesPath(startID, endID,order.getId());
+		CompanyToCompanyRel rel2 = createStep(order,c1,c2,100000d,100d);
+		c2.getCompanyToCompanyRel().add(rel2);
+		c2 =  companyRepository.save(c2);
 		
-		for(Company c : companiesPath) {
+		CompanyToCompanyRel rel3 = createStep(order,c2,c3,100000d,100d);
+		c3.getCompanyToCompanyRel().add(rel3);
+		c3 =  companyRepository.save(c3);
+		
+		CompanyToCompanyRel rel4 = createStep(order,c3,c4,100000d,100d);
+		c4.getCompanyToCompanyRel().add(rel4);
+		c4 =  companyRepository.save(c4);
+		
+		order.getEndPoint().add(c4.getId());
+		orderRepository.save(order);
+		
+		Long endID = c4.getId();
+	
+		
+		
+		Iterable<Company> companies = companyRepository.getCompaniesPath(endID,order.getId());
+//		Iterator<EntityPath<Company, Company>> a = c.iterator();
+//		while(a.hasNext()) {
+//			EntityPath<Company, Company> e = a.next();
+//			
+//			
+//			Iterator<Company> it = e.allPathEntities(Company.class).iterator();
+//			while(it.hasNext()) {
+//				System.out.println(it.next().getName());
+//			}
+//		}
+		Iterator<Company> cI = companies.iterator();
+		while(cI.hasNext()) {
+			Company c = cI.next();
 			System.out.println(c.getName());
 		}
 		
 		tx.close();
 	}
 
-	private void sell(Order order, Company seller, Company buyer,Double quantity,Double amount) {
+	private CompanyToCompanyRel createStep(Order order, Company seller, Company buyer,Double quantity,Double amount) {
 		CompanyToCompanyRel rel = new CompanyToCompanyRel();
 		rel.setEnd(buyer);
 		rel.setStart(seller);
-
+		
+		rel.setAlt(0f);
+		rel.setDate(new Date());
+		rel.setLat(0f);
+		rel.setLng(0f);
+		rel.setOriginalOrderSerialNumber(order.getSerialNumber());
 		rel.setOriginalOrderID(order.getId());
 
 		rel.setQuantity(quantity);
 		rel.setAmount(amount);
 
-		if(buyer.getCompanyToCompanyRel() == null) {
-			buyer.setCompanyToCompanyRel(new HashSet<CompanyToCompanyRel>());
-		}
-		buyer.getCompanyToCompanyRel().add(rel);
-
-		companyRepository.save(buyer);
+		return rel;
 	}
 
 	private Farm createFarm() {
 		Farm f = new Farm("Azienda Cacca","234234234","asdfasdf234");
 
-		City cittaDellaCacca = new City("Città della cacca");
+		City cittaDellaCacca = new City("Città della cacca",null);
 
 		Address a = new Address();
 		a.setStreetName("Via puzzosa");
 		a.setStreetNumber("100");
 		a.setZipCode("09876");
 		a.setCity(cittaDellaCacca);
-		f.setAddress(a);
+		//f.setAddress(a);
 
 		return f;
 	}

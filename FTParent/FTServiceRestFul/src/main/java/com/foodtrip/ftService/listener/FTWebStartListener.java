@@ -6,7 +6,7 @@ import javax.servlet.ServletContextListener;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
-import com.foodtrip.ftcontroller.FTCompanyController;
+import com.foodtrip.ftcontroller.FTController;
 import com.foodtrip.ftmodeldb.Neo4JConnector;
 
 public class FTWebStartListener implements ServletContextListener {
@@ -18,6 +18,6 @@ public class FTWebStartListener implements ServletContextListener {
 	public void contextInitialized(ServletContextEvent arg0) {
 		WebApplicationContext springContext = 
 			    WebApplicationContextUtils.getWebApplicationContext(arg0.getServletContext());
-		FTCompanyController.connector = springContext.getBean(Neo4JConnector.class);
+		FTController.connector = springContext.getBean(Neo4JConnector.class);
 	}
 }

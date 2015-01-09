@@ -9,8 +9,11 @@ import com.foodtrip.ftmodeldb.model.Company;
 
 public interface CompanyRepository extends GraphRepository<Company> {
 
+	@Query("start n=node({0}) match (n)<-[* {originalOrderID:{1}}]-(Company) return Company")
+    public Iterable<Company> getCompaniesPath(Long endCompany, Long orderID);
 	
-	@Query("MATCH p =(a:Company)-[* { originalOrderID:{2}} ]-(b:Company) WHERE a.cID = {0} AND b.cID = {1} RETURN p")
-    public List<Company> getCompaniesPath(Long startCompany,Long endCompany,Long orderID);
+	@Query("MATCH p =(a:Company)-[* { originalOrderID:{0}} ]-(b:Company) RETURN p")
+    public List<Company> getCompaniesPath(Long orderID);
+
 }
 

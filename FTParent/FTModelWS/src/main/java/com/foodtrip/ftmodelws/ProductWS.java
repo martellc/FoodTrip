@@ -1,8 +1,10 @@
 package com.foodtrip.ftmodelws;
 
-import java.util.List;
+import java.util.Set;
 
+import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
 public class ProductWS {
 
 	public enum ProductName {
@@ -43,11 +45,11 @@ public class ProductWS {
 	private int harvestDate;
 
 	//production type info
-	private boolean bilogical;
+	private boolean biological;
 	private boolean sustainable;
 	private boolean biodynamic;
 	private boolean ipm;
-	private List<String> certifications;
+	private Set<String> certifications;
 
 	//food type info
 	private boolean ogm;
@@ -64,12 +66,12 @@ public class ProductWS {
 		this.sawingDate = sawingDate;
 	}
 
-	public boolean isBilogical() {
-		return bilogical;
+	public boolean isBiological() {
+		return biological;
 	}
 
-	public void setBilogical(boolean bilogical) {
-		this.bilogical = bilogical;
+	public void setBiological(boolean bilogical) {
+		this.biological = bilogical;
 	}
 
 	public boolean isSustainable() {
@@ -96,11 +98,11 @@ public class ProductWS {
 		this.ipm = ipm;
 	}
 
-	public List<String> getCertifications() {
+	public Set<String> getCertifications() {
 		return certifications;
 	}
 
-	public void setCertifications(List<String> certifications) {
+	public void setCertifications(Set<String> certifications) {
 		this.certifications = certifications;
 	}
 

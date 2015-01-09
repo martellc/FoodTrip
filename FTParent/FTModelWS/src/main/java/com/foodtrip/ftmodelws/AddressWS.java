@@ -2,9 +2,10 @@ package com.foodtrip.ftmodelws;
 
 public class AddressWS {
 
+	private Long id;
 	private String streetName;
 	private String streetNumber;
-	private String city;
+	private CityWS city;
 	private String zipCode;
 	private String state;
 	
@@ -20,10 +21,10 @@ public class AddressWS {
 	public void setStreetNumber(String streetNumber) {
 		this.streetNumber = streetNumber;
 	}
-	public String getCity() {
+	public CityWS getCity() {
 		return city;
 	}
-	public void setCity(String city) {
+	public void setCity(CityWS city) {
 		this.city = city;
 	}
 	public String getZipCode() {
@@ -37,5 +38,11 @@ public class AddressWS {
 	}
 	public void setState(String state) {
 		this.state = state;
+	}
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
 	}
 }

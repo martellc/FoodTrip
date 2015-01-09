@@ -28,8 +28,9 @@ public class FTServiceProduct {
     }
     
     @POST
-    public Long createProduct(ProductWS product) {
-    	ProductWS p = new FTProductController().createProduct(product);
-    	return p.getId();
+    @Produces({MediaType.APPLICATION_JSON })
+    public ProductWS updateProduct(ProductWS product) {
+    	ProductWS p = new FTProductController().updateProduct(product);
+    	return p;
     }
 }

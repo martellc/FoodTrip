@@ -19,7 +19,7 @@ public class CompanyWS {
 	private AddressWS address;
 	
 	private Collection<Property> properties;
-	private Collection<PersonWS> employee;
+	private Collection<PersonWS> employees;
 	
 	public CompanyWS() {
 		
@@ -75,11 +75,11 @@ public class CompanyWS {
 	public void setVatNumber(String vatNumber) {
 		this.vatNumber = vatNumber;
 	}
-	public Collection<PersonWS> getEmployee() {
-		return employee;
+	public Collection<PersonWS> getEmployees() {
+		return employees;
 	}
-	public void setEmployee(Collection<PersonWS> employee) {
-		this.employee = employee;
+	public void setEmployees(Collection<PersonWS> employees) {
+		this.employees = employees;
 	}
 	public AddressWS getAddress() {
 		return address;

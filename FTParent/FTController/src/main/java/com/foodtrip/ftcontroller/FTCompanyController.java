@@ -6,7 +6,6 @@ import org.apache.log4j.Logger;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.foodtrip.ftmodeldb.Neo4JConnector;
 import com.foodtrip.ftmodeldb.model.Company;
 import com.foodtrip.ftmodeldb.model.Farm;
 import com.foodtrip.ftmodeldb.repo.CompanyRepository;
@@ -15,8 +14,7 @@ import com.foodtrip.ftmodelws.CompanyWS;
 import com.foodtrip.ftmodelws.FarmWS;
 
 @Stateless
-public class FTCompanyController {
-	public static Neo4JConnector connector;
+public class FTCompanyController extends FTController {
 	private static final Logger logger = Logger.getLogger(FTCompanyController.class);
 
 	@Transactional

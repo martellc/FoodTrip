@@ -1,8 +1,9 @@
 package com.foodtrip.ftmodeldb.model;
 
-import java.util.List;
+import java.util.Set;
 
 import org.neo4j.graphdb.Direction;
+import org.springframework.data.neo4j.annotation.Fetch;
 import org.springframework.data.neo4j.annotation.GraphId;
 import org.springframework.data.neo4j.annotation.Indexed;
 import org.springframework.data.neo4j.annotation.NodeEntity;
@@ -29,16 +30,16 @@ public class Product {
 	private int sawingDate;
 	
 	//production type info
-	private boolean bilogical;
+	private boolean biological;
 	private boolean sustainable;
 	private boolean biodynamic;
 	private boolean ipm;
-	private List<String> certifications;
+	private Set<String> certifications;
 
 	//food type info
 	private boolean ogm;
 
-
+	@Fetch
 	@RelatedTo(type = "PRODUCED_BY", direction = Direction.OUTGOING)
 	private Farm farm;
 
@@ -59,12 +60,12 @@ public class Product {
 		this.sawingDate = sawingDate;
 	}
 
-	public boolean isBilogical() {
-		return bilogical;
+	public boolean isBiological() {
+		return biological;
 	}
 
-	public void setBilogical(boolean bilogical) {
-		this.bilogical = bilogical;
+	public void setBiological(boolean bilogical) {
+		this.biological = bilogical;
 	}
 
 	public boolean isSustainable() {
@@ -91,11 +92,11 @@ public class Product {
 		this.ipm = ipm;
 	}
 
-	public List<String> getCertifications() {
+	public Set<String> getCertifications() {
 		return certifications;
 	}
 
-	public void setCertifications(List<String> certifications) {
+	public void setCertifications(Set<String> certifications) {
 		this.certifications = certifications;
 	}
 

@@ -9,13 +9,14 @@ public class City {
 	@GraphId 
 	private Long id;
 
+
 	private String name;
 	
 	public City() {
 		
 	}
 	
-	public City(String name) {
+	public City(String name, Long id) {
 		super();
 		this.name = name;
 	}
@@ -26,5 +27,13 @@ public class City {
 
 	public void setName(String name) {
 		this.name = name;
-	}	
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 }

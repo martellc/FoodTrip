@@ -23,12 +23,12 @@ public class FTServiceTrip {
     @Path("/{orderID}")
     @GET
     @Produces({MediaType.APPLICATION_JSON })
-    public TripView getTripGET(@PathParam(value = "orderID")Long orderID) {
-    	return new FTTripController().getTrip(orderID);
+    public TripView getTripGET(@PathParam(value = "endCompany")Long endCompany, @PathParam(value = "orderID")Long orderID) {
+    	return new FTTripController().getTrip(endCompany,orderID);
     }
     
     @POST
-    public TripView getTrip(Long orderID) {
-    	return new FTTripController().getTrip(orderID);
+    public TripView getTrip(Long endCompany, Long orderID) {
+    	return new FTTripController().getTrip(endCompany,orderID);
     }
 }

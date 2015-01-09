@@ -6,15 +6,15 @@ import org.apache.log4j.Logger;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.foodtrip.ftmodeldb.Neo4JConnector;
+import com.foodtrip.ftmodeldb.model.Farm;
 import com.foodtrip.ftmodeldb.model.Product;
 import com.foodtrip.ftmodeldb.repo.ProductRepository;
 import com.foodtrip.ftmodelws.ProductWS;
 
 @Stateless
-public class FTProductController {
-	public static Neo4JConnector connector;
-	private static final Logger logger = Logger.getLogger(FTProductController.class);
+public class FTProductController extends FTController {
+	
+	static final Logger logger = Logger.getLogger(FTProductController.class);
 
 	@Transactional
 	public ProductWS createProduct(ProductWS pWS) {
@@ -28,7 +28,8 @@ public class FTProductController {
 		ProductRepository repo = connector.getProductRepository();
 		graph.beginTx();
 		try {
-			Product updatedProduct = repo.save(ModelUtils.toProductDB(pWS));
+			Product p = ModelUtils.toProductDB(pWS);
+			Product updatedProduct = repo.save(p);
 			return ModelUtils.toProductWS(updatedProduct);
 		} catch(Exception e) {
 			logger.error("Error",e);

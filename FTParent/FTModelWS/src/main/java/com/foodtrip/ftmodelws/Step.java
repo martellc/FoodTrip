@@ -1,6 +1,7 @@
 package com.foodtrip.ftmodelws;
 
 import java.sql.Timestamp;
+import java.util.Date;
 
 import com.foodtrip.ftmodeldb.model.Company;
 
@@ -11,7 +12,7 @@ public class Step implements Comparable<Step> {
 	}
 	
 	public Step(Long id,Company company, Float lat, Float lng, Float alt,
-			Timestamp date, Double quantity, Double amount) {
+			Date date, Double quantity, Double amount) {
 		super();
 		this.id = id;
 		this.company = company;
@@ -35,7 +36,7 @@ public class Step implements Comparable<Step> {
 	private Float alt;
 	
 	//date
-	private Timestamp date;
+	private Date date;
 
 	private Company company;
 
@@ -87,11 +88,11 @@ public class Step implements Comparable<Step> {
 		this.alt = alt;
 	}
 
-	public Timestamp getDate() {
+	public Date getDate() {
 		return date;
 	}
 
-	public void setDate(Timestamp date) {
+	public void setDate(Date date) {
 		this.date = date;
 	}
 

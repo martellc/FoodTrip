@@ -1,6 +1,6 @@
 package com.foodtrip.ftmodeldb.model;
 
-import java.sql.Timestamp;
+import java.util.Date;
 
 import org.springframework.data.neo4j.annotation.EndNode;
 import org.springframework.data.neo4j.annotation.Fetch;
@@ -8,7 +8,7 @@ import org.springframework.data.neo4j.annotation.GraphId;
 import org.springframework.data.neo4j.annotation.RelationshipEntity;
 import org.springframework.data.neo4j.annotation.StartNode;
 
-@RelationshipEntity(type="NEXT")
+@RelationshipEntity(type="PATH")
 public class CompanyToCompanyRel {
 	
 	public CompanyToCompanyRel() {
@@ -25,7 +25,7 @@ public class CompanyToCompanyRel {
 	@Fetch @StartNode
 	private Company start;
 	
-	@EndNode
+	@Fetch @EndNode
 	private Company end;
 	
 	private Double quantity;
@@ -38,7 +38,7 @@ public class CompanyToCompanyRel {
 	private Float alt;
 	
 	//date
-	private Timestamp date;
+	private Date date;
 	
 	public Float getLat() {
 		return lat;
@@ -64,11 +64,11 @@ public class CompanyToCompanyRel {
 		this.alt = alt;
 	}
 
-	public Timestamp getDate() {
+	public Date getDate() {
 		return date;
 	}
 
-	public void setDate(Timestamp date) {
+	public void setDate(Date date) {
 		this.date = date;
 	}
 

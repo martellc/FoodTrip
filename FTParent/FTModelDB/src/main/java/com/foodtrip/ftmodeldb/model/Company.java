@@ -1,5 +1,6 @@
 package com.foodtrip.ftmodeldb.model;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import org.neo4j.graphdb.Direction;
@@ -60,6 +61,7 @@ public class Company {
 	@RelatedTo(type = "OWNER_OF", direction = Direction.INCOMING)
 	private Person owner;
 
+	@Fetch
 	@RelatedTo(type = "WORKS_AT", direction = Direction.INCOMING)
 	private Set<Person> employees;
 
@@ -67,8 +69,8 @@ public class Company {
 	@RelatedTo(type = "LOCATED_AT", direction = Direction.OUTGOING)
 	private Address address;
 
-	@Fetch @RelatedToVia(type = "NEXT", direction = Direction.INCOMING)
-	private Set<CompanyToCompanyRel> companyToCompanyRel;
+	@Fetch @RelatedToVia(type = "PATH", direction = Direction.INCOMING)
+	private Set<CompanyToCompanyRel> companyToCompanyRel = new HashSet<CompanyToCompanyRel>();
 
 	public Long getId() {
 		return id;
