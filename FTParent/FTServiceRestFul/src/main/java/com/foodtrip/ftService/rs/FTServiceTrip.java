@@ -15,7 +15,7 @@ import com.foodtrip.ftmodelws.TripView;
 @Path("/trip")
 public class FTServiceTrip {
     
-    @GET 
+    @GET
     @Produces("text/plain")
     public String getIt() {
         return "Hi there!";
