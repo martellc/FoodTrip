@@ -9,6 +9,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import com.foodtrip.ftcontroller.FTTripController;
+import com.foodtrip.ftmodelws.TripIDWS;
 import com.foodtrip.ftmodelws.TripView;
 
 @Path("/trip")
@@ -20,7 +21,7 @@ public class FTServiceTrip {
         return "Hi there!";
     }
     
-    @Path("/{orderID}")
+    @Path("/{orderID}/{endCompany}")
     @GET
     @Produces({MediaType.APPLICATION_JSON })
     public TripView getTripGET(@PathParam(value = "endCompany")Long endCompany, @PathParam(value = "orderID")Long orderID) {
@@ -28,7 +29,8 @@ public class FTServiceTrip {
     }
     
     @POST
-    public TripView getTrip(Long endCompany, Long orderID) {
-    	return new FTTripController().getTrip(endCompany,orderID);
+    @Produces({MediaType.APPLICATION_JSON })
+    public TripView getTrip(TripIDWS tripID) {
+    	return new FTTripController().getTrip(new Long(tripID.getEndCompany()),new Long(tripID.getId()));
     }
 }

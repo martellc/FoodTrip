@@ -8,7 +8,7 @@ public class TripView {
 	
 	private FarmWS producer;
 	
-	private Collection<Step> steps;
+	private Collection<FoodStepWS> steps;
 
 	public ProductWS getProduct() {
 		return product;
@@ -26,11 +26,11 @@ public class TripView {
 		this.producer = producer;
 	}
 
-	public Collection<Step> getSteps() {
+	public Collection<FoodStepWS> getSteps() {
 		return steps;
 	}
 
-	public void setSteps(Collection<Step> steps) {
+	public void setSteps(Collection<FoodStepWS> steps) {
 		this.steps = steps;
 	}
 }

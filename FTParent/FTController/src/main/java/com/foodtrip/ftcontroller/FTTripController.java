@@ -2,7 +2,6 @@ package com.foodtrip.ftcontroller;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -19,7 +18,7 @@ import com.foodtrip.ftmodeldb.model.Order;
 import com.foodtrip.ftmodeldb.repo.CompanyRepository;
 import com.foodtrip.ftmodeldb.repo.OrderRepository;
 import com.foodtrip.ftmodelws.CompanyWS;
-import com.foodtrip.ftmodelws.Step;
+import com.foodtrip.ftmodelws.FoodStepWS;
 import com.foodtrip.ftmodelws.TripView;
 
 @Stateless
@@ -28,14 +27,21 @@ public class FTTripController extends FTController {
 	
 	private Collection<Company> getCompaniesPath(Long endCompany, Long orderID) {
 
-		if (orderID == null) {
-			logger.error("Invalid null order");
+		if (orderID == null || endCompany == null) {
+			logger.error("Invalid null value");
 			return null;
 		}
 		
 		OrderRepository orderRepository = connector.getOrderRepository();
 		CompanyRepository companyRepository = connector.getCompanyRepository();
 
+		//check the end point existance
+		Company endPoint = companyRepository.findOne(endCompany);
+		if(endPoint == null) {
+			logger.error("Invalid end point");
+			return null;
+		}
+		
 		Order order = orderRepository.findOne(orderID);
 		if (order == null) {
 			logger.error("Invalid ID. Could not retrieve order inside the db");
@@ -45,7 +51,11 @@ public class FTTripController extends FTController {
 		//get the path
 		Iterable<Company> companies = companyRepository.getCompaniesPath(endCompany, orderID);
 		Iterator<Company> companyIt = companies.iterator();
+		
 		List<Company> list = new ArrayList<Company>();
+		//add the end point at the beginning of the list
+		list.add(endPoint);
+		
 		while (companyIt.hasNext()) {
 			list.add(companyIt.next());
 		}
@@ -55,14 +65,29 @@ public class FTTripController extends FTController {
 	
 	public TripView getTrip(Long endCompany, Long orderID) {		
 		TripView t = new TripView();
-		Collection<Step> steps = getSteps(endCompany, orderID);
 		
+		if (orderID == null || endCompany == null) {
+			logger.error("Invalid null value");
+			return null;
+		}
+		
+		CompanyRepository companyRepository = connector.getCompanyRepository();
+		Company endPoint = companyRepository.findOne(endCompany);
+		if(endPoint == null) {
+			logger.error("Invalid end point");
+			return null;
+		}
+
 		OrderRepository orderRepository = connector.getOrderRepository();
 		Order order = orderRepository.findOne(orderID);
 		if (order == null) {
 			logger.error("Invalid ID. Could not retrieve order inside the db");
 			return null;
 		}
+		
+		Collection<FoodStepWS> steps = getSteps(endCompany, orderID);
+		
+		
 		
 		t.setSteps(steps);
 		t.setProduct(ModelUtils.toProductWS(order.getOrderProductRel().getProduct()));
@@ -72,35 +97,37 @@ public class FTTripController extends FTController {
 		return t;
 	}
 	
-	private Collection<Step> getSteps(Long endCompany, Long orderID) {
-		List<Step> steps = new ArrayList<Step>();
+	private Collection<FoodStepWS> getSteps(Long endCompany, Long orderID) {
+		List<FoodStepWS> steps = new ArrayList<FoodStepWS>();
 		Collection<Company> companies = getCompaniesPath(endCompany, orderID);
-		
-		
 		//this a generic id
 		long i = 0;
 		Company previousCompany = null;
 		for(Company c : companies) {
-			if (c.getCompanyToCompanyRel() == null) {
+			
+			//if you are at the beginning or at the end of a trip you don't have relation information
+			if (c.getCompanyToCompanyRel() == null || previousCompany == null) {
+				FoodStepWS s = new FoodStepWS(new Long(i),ModelUtils.toCompanyWS(c),c.getLat(),c.getLng(),c.getAlt(),null,null,null);
+				steps.add(s);
 				previousCompany = c;
 				continue;
 			}
 			
-			CompanyToCompanyRel cToc = findCompanyToCompanyRel(previousCompany,c,orderID);
+			//find the relation between two companies: the relation contains some useful information
+			CompanyToCompanyRel cToc = findCompanyToCompanyRel(c,previousCompany,orderID);
 			if(cToc == null) {
 				previousCompany = c;
 				logger.error("Unable to find relation: " + previousCompany.getCompanyID() + "," + c.getId());
 				continue;
 			}
 			
-			Step s = new Step(new Long(i),c,cToc.getLat(),cToc.getLng(),cToc.getAlt(),cToc.getDate(),cToc.getQuantity(),cToc.getAmount());
+			FoodStepWS s = new FoodStepWS(new Long(i),ModelUtils.toCompanyWS(c),cToc.getLat(),cToc.getLng(),cToc.getAlt(),cToc.getDate(),cToc.getQuantity(),cToc.getAmount());
 			steps.add(s);
 			
 			previousCompany = c;
 			i++;
 		}
-		
-		Collections.sort(steps);
+
 		return steps;
 	}
 	
@@ -113,7 +140,7 @@ public class FTTripController extends FTController {
 		}
 		
 		for(CompanyToCompanyRel cToC : end.getCompanyToCompanyRel()) {
-			if (cToC.getStart().equals(start) && cToC.getOriginalOrderID().equals(orderID)) {
+			if (cToC.getStart().getId().equals(start.getId()) && cToC.getOriginalOrderID().equals(orderID)) {
 				return cToC;
 			}
 		}
@@ -141,12 +168,11 @@ public class FTTripController extends FTController {
 		
 		graph.beginTx();
 		try {
-			/*save company if needed*/
-			Company c = ModelUtils.toCompanyDB(company);
-			
 			/*get the trip current end-point*/
 			Long previousEndPoint = endCompany;
 			Company previousEPCompany = companyRepository.findOne(previousEndPoint);
+			Company newCompany = companyRepository.findOne(company.getId());
+			
 			if(previousEPCompany == null) {
 				logger.error("Invalid end point");
 				return;
@@ -160,17 +186,16 @@ public class FTTripController extends FTController {
 			/*create a new relation between old and new end-point*/
 			CompanyToCompanyRel rel = new CompanyToCompanyRel();
 			rel.setStart(previousEPCompany);
-			rel.setEnd(c);
+			rel.setEnd(newCompany);
 			rel.setOriginalOrderID(orderID);
-			if(c.getCompanyToCompanyRel() == null) {
-				c.setCompanyToCompanyRel(new HashSet<CompanyToCompanyRel>());
+			if(newCompany.getCompanyToCompanyRel() == null) {
+				newCompany.setCompanyToCompanyRel(new HashSet<CompanyToCompanyRel>());
 			}
-			c.getCompanyToCompanyRel().add(rel);
-			c = companyRepository.save(c);
+			newCompany.getCompanyToCompanyRel().add(rel);
+			newCompany = companyRepository.save(newCompany);
 			
 			//update order end-point with the id of the new company
-			order.getEndPoint().remove(previousEndPoint);
-			order.getEndPoint().add(c.getId());
+			order.getEndPoint().add(newCompany.getId());
 			
 			orderRepository.save(order);
 		} catch(Exception e) {

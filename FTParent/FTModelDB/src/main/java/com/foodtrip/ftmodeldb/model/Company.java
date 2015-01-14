@@ -28,6 +28,11 @@ public class Company {
 
 	private String type;
 
+	//spatial information
+	private Float lat;
+	private Float lng;
+	private Float alt;
+	
 	public Company() {
 
 	}
@@ -151,5 +156,39 @@ public class Company {
 
 	public void setType(String type) {
 		this.type = type;
+	}
+	
+	public String toString() {
+		return String.valueOf(this.getId());
+	}
+
+
+	public Float getLat() {
+		return lat;
+	}
+
+
+	public void setLat(Float lat) {
+		this.lat = lat;
+	}
+
+
+	public Float getLng() {
+		return lng;
+	}
+
+
+	public void setLng(Float lng) {
+		this.lng = lng;
+	}
+
+
+	public Float getAlt() {
+		return alt;
+	}
+
+
+	public void setAlt(Float alt) {
+		this.alt = alt;
 	}
 }

@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.foodtrip.ftmodeldb.model.Farm;
 import com.foodtrip.ftmodeldb.model.Product;
+import com.foodtrip.ftmodeldb.repo.FarmRepository;
 import com.foodtrip.ftmodeldb.repo.ProductRepository;
 import com.foodtrip.ftmodelws.ProductWS;
 
@@ -26,9 +27,17 @@ public class FTProductController extends FTController {
 	public ProductWS updateProduct(ProductWS pWS) {
 		GraphDatabaseService graph = connector.graphDatabaseService();
 		ProductRepository repo = connector.getProductRepository();
+		FarmRepository farmRepo = connector.getFarmRepository();
+		
 		graph.beginTx();
 		try {
+			Farm f = farmRepo.findOne(pWS.getFarm().getId());
+			if (f == null ) {
+				logger.error("Invalid farm.");
+				return null;
+			}
 			Product p = ModelUtils.toProductDB(pWS);
+			p.setFarm(f);
 			Product updatedProduct = repo.save(p);
 			return ModelUtils.toProductWS(updatedProduct);
 		} catch(Exception e) {

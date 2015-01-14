@@ -48,6 +48,9 @@ public class ModelUtils {
 		ret.setPresident(toPersonDB(companyWS.getPresident()));
 		ret.setType(companyWS.getType());
 		ret.setVatNumber(companyWS.getVatNumber());
+		ret.setAlt(companyWS.getAlt());
+		ret.setLng(companyWS.getLng());
+		ret.setLat(companyWS.getLat());
 	}
 
 	public static Person toPersonDB(PersonWS personWS) {
@@ -125,6 +128,9 @@ public class ModelUtils {
 		retWS.setPresident(toPersonWS(company.getPresident()));
 		retWS.setType(company.getType());
 		retWS.setVatNumber(company.getVatNumber());
+		retWS.setAlt(company.getAlt());
+		retWS.setLng(company.getLng());
+		retWS.setLat(company.getLat());
 	}
 
 	private static AddressWS toAddressWS(Address address) {

@@ -1,5 +1,7 @@
 package com.foodtrip.ftcontroller;
 
+import java.util.ArrayList;
+
 import javax.ejb.Stateless;
 
 import org.apache.log4j.Logger;
@@ -47,6 +49,11 @@ public class FTOrderController extends FTController {
 			if(newProduct) {
 				orderDB.getOrderProductRel().setProduct(product);
 			}
+			
+			if(orderDB.getEndPoint() == null) {
+				orderDB.setEndPoint(new ArrayList<Long>());
+			}
+			orderDB.getEndPoint().add(product.getFarm().getId());
 			
 			Order updatedOrder = repo.save(orderDB);
 			return ModelUtils.toOrderWS(updatedOrder);

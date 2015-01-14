@@ -3,13 +3,13 @@ package com.foodtrip.ftmodelws;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class StepWS {
+public class NewStepWS {
 
 	private Long endPoint;
 	private Long orderId;
 	private CompanyWS company;
 	
-	public StepWS() {
+	public NewStepWS() {
 		super();
 	}
 	

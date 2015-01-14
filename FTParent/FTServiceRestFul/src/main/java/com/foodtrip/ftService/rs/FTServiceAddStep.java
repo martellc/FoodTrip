@@ -7,7 +7,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
 import com.foodtrip.ftcontroller.FTTripController;
-import com.foodtrip.ftmodelws.StepWS;
+import com.foodtrip.ftmodelws.NewStepWS;
 
 @Path("/addStep")
 public class FTServiceAddStep {
@@ -19,7 +19,7 @@ public class FTServiceAddStep {
     }
     
     @POST
-    public void addStep(StepWS step) {
+    public void addStep(NewStepWS step) {
     	new FTTripController().addStep(step.getEndPoint(), step.getOrderId(), step.getCompany());
     }
 }
