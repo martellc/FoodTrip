@@ -1,0 +1,420 @@
+@import url(http://fonts.googleapis.com/css?family=Archivo+Narrow);
+
+html {
+  height: 100%;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  overflow-y: scroll;
+}
+
+body {
+  height: 100%;
+  z-index:-1;
+}
+
+a:hover {
+  cursor: pointer;
+}
+#full-screen-background-image {
+  z-index: -999;
+  min-height: 100%;
+  min-width: 1024px;
+  width: 100%;
+  height: auto;
+  position: fixed;
+  top: 0;
+  left: 0;
+
+}
+
+#wrapper {
+  background-color:rgba(255,255,255,1.0);
+  height:100%;
+  min-height:100%;
+  height: 100% !important;
+}
+
+h1, h2, h3 {-family: 'Archivo Narrow', sans-serif;
+}
+.banner {
+    background-color: #0074cd;
+    color: #FFF;
+    height: 100px;
+}
+.banner h1 {
+    font-size: 50px;
+    line-height: 50px;
+}
+.main-frame {
+    background-color: #FFF;
+    padding: 10px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -khtml-border-radius: 5px;
+    border-radius: 5px;
+}
+.search-box {
+    line-height: 50px;
+    background-color: #333;
+    color: #FFF;
+    margin-bottom: 10px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -khtml-border-radius: 5px;
+    border-radius: 5px;
+}
+.search-box label {
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+.episode-list {
+    list-style: none;
+    margin: 0px;
+}
+
+.episode-list h3 {
+    margin-top: 0px;
+}
+
+.episode-list .ratings {
+    line-height: 30px;
+    text-align: center;
+    background-color: #333;
+    color: #FFF;
+    margin-top: 10px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -khtml-border-radius: 5px;
+    border-radius: 5px;
+}
+
+.episode-list .fulldate {
+    margin: 5px;
+}
+
+.episode-list li {
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-bottom: dotted 1px #5dace9;
+}
+
+.episode-list li:last-child {
+    border-bottom: none;
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+}
+
+.show-info {
+    list-style: none;
+    margin: 0px;
+    padding: 10px;
+    background-color: #e1e1e1;
+    color: #333;
+    font-size: 16px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -khtml-border-radius: 5px;
+    border-radius: 5px;
+}
+
+.show-info li {
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+    border-bottom: solid 1px #CCC;
+    line-height: 40px;
+}
+
+.show-info li:last-child {
+    border-bottom: none;
+}
+
+.show-info .genre {
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+.formTrip {
+    padding-bottom:48px;
+}
+
+.padd-0 {
+	padding:0px;
+	text-align:center;
+}
+
+.logo{
+	opacity:1;
+}
+
+.ajax-loader {
+    position: fixed;
+    left: 35%;
+    top: 25%;
+    display: block;     
+    z-index:10000;
+}
+
+.header h3 {
+    display:inline-block;
+}
+
+
+.btn2-success {
+    background-color: #5cb85c;
+    border-color: #4cae4c;
+    color: #fff;
+}
+
+.btn2 {
+    -moz-user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857;
+    margin-bottom: 0;
+    padding: 6px 12px;
+    text-align: center;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+.div-map {
+    padding:4px;
+    border:1px solid #dddddd;
+    border-radius:10px;
+}
+.product-detail-table {
+    width:100%;    
+}
+
+.product-detail-table td {
+    padding:0px;
+    color:#777;
+    vertical-align:top;
+    padding-bottom:15px;
+    text-align:left;
+}
+
+.p-grey {
+    color:#777;
+}
+
+.p-red {
+    color:red
+}
+
+.tableTrip {
+   padding: 0;
+   margin: 0;
+   width:80%;
+}
+
+.tableTrip td {
+   padding:10;
+   margin: 0;
+
+}
+
+.hide {
+    display:none;
+}
+
+
+.progtrckr-done {
+    border-right: 3px solid yellowgreen;
+}
+
+
+.left-circle:after {
+    float: right;
+    line-height: 1em;
+    position: relative;
+    right: -2.17em;
+    content: "";
+    color: white;
+    background-color: yellowgreen;
+    height: 1.6em;
+    width: 2em;
+    line-height: 2em;
+    border: none;
+    border-radius: 2em;
+    float:right;
+    margin-top:-6em;
+}
+
+.right-circle:after {
+    float: left;
+    line-height: 1em;
+    position: relative;
+    left: -2.17em;
+    content: "";
+    color: white;
+    background-color: yellowgreen;
+    height: 1.6em;
+    width: 2em;
+    line-height: 2em;
+    border: none;
+    border-radius: 2em;
+    float:left;
+    margin-top:-6em;
+}
+
+
+
+.filler {
+    height:300px;
+}
+
+.tabContent {
+    vertical-align:center;
+    margin-top:20px;
+    padding:10px;
+    min-height:422px;
+}
+
+.nav-tabs {
+    margin-top:20px;
+}
+
+.trip-left {
+    text-align:right;
+}
+
+#tripContent {
+    padding-left:15px;
+    padding-right:15px;
+    min-height:100px;
+}
+
+.block {
+   display:block;
+}
+
+.title {
+   font-weight:600;
+   font-size:1.1em;
+}
+
+#loadingDiv {
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  position: absolute;
+  display: block;
+  opacity: 0.7;
+  background-color: #fff;
+  z-index: 99;
+  text-align: center;
+}
+
+.map400 {
+   height: 400px !important;
+}
+
+.nav-align {
+   float:right;
+}
+
+.padd-left-15 {
+  padding-left:15px !important;
+}
+
+
+.top1 {
+   margin-top:20px;
+}
+
+@media screen and (max-width: 480px) {
+
+  .header h3 {
+		width:100%;
+		text-align:center;
+		line-height:20px;
+  }
+  
+  .jumbotron {
+	padding-bottom:50px;
+  }
+ 
+ .ajax-loader {
+    position: absolute;
+    left:0%;
+    top: 35%;
+    display: block;     
+    z-index:10000;
+ }
+
+ .nav > li > a {
+    display: block;
+    padding: 10px 7px;
+    position: relative;
+ }
+
+.nav-tabs > li, .nav-pills > li {
+    float:none;
+    display:inline-block;
+    *display:inline; /* ie7 fix */
+     zoom:1; /* hasLayout ie7 trigger */
+}
+
+.nav-tabs, .nav-pills {
+    text-align:center;
+}
+
+.nav-align {
+   float:none;
+   margin-bottom:20px;
+}
+
+.progtrckr-done {
+    border-right:none;
+    border-left: 3px solid yellowgreen;
+}
+
+
+.right-circle:after,.left-circle:after {
+    float: left;
+    line-height: 1em;
+    position: relative;
+    left: -2.17em;
+    content: "";
+    color: white;
+    background-color: yellowgreen;
+    height: 1.6em;
+    width: 2em;
+    line-height: 2em;
+    border: none;
+    border-radius: 2em;
+    float:left;
+    margin-top:-6em;
+}
+
+#tripContent {
+    padding-left:15px;
+    padding-right:15px;
+    min-height:140px; 
+}
+
+.trip-left {
+    text-align:left;
+}
+
+
+.tabContent {
+    vertical-align:center;
+    margin-top:20px;
+    padding:0px;
+    min-height:300px;
+}
+
+.map400 {
+    height: 300px !important;
+}
+}

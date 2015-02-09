@@ -10,10 +10,13 @@ public class TripView {
 	
 	private Collection<FoodStepWS> steps;
 
+	private String path;
+	
 	public ProductWS getProduct() {
 		return product;
 	}
 
+	
 	public void setProduct(ProductWS product) {
 		this.product = product;
 	}
@@ -21,7 +24,7 @@ public class TripView {
 	public FarmWS getProducer() {
 		return producer;
 	}
-
+	
 	public void setProducer(FarmWS producer) {
 		this.producer = producer;
 	}
@@ -32,5 +35,15 @@ public class TripView {
 
 	public void setSteps(Collection<FoodStepWS> steps) {
 		this.steps = steps;
+	}
+
+
+	public String getPath() {
+		return path;
+	}
+
+
+	public void setPath(String path) {
+		this.path = path;
 	}
 }

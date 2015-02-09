@@ -39,6 +39,35 @@ public class Product {
 	//food type info
 	private boolean ogm;
 
+	//spatial information
+	private Float lat;
+	private Float lng;
+	private Float alt;
+	
+	public Float getLat() {
+		return lat;
+	}
+
+	public void setLat(Float lat) {
+		this.lat = lat;
+	}
+
+	public Float getLng() {
+		return lng;
+	}
+
+	public void setLng(Float lng) {
+		this.lng = lng;
+	}
+
+	public Float getAlt() {
+		return alt;
+	}
+
+	public void setAlt(Float alt) {
+		this.alt = alt;
+	}
+
 	@Fetch
 	@RelatedTo(type = "PRODUCED_BY", direction = Direction.OUTGOING)
 	private Farm farm;

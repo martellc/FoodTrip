@@ -2,9 +2,7 @@ package com.foodtrip.ftmodelws;
 
 import java.util.Collection;
 
-import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement
 public class CompanyWS {
 
 	private Long id;

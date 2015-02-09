@@ -1,11 +1,8 @@
 package com.foodtrip.ftmodelws;
 
-import java.sql.Timestamp;
 import java.util.Date;
 
-import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement
 public class OrderWS {
 
 	public OrderWS() {

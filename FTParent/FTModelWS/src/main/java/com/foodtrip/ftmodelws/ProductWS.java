@@ -2,9 +2,6 @@ package com.foodtrip.ftmodelws;
 
 import java.util.Set;
 
-import javax.xml.bind.annotation.XmlRootElement;
-
-@XmlRootElement
 public class ProductWS {
 
 	public enum ProductName {
@@ -41,8 +38,8 @@ public class ProductWS {
 	private String name;
 	private String type;
 	private String serialNumber;
-	private int sawingDate;
-	private int harvestDate;
+	private long sawingDate;
+	private long harvestDate;
 
 	//production type info
 	private boolean biological;
@@ -57,12 +54,40 @@ public class ProductWS {
 	//producer info
 	private FarmWS farm;
 
+	//spatial information
+	private Float lat;
+	private Float lng;
+	private Float alt;
+	
+	public Float getLat() {
+		return lat;
+	}
 
-	public int getSawingDate() {
+	public void setLat(Float lat) {
+		this.lat = lat;
+	}
+
+	public Float getLng() {
+		return lng;
+	}
+
+	public void setLng(Float lng) {
+		this.lng = lng;
+	}
+
+	public Float getAlt() {
+		return alt;
+	}
+
+	public void setAlt(Float alt) {
+		this.alt = alt;
+	}
+
+	public long getSawingDate() {
 		return sawingDate;
 	}
 
-	public void setSawingDate(int sawingDate) {
+	public void setSawingDate(long sawingDate) {
 		this.sawingDate = sawingDate;
 	}
 
@@ -164,11 +189,11 @@ public class ProductWS {
 		this.serialNumber = serialNumber;
 	}
 
-	public int getHarvestDate() {
+	public long getHarvestDate() {
 		return harvestDate;
 	}
 
-	public void setHarvestDate(int harvestDate) {
+	public void setHarvestDate(long harvestDate) {
 		this.harvestDate = harvestDate;
 	}
 

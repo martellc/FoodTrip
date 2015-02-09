@@ -1,30 +1,20 @@
 package com.foodtrip.ftmodelws;
 
-import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement
+
 public class TripIDWS {
 
-	private Long id;
-	private Long endCompany;
-	
+	private String id;
+
 	public TripIDWS() {
 		super();
 	}
 
-	public Long getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
-	}
-
-	public Long getEndCompany() {
-		return endCompany;
-	}
-
-	public void setEndCompany(Long endCompany) {
-		this.endCompany = endCompany;
 	}
 }

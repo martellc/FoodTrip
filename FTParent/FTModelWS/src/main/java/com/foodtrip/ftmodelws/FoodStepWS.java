@@ -2,11 +2,12 @@ package com.foodtrip.ftmodelws;
 
 import java.util.Date;
 
-import javax.xml.bind.annotation.XmlRootElement;
-
-@XmlRootElement
 public class FoodStepWS implements Comparable<FoodStepWS> {
 
+	public static final String MARKER_ICON_START="./img/start.png";
+	public static final String MARKER_ICON="./img/marker.png";
+	public static final String MARKER_ICON_END="./img/end.png";
+	
 	public FoodStepWS() {
 		
 	}
@@ -28,9 +29,12 @@ public class FoodStepWS implements Comparable<FoodStepWS> {
 
 	private CompanyWS company;
 
+	private String markerIcon=MARKER_ICON;
 
+	private String infoWindow;
+	
 	public FoodStepWS(Long id,CompanyWS company, Float lat, Float lng, Float alt,
-			Date date, Double quantity, Double amount) {
+			Date date, Double quantity, Double amount,String markerIcon,String infoWindow) {
 		super();
 		this.id = id;
 		this.company = company;
@@ -40,6 +44,8 @@ public class FoodStepWS implements Comparable<FoodStepWS> {
 		this.date = date;
 		this.quantity = quantity;
 		this.amount = amount;
+		this.markerIcon = markerIcon;
+		this.infoWindow = infoWindow;
 	}
 	
 	public Long getId() {
@@ -131,6 +137,22 @@ public class FoodStepWS implements Comparable<FoodStepWS> {
 
 	public int compareTo(FoodStepWS o) {
 		return this.getId().compareTo(o.getId());
+	}
+
+	public String getMarkerIcon() {
+		return markerIcon;
+	}
+
+	public void setMarkerIcon(String markerIcon) {
+		this.markerIcon = markerIcon;
+	}
+
+	public String getInfoWindow() {
+		return infoWindow;
+	}
+
+	public void setInfoWindow(String infoWindow) {
+		this.infoWindow = infoWindow;
 	}
 	
 }

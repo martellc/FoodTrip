@@ -1,0 +1,16 @@
+<div class="rowfluid header">
+	
+	<h3 class="text-muted">Foodtrip</h3>
+	
+	<ul class="nav nav-pills nav-align">
+		<li role="presentation" ng-class="{active: mainTabIndex == 0}"><a href="#" ng-click="changeMainTab(0);">{{'HOME' | translate}}</a></li>
+		<li role="presentation" ng-class="{active: mainTabIndex == 1}"><a href="#" ng-click="changeMainTab(1);">{{'WHY' | translate}}</a></li>
+		<li role="presentation" ng-class="{active: mainTabIndex == 2}"><a href="#" ng-click="changeMainTab(2);">{{'DOWNLOAD' | translate}}</a></li>
+	</ul>
+
+	
+</div>
+
+<div id="loadingDiv" class="spinner" ng-show="loading">
+	<img src="img/ajax-loader.gif" class="ajax-loader"/>
+</div>

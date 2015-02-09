@@ -1,5 +1,8 @@
 package com.foodtrip.ftcontroller;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -176,11 +179,11 @@ public class ModelUtils {
 		pDB.setBiodynamic(pWS.isBiodynamic());
 		pDB.setCertifications(pWS.getCertifications());
 		pDB.setFarm(toFarmDB(pWS.getFarm()));
-		pDB.setHarvestDate(pWS.getHarvestDate());
+		pDB.setHarvestDate(dateToInt(new Date(pWS.getHarvestDate())));
 		pDB.setIpm(pWS.isIpm());
 		pDB.setName(pWS.getName());
 		pDB.setOgm(pWS.isOgm());
-		pDB.setSawingDate(pWS.getSawingDate());
+		pDB.setSawingDate(dateToInt(new Date(pWS.getSawingDate())));
 		pDB.setSerialNumber(pWS.getSerialNumber());
 		pDB.setSustainable(pWS.isSustainable());
 		pDB.setType(pWS.getType());
@@ -195,14 +198,17 @@ public class ModelUtils {
 		pWS.setBiodynamic(pDB.isBiodynamic());
 		pWS.setCertifications(pDB.getCertifications());
 		pWS.setFarm(toFarmWS(pDB.getFarm()));
-		pWS.setHarvestDate(pDB.getHarvestDate());
+		pWS.setHarvestDate(intToDate(pDB.getHarvestDate()).getTime());
 		pWS.setIpm(pDB.isIpm());
 		pWS.setName(pDB.getName());
 		pWS.setOgm(pDB.isOgm());
-		pWS.setSawingDate(pDB.getSawingDate());
+		pWS.setSawingDate(intToDate(pDB.getSawingDate()).getTime());
 		pWS.setSerialNumber(pDB.getSerialNumber());
 		pWS.setSustainable(pDB.isSustainable());
 		pWS.setType(pDB.getType());
+		pWS.setAlt(pDB.getAlt());
+		pWS.setLng(pDB.getLng());
+		pWS.setLat(pDB.getLat());
 		
 		return pWS;
 	}
@@ -256,4 +262,22 @@ public class ModelUtils {
 		
 		return oWS;
 	}
+	
+	public static int dateToInt(Date data){
+		if (data==null) {
+			return 0;
+		}
+		//Calendar c = Calendar.getInstance();
+		Calendar c = new GregorianCalendar();
+		c.setTime(data);
+		return c.get(Calendar.YEAR)*10000+(c.get(Calendar.MONTH)+1)*100+c.get(Calendar.DAY_OF_MONTH);
+	}
+	
+	public static Date intToDate(int data){
+		//Calendar c = Calendar.getInstance();
+		Calendar c = new GregorianCalendar();
+		c.set(data/10000,(data%10000)/100-1,data%100,0,0,0);
+		c.set(Calendar.MILLISECOND,0);
+		return c.getTime();
+	}	
 }
