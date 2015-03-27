@@ -1,9 +1,9 @@
 package com.foodtrip.ftmodelws;
 
-import java.util.Date;
+import java.io.Serializable;
 
 
-public class OrderWS {
+public class OrderWS implements Serializable {
 
 	public OrderWS() {
 		super();
@@ -15,7 +15,7 @@ public class OrderWS {
 	
 	private ProductWS product;
 	
-	private Date date;
+	private long date;
 	
 	private Double amout;
 
@@ -61,11 +61,11 @@ public class OrderWS {
 		this.serialNumber = serialNumber;
 	}
 
-	public Date getDate() {
+	public long getDate() {
 		return date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(long date) {
 		this.date = date;
 	}	
 }

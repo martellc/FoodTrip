@@ -1,8 +1,10 @@
 package com.foodtrip.ftmodelws;
 
+import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
 
-public class ProductWS {
+public class ProductWS  implements Serializable {
 
 	public enum ProductName {
 		TOMATO("Tomato"),
@@ -41,6 +43,8 @@ public class ProductWS {
 	private long sawingDate;
 	private long harvestDate;
 
+	private String description;
+	
 	//production type info
 	private boolean biological;
 	private boolean sustainable;
@@ -52,12 +56,14 @@ public class ProductWS {
 	private boolean ogm;
 
 	//producer info
-	private FarmWS farm;
+	private CompanyWS farm;
 
 	//spatial information
 	private Float lat;
 	private Float lng;
 	private Float alt;
+	
+	private List<OrderWS> orders;
 	
 	public Float getLat() {
 		return lat;
@@ -157,11 +163,11 @@ public class ProductWS {
 		this.type = type;
 	}
 
-	public FarmWS getFarm() {
+	public CompanyWS getFarm() {
 		return farm;
 	}
 
-	public void setFarm(FarmWS farm) {
+	public void setFarm(CompanyWS farm) {
 		this.farm = farm;
 	}
 
@@ -204,4 +210,47 @@ public class ProductWS {
 	public void setId(Long id) {
 		this.id = id;
 	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ProductWS other = (ProductWS) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
+	}
+
+	public List<OrderWS> getOrders() {
+		return orders;
+	}
+
+	public void setOrders(List<OrderWS> orders) {
+		this.orders = orders;
+	}
+	
+	
 }

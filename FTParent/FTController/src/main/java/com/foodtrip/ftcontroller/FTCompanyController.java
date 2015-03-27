@@ -6,25 +6,24 @@ import org.apache.log4j.Logger;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.foodtrip.ftcontroller.exception.FoodtripError;
+import com.foodtrip.ftcontroller.exception.FoodtripException;
 import com.foodtrip.ftmodeldb.model.Company;
-import com.foodtrip.ftmodeldb.model.Farm;
 import com.foodtrip.ftmodeldb.repo.CompanyRepository;
-import com.foodtrip.ftmodeldb.repo.FarmRepository;
 import com.foodtrip.ftmodelws.CompanyWS;
-import com.foodtrip.ftmodelws.FarmWS;
 
 @Stateless
 public class FTCompanyController extends FTController {
 	private static final Logger logger = Logger.getLogger(FTCompanyController.class);
 
 	@Transactional
-	public CompanyWS createCompany(CompanyWS company) {
+	public CompanyWS createCompany(CompanyWS company) throws FoodtripException {
 		return updateCompany(company);
 	}
 	
 
 	@Transactional
-	public CompanyWS updateCompany(CompanyWS company) {
+	public CompanyWS updateCompany(CompanyWS company) throws FoodtripException {
 		GraphDatabaseService graph = connector.graphDatabaseService();
 		CompanyRepository repo = connector.getCompanyRepository();
 		graph.beginTx();
@@ -33,13 +32,13 @@ public class FTCompanyController extends FTController {
 			return ModelUtils.toCompanyWS(updatedCompany);
 		} catch(Exception e) {
 			logger.error("Error",e);
+			throw new FoodtripException(FoodtripError.GENERIC_ERROR.getCode());
 		}
 		
-		return null;
 	}
 	
 	@Transactional
-	public void removeCompany(CompanyWS company) {
+	public void removeCompany(CompanyWS company) throws FoodtripException {
 		GraphDatabaseService graph = connector.graphDatabaseService();
 		CompanyRepository repo = connector.getCompanyRepository();
 		graph.beginTx();
@@ -47,36 +46,32 @@ public class FTCompanyController extends FTController {
 			repo.delete(ModelUtils.toCompanyDB(company));
 		} catch(Exception e) {
 			logger.error("Error",e);
+			throw new FoodtripException(FoodtripError.GENERIC_ERROR.getCode());
 		}
 	}
 	
 	@Transactional
-	public CompanyWS getCompany(Long id) {
+	public CompanyWS getCompany(Long id) throws FoodtripException {
+		
+		if(id == null) {
+			logger.error("Null id");
+			throw new FoodtripException(FoodtripError.INVALID_COMPANY.getCode());
+		}
+		
 		GraphDatabaseService graph = connector.graphDatabaseService();
 		CompanyRepository repo = connector.getCompanyRepository();
 		graph.beginTx();
 		try {
 			Company c = repo.findOne(id);
+			if(c == null) {
+				logger.error("Null company");
+				throw new FoodtripException(FoodtripError.INVALID_COMPANY.getCode());
+			}
+			
 			return ModelUtils.toCompanyWS(c);
 		} catch(Exception e) {
 			logger.error("Error",e);
+			throw new FoodtripException(FoodtripError.GENERIC_ERROR.getCode());
 		}
-		
-		return null;
-	}
-
-
-	public FarmWS updateFarm(FarmWS farm) {
-		GraphDatabaseService graph = connector.graphDatabaseService();
-		FarmRepository repo = connector.getFarmRepository();
-		graph.beginTx();
-		try {
-			Farm f = repo.save(ModelUtils.toFarmDB(farm));
-			return ModelUtils.toFarmWS(f);
-		} catch(Exception e) {
-			logger.error("Error",e);
-		}
-		
-		return null;
 	}
 }

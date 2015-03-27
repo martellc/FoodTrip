@@ -1,14 +1,16 @@
 package com.foodtrip.ftmodeldb.model;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.neo4j.graphdb.Direction;
 import org.springframework.data.neo4j.annotation.Fetch;
 import org.springframework.data.neo4j.annotation.GraphId;
 import org.springframework.data.neo4j.annotation.Indexed;
 import org.springframework.data.neo4j.annotation.NodeEntity;
+import org.springframework.data.neo4j.annotation.RelatedTo;
 import org.springframework.data.neo4j.annotation.RelatedToVia;
 import org.springframework.data.neo4j.support.index.IndexType;
 
@@ -29,11 +31,19 @@ public class Order {
 	@Fetch @RelatedToVia(type = "REFER_TO", direction = Direction.OUTGOING)
 	private OrderProductRel orderProductRel;
 	
-	//the companies id end point (multiple end point admitted)
-	private List<Long> endPoint =new ArrayList<Long>();
+	private long date;
 	
-	private Date date;
+	@Fetch @RelatedTo(type = "FIRST_STEP", direction = Direction.OUTGOING)
+	private Step step = new Step();
 	
+	public Step getStep() {
+		return step;
+	}
+
+	public void setStep(Step step) {
+		this.step = step;
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -58,20 +68,11 @@ public class Order {
 		this.orderProductRel = orderReferT;
 	}
 
-	public Date getDate() {
+	public long getDate() {
 		return date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(long date) {
 		this.date = date;
-	}
-
-	public List<Long> getEndPoint() {
-		return endPoint;
-	}
-
-	public void setEndPoint(List<Long> endPoint) {
-		this.endPoint = endPoint;
-	}
-	
+	}	
 }

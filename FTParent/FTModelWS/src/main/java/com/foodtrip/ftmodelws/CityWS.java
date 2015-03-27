@@ -1,7 +1,9 @@
 package com.foodtrip.ftmodelws;
 
+import java.io.Serializable;
 
-public class CityWS {
+
+public class CityWS implements Serializable {
 
 	public CityWS() {
 		

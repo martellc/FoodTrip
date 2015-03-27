@@ -1,11 +1,15 @@
 package com.foodtrip.ftmodelws;
 
+import java.io.Serializable;
 
-public class NewStepWS {
+
+public class NewStepWS  implements Serializable {
 
 	private Long endPoint;
 	private Long orderId;
 	private CompanyWS company;
+	
+	private PointWS point;
 	
 	public NewStepWS() {
 		super();
@@ -31,6 +35,14 @@ public class NewStepWS {
 
 	public void setEndPoint(Long endPoint) {
 		this.endPoint = endPoint;
+	}
+
+	public PointWS getPoint() {
+		return point;
+	}
+
+	public void setPoint(PointWS point) {
+		this.point = point;
 	}
 	
 }

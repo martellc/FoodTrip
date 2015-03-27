@@ -11,8 +11,10 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.foodtrip.ftcontroller.FTTripController;
+import com.foodtrip.ftcontroller.exception.FoodtripException;
 import com.foodtrip.ftmodelws.TripIDWS;
 import com.foodtrip.ftmodelws.TripView;
+import com.sun.jersey.api.client.ClientResponse.Status;
 @Path("/trip")
 public class FTServiceTrip {
     
@@ -25,15 +27,26 @@ public class FTServiceTrip {
     @Path("/{orderID}/{endCompany}")
     @GET
     @Produces({MediaType.APPLICATION_JSON })
-    public TripView getTripGET(@PathParam(value = "endCompany")Long endCompany, @PathParam(value = "orderID")Long orderID) {
-    	return new FTTripController().getTrip(endCompany,orderID);
+    public Response getTripGET(@PathParam(value = "endCompany")Long endCompany, @PathParam(value = "orderID")Long orderID) {
+    	try {
+			TripView view = new FTTripController().getTrip(orderID,endCompany);
+			return Response.status(Status.ACCEPTED)
+					.entity(view)
+					.type(MediaType.APPLICATION_JSON)
+					.build();	
+		} catch (FoodtripException e) {
+			return Response.status(Status.INTERNAL_SERVER_ERROR)
+					.entity(e.getBusinessCode())
+					.type(MediaType.APPLICATION_JSON)
+					.build();
+		}
     }
     
     
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public TripView getTrip(TripIDWS tripID) {
+    public Response getTrip(TripIDWS tripID) {
     	if (tripID == null || tripID.getId() == null) {
     		return null;
     	}
@@ -46,6 +59,17 @@ public class FTServiceTrip {
     	Long id = Long.valueOf(split[0]);
     	Long endCompany =  Long.valueOf(split[1]);
     	
-    	return new FTTripController().getTrip(id,endCompany);
+    	try {
+			TripView view = new FTTripController().getTrip(id,endCompany);
+			return Response.status(Status.ACCEPTED)
+					.entity(view)
+					.type(MediaType.APPLICATION_JSON)
+					.build();	
+		} catch (FoodtripException e) {
+			return Response.status(Status.INTERNAL_SERVER_ERROR)
+					.entity(e.getBusinessCode())
+					.type(MediaType.APPLICATION_JSON)
+					.build();
+		}
     }
 }

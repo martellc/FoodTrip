@@ -1,5 +1,6 @@
 package com.foodtrip.ftmodeldb.model;
 
+import java.util.List;
 import java.util.Set;
 
 import org.neo4j.graphdb.Direction;
@@ -44,6 +45,8 @@ public class Product {
 	private Float lng;
 	private Float alt;
 	
+	private String description;
+	
 	public Float getLat() {
 		return lat;
 	}
@@ -70,7 +73,7 @@ public class Product {
 
 	@Fetch
 	@RelatedTo(type = "PRODUCED_BY", direction = Direction.OUTGOING)
-	private Farm farm;
+	private Company farm;
 
 	public Product() {
 
@@ -137,11 +140,11 @@ public class Product {
 		this.ogm = ogm;
 	}
 
-	public Farm getFarm() {
+	public Company getFarm() {
 		return farm;
 	}
 
-	public void setFarm(Farm farm) {
+	public void setFarm(Company farm) {
 		this.farm = farm;
 	}
 
@@ -183,5 +186,13 @@ public class Product {
 
 	public void setHarvestDate(int harvestDate) {
 		this.harvestDate = harvestDate;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 }

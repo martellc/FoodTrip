@@ -1,9 +1,11 @@
 package com.foodtrip.ftcontroller;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import com.foodtrip.ftmodeldb.model.Address;
@@ -47,6 +49,13 @@ public class ModelUtils {
 			}
 			ret.setEmployees(employeeDB);
 		}
+		ret.setDescription(companyWS.getDescription());
+		ret.setCertifications(companyWS.getCertifications());
+		ret.setFacebookID(companyWS.getFacebookID());
+		ret.setFoundingDate(companyWS.getFoundingDate());
+		ret.setGooglePlusID(companyWS.getGooglePlusID());
+		ret.setEmail(companyWS.getEmail());
+		
 		ret.setName(companyWS.getName());
 		ret.setPresident(toPersonDB(companyWS.getPresident()));
 		ret.setType(companyWS.getType());
@@ -124,16 +133,25 @@ public class ModelUtils {
 			
 			retWS.setEmployees(employeeDB);
 		}
+		retWS.setDescription(company.getDescription());
+		retWS.setCertifications(company.getCertifications());
 		retWS.setId(company.getId());
 		retWS.setName(company.getName());
 		retWS.setNumber(company.getCompanyID());
 		retWS.setOwner(toPersonWS(company.getOwner()));
 		retWS.setPresident(toPersonWS(company.getPresident()));
 		retWS.setType(company.getType());
+		retWS.setFarm(CompanyWS.CompanyType.FARM.getType().equals(company.getType()));
 		retWS.setVatNumber(company.getVatNumber());
 		retWS.setAlt(company.getAlt());
 		retWS.setLng(company.getLng());
 		retWS.setLat(company.getLat());
+		
+		retWS.setFacebookID(company.getFacebookID());
+		retWS.setFoundingDate(company.getFoundingDate());
+		retWS.setGooglePlusID(company.getGooglePlusID());
+		retWS.setEmail(company.getEmail());
+		
 	}
 
 	private static AddressWS toAddressWS(Address address) {
@@ -178,7 +196,7 @@ public class ModelUtils {
 		pDB.setBiological(pWS.isBiological());
 		pDB.setBiodynamic(pWS.isBiodynamic());
 		pDB.setCertifications(pWS.getCertifications());
-		pDB.setFarm(toFarmDB(pWS.getFarm()));
+		pDB.setFarm(toCompanyDB(pWS.getFarm()));
 		pDB.setHarvestDate(dateToInt(new Date(pWS.getHarvestDate())));
 		pDB.setIpm(pWS.isIpm());
 		pDB.setName(pWS.getName());
@@ -188,6 +206,7 @@ public class ModelUtils {
 		pDB.setSustainable(pWS.isSustainable());
 		pDB.setType(pWS.getType());
 		pDB.setId(pWS.getId());
+		pDB.setDescription(pWS.getDescription());
 		return pDB;
 	}
 
@@ -197,7 +216,7 @@ public class ModelUtils {
 		pWS.setBiological(pDB.isBiological());
 		pWS.setBiodynamic(pDB.isBiodynamic());
 		pWS.setCertifications(pDB.getCertifications());
-		pWS.setFarm(toFarmWS(pDB.getFarm()));
+		pWS.setFarm(toCompanyWS(pDB.getFarm()));
 		pWS.setHarvestDate(intToDate(pDB.getHarvestDate()).getTime());
 		pWS.setIpm(pDB.isIpm());
 		pWS.setName(pDB.getName());
@@ -209,11 +228,10 @@ public class ModelUtils {
 		pWS.setAlt(pDB.getAlt());
 		pWS.setLng(pDB.getLng());
 		pWS.setLat(pDB.getLat());
-		
+		pWS.setDescription(pDB.getDescription());
 		return pWS;
 	}
 
-	
 	public static FarmWS toFarmWS(Farm farm) {
 		FarmWS fWS = new FarmWS();
 		populateCompanyOrFarmWS(fWS, farm);
@@ -279,5 +297,5 @@ public class ModelUtils {
 		c.set(data/10000,(data%10000)/100-1,data%100,0,0,0);
 		c.set(Calendar.MILLISECOND,0);
 		return c.getTime();
-	}	
+	}
 }

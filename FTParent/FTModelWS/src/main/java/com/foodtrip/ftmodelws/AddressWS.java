@@ -1,6 +1,8 @@
 package com.foodtrip.ftmodelws;
 
-public class AddressWS {
+import java.io.Serializable;
+
+public class AddressWS  implements Serializable {
 
 	private Long id;
 	private String streetName;
@@ -44,5 +46,5 @@ public class AddressWS {
 	}
 	public void setId(Long id) {
 		this.id = id;
-	}
+	}	
 }

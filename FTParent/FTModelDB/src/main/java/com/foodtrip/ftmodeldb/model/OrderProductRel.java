@@ -12,6 +12,9 @@ public class OrderProductRel {
 	@GraphId 
 	private Long id;
 
+
+	private Double quantity;
+	private Double amount;
 	
 	public OrderProductRel() {
 		
@@ -61,8 +64,4 @@ public class OrderProductRel {
 	public void setAmount(Double amount) {
 		this.amount = amount;
 	}
-
-	private Double quantity;
-	
-	private Double amount;
 }

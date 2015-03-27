@@ -15,6 +15,7 @@ import com.foodtrip.ftmodeldb.repo.FarmRepository;
 import com.foodtrip.ftmodeldb.repo.OrderRepository;
 import com.foodtrip.ftmodeldb.repo.PersonRepository;
 import com.foodtrip.ftmodeldb.repo.ProductRepository;
+import com.foodtrip.ftmodeldb.repo.StepRepository;
 
 
 @EnableTransactionManagement
@@ -26,13 +27,15 @@ public class Neo4JConnector extends Neo4jConfiguration {
 		setBasePackage("com.foodtrip");
 	}
 
-	@Autowired private Neo4jTemplate t;
+	@Autowired private Neo4jTemplate template;
 
 	@Autowired PersonRepository personRepository;
 	@Autowired CityRepository cityRepository;
 	@Autowired OrderRepository orderRepository;
 	@Autowired ProductRepository productRepository;
-	
+	@Autowired FarmRepository farmRepository;
+	@Autowired StepRepository stepRepository;
+
 	public PersonRepository getPersonRepository() {
 		return personRepository;
 	}
@@ -77,6 +80,10 @@ public class Neo4JConnector extends Neo4jConfiguration {
 		return farmRepository;
 	}
 
+	public StepRepository getStepRepository() {
+		return stepRepository;
+	}
+
 
 	public void setFarmRepository(FarmRepository farmRepository) {
 		this.farmRepository = farmRepository;
@@ -94,11 +101,20 @@ public class Neo4JConnector extends Neo4jConfiguration {
 		this.companyRepository = companyRepository;
 	}
 
-	@Autowired FarmRepository farmRepository;
 
 	
 	@Bean
 	public GraphDatabaseService graphDatabaseService() {
-		return t.getGraphDatabaseService();
+		return template.getGraphDatabaseService();
 	}
+	
+
+	public Neo4jTemplate getTemplate() {
+		return template;
+	}
+
+
+	public void setTemplate(Neo4jTemplate template) {
+		this.template = template;
+	}	
 }

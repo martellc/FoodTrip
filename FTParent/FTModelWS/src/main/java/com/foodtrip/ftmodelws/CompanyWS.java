@@ -1,33 +1,88 @@
 package com.foodtrip.ftmodelws;
 
+import java.io.Serializable;
 import java.util.Collection;
+import java.util.Date;
+import java.util.List;
 
 
-public class CompanyWS {
+public class CompanyWS implements Serializable {
 
+	public enum CompanyType {
+
+		FARM("Farm"),
+		INTERMEDIARY("Intermediary"),
+		COOP("Cooperative"),
+		DISTRIBUTION("Consumer distrubition");
+
+		private String type;
+
+		private CompanyType(String type) {
+			this.setType(type);
+		}
+
+		public String getType() {
+			return type;
+		}
+
+		private void setType(String type) {
+			this.type = type;
+		}
+	}
 	private Long id;
 	private String name;
 	private String number;
 	private String type;
 	private String vatNumber;
-	
-	
+	private String description;
+	private List<String> certifications;
+	private Date foundingDate;
+
 	private PersonWS owner;
 	private PersonWS president;
 	private AddressWS address;
-	
+
+	private String facebookID;
+	private String googlePlusID;
+	private String email;
+
+	public String getFacebookID() {
+		return facebookID;
+	}
+
+	public void setFacebookID(String facebookID) {
+		this.facebookID = facebookID;
+	}
+
+	public String getGooglePlusID() {
+		return googlePlusID;
+	}
+
+	public void setGooglePlusID(String googlePlusID) {
+		this.googlePlusID = googlePlusID;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
 	private Collection<Property> properties;
 	private Collection<PersonWS> employees;
-	
+
 	//spatial information
 	private Float lat;
 	private Float lng;
 	private Float alt;
-	
+	private boolean farm;
+
 	public CompanyWS() {
-		
+
 	}
-		
+
 	public CompanyWS(Long id, String name, String number, String type) {
 		super();
 		this.id = id;
@@ -35,7 +90,7 @@ public class CompanyWS {
 		this.number = number;
 		this.type = type;
 	}
-	
+
 	public Long getId() {
 		return id;
 	}
@@ -98,7 +153,7 @@ public class CompanyWS {
 	public void setPresident(PersonWS president) {
 		this.president = president;
 	}
-	
+
 
 	public Float getLat() {
 		return lat;
@@ -122,5 +177,36 @@ public class CompanyWS {
 
 	public void setAlt(Float alt) {
 		this.alt = alt;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public List<String> getCertifications() {
+		return certifications;
+	}
+
+	public void setCertifications(List<String> certifications) {
+		this.certifications = certifications;
+	}
+
+	public Date getFoundingDate() {
+		return foundingDate;
+	}
+
+	public void setFoundingDate(Date foundingDate) {
+		this.foundingDate = foundingDate;
+	}
+
+	public boolean isFarm() {
+		return farm;
+	}
+	public void setFarm(boolean farm) {
+		this.farm = farm;
 	}
 }

@@ -1,9 +1,7 @@
 package com.foodtrip.ftcontroller;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -11,240 +9,279 @@ import javax.ejb.Stateless;
 
 import org.apache.log4j.Logger;
 import org.neo4j.graphdb.GraphDatabaseService;
+import org.neo4j.graphdb.Node;
+import org.neo4j.graphdb.Path;
+import org.neo4j.graphdb.Transaction;
+import org.neo4j.graphdb.traversal.Evaluation;
+import org.neo4j.graphdb.traversal.Evaluators;
+import org.neo4j.graphdb.traversal.TraversalDescription;
+import org.neo4j.graphdb.traversal.Uniqueness;
+import org.neo4j.kernel.Traversal;
 
+import com.foodtrip.ftcontroller.exception.FoodtripError;
+import com.foodtrip.ftcontroller.exception.FoodtripException;
 import com.foodtrip.ftmodeldb.model.Company;
-import com.foodtrip.ftmodeldb.model.CompanyToCompanyRel;
-import com.foodtrip.ftmodeldb.model.Farm;
 import com.foodtrip.ftmodeldb.model.Order;
 import com.foodtrip.ftmodeldb.model.Product;
+import com.foodtrip.ftmodeldb.model.Step;
 import com.foodtrip.ftmodeldb.repo.CompanyRepository;
 import com.foodtrip.ftmodeldb.repo.OrderRepository;
+import com.foodtrip.ftmodeldb.repo.StepRepository;
 import com.foodtrip.ftmodelws.CompanyWS;
-import com.foodtrip.ftmodelws.FarmWS;
 import com.foodtrip.ftmodelws.FoodStepWS;
+import com.foodtrip.ftmodelws.PointWS;
+import com.foodtrip.ftmodelws.StepWS;
 import com.foodtrip.ftmodelws.TripView;
 
 @Stateless
 public class FTTripController extends FTController {
 	private static final Logger logger = Logger.getLogger(FTTripController.class);
 	
-	private Collection<Company> getCompaniesPath(Long endCompany, Long orderID) {
-
-		if (orderID == null || endCompany == null) {
-			logger.error("Invalid null value");
-			return null;
-		}
-		
-		OrderRepository orderRepository = connector.getOrderRepository();
-		CompanyRepository companyRepository = connector.getCompanyRepository();
-
-		//check the end point existance
-		Company endPoint = companyRepository.findOne(endCompany);
-		if(endPoint == null) {
-			logger.error("Invalid end point");
-			return null;
-		}
-		
-		Order order = orderRepository.findOne(orderID);
-		if (order == null) {
-			logger.error("Invalid ID. Could not retrieve order inside the db");
-			return null;
-		}
-		
-		//get the path
-		Iterable<Company> companies = companyRepository.getCompaniesPath(endCompany, orderID);
-		Iterator<Company> companyIt = companies.iterator();
-		
-		List<Company> list = new ArrayList<Company>();
-		
-		list.add(endPoint);
-		while (companyIt.hasNext()) {
-			list.add(companyIt.next());
-		}
-		
-		
-		return list;
-	}
-	
-	public TripView getTrip(Long orderID,Long endCompany) {		
+	public TripView getTrip(Long orderID,Long endStepID) throws FoodtripException {		
 		TripView t = new TripView();
 		
-		if (orderID == null || endCompany == null) {
+		if (orderID == null || endStepID == null) {
 			logger.error("Invalid null value");
-			return null;
+			throw new FoodtripException(FoodtripError.INVALID_ORDER.getCode());
 		}
 		
 		CompanyRepository companyRepository = connector.getCompanyRepository();
-		Company endPoint = companyRepository.findOne(endCompany);
+		Company endPoint = companyRepository.findOne(endStepID);
 		if(endPoint == null) {
 			logger.error("Invalid end point");
-			return null;
+			throw new FoodtripException(FoodtripError.INVALID_COMPANY.getCode());
 		}
 
 		OrderRepository orderRepository = connector.getOrderRepository();
 		Order order = orderRepository.findOne(orderID);
-		if (order == null) {
-			logger.error("Invalid ID. Could not retrieve order inside the db");
-			return null;
+		if (order == null || order.getStep() == null) {
+			logger.error("Invalid order id or step null");
+			throw new FoodtripException(FoodtripError.INVALID_ORDER.getCode());
 		}
 		
-		List<FoodStepWS> steps = getSteps(endCompany, orderID);
+		//create the food graph path
+		Step firstStep = order.getStep();
+		Node start = connector.getGraphDatabaseService().getNodeById(firstStep.getId());
+		Node end = connector.getGraphDatabaseService().getNodeById(endStepID);
+		TraversalDescription traversalDescription = Traversal.description()
+				.breadthFirst()
+				.relationships(Step.Rels.STEP)
+				.evaluator(Evaluators.excludeStartPosition())
+				.evaluator(Evaluators.endNodeIs(Evaluation.INCLUDE_AND_CONTINUE,Evaluation.INCLUDE_AND_CONTINUE, end))
+				.uniqueness(Uniqueness.RELATIONSHIP_GLOBAL );
+		FoodStepWS graph = getFoodStepWS(start,end,traversalDescription);
+		t.setFoodGraph(graph);
 		
-		t.setSteps(steps);
+		//add the product
 		Product product = order.getOrderProductRel().getProduct();
 		t.setProduct(ModelUtils.toProductWS(product));
 		
-		Farm farm = product.getFarm();
-		FarmWS farmWS = ModelUtils.toFarmWS(farm);
+		//add the farmer
+		Company farm = product.getFarm();
+		CompanyWS farmWS = ModelUtils.toCompanyWS(farm);
 		t.setProducer(farmWS);
 
-		//add starting point product
-		Float productLat = product.getLat();
-		Float productLng = product.getLng();
-		Float productAlt = product.getAlt();
-		String infoWindow = "1 - " + product.getName() + ". " + product.getHarvestDate();
-		
-		//add product production step
-		FoodStepWS s = new FoodStepWS(1l,new CompanyWS(),productLat,productLng,productAlt,ModelUtils.intToDate(product.getHarvestDate()),null,null,FoodStepWS.MARKER_ICON_START,infoWindow);
-		steps.add(s);
-		Collections.reverse(steps);
-			
-		t.setPath(createPath(steps));
+		//create paths for google maps plugin
+		t.setPath(createPaths(graph));
 		
 		return t;
 	}
 	
-	private String createPath(List<FoodStepWS> steps) {
+	private String createPaths(FoodStepWS graph) {
 		String path = "[ ";
 		
 		
-		for(FoodStepWS f : steps) {
-			if(f.getLat()== null || f.getLng()== null) {
-				continue;
-			}
-			path+= "["+ f.getLat() +"," + f.getLng() +"],";
-		}
-		if(path.endsWith(",")) {
-			path = path.substring(0,path.length()-1);
-		}
-		
+//		for(FoodStepWS f : steps) {
+//			if(f.getLat()== null || f.getLng()== null) {
+//				continue;
+//			}
+//			path+= "["+ f.getLat() +"," + f.getLng() +"],";
+//		}
+//		if(path.endsWith(",")) {
+//			path = path.substring(0,path.length()-1);
+//		}
+//		
 		path+=" ]";
 		
 		return path;
 	}
 
-	private List<FoodStepWS> getSteps(Long endCompany, Long orderID) {
-		List<FoodStepWS> steps = new ArrayList<FoodStepWS>();
-		Collection<Company> companies = getCompaniesPath(endCompany, orderID);
-		//this a generic id
-		long i = companies.size() + 1;
-		Company previousCompany = null;
-		for(Company c : companies) {
-			
-			boolean isLast = i == companies.size() + 1;
-			
-			String icon = FoodStepWS.MARKER_ICON;
-			if (isLast) {
-				icon = FoodStepWS.MARKER_ICON_END;
-			}
-			
-			String infoWindow = i + " - " + c.getName();
-			//if you are at the beginning or at the end of a trip you don't have relation information
-			if (c.getCompanyToCompanyRel() == null || previousCompany == null) {
-				FoodStepWS s = new FoodStepWS(new Long(i),ModelUtils.toCompanyWS(c),c.getLat(),c.getLng(),c.getAlt(),null,null,null,icon,infoWindow);
-				steps.add(s);
-				previousCompany = c;
-				i--;
+	public FoodStepWS getFoodStepWS (Node start,Node end, TraversalDescription path) throws FoodtripException {
+		
+		if(path == null || start == null) {
+			throw new FoodtripException(FoodtripError.INVALID_TRIP.getCode());
+		}
+		
+		StepRepository stepRepository = connector.getStepRepository();
+		CompanyRepository companyRepository = connector.getCompanyRepository();
+		
+		Step step = stepRepository.findOne(start.getId());
+		if(step == null) {
+			throw new FoodtripException(FoodtripError.INVALID_TRIP.getCode());
+		}
+		
+		Company stepCompany = companyRepository.findOne(step.getCompanyID()); 
+		if(stepCompany == null) {
+			throw new FoodtripException(FoodtripError.INVALID_TRIP.getCode());
+		}
+
+		FoodStepWS graph = new FoodStepWS(new Long(0),ModelUtils.toCompanyWS(stepCompany),step.getLat(),step.getLng(),step.getAlt(),new Date(step.getDate()),null,null,FoodStepWS.MARKER_ICON_START,stepCompany.getName());
+		for (Path position : path.traverse(start)) {
+			if(position.length() == 0) {
 				continue;
 			}
-			
-			//find the relation between two companies: the relation contains some useful information
-			CompanyToCompanyRel cToc = findCompanyToCompanyRel(c,previousCompany,orderID);
-			if(cToc == null) {
-				previousCompany = c;
-				logger.error("Unable to find relation: " + previousCompany.getCompanyID() + "," + c.getId());
+
+			Node n = null;
+			FoodStepWS previous = null;
+
+			int i = 1;
+			Iterator<Node> it = position.nodes().iterator();
+			while (it.hasNext()) {
+				n = it.next();
+				
+				if (n.equals(start)) {
+					previous = graph;
+					continue;
+				}
+				
+				if(previous == null) {
+					previous = graph;
+				}
+				
+				//crea uno StepGraph
+				Step s = stepRepository.findOne(n.getId());
+				Company company = companyRepository.findOne(s.getCompanyID());
+				if (company == null) {
+					continue;
+				}
+				
+				String icon = n.equals(end) ? FoodStepWS.MARKER_ICON_END : FoodStepWS.MARKER_ICON;
+				FoodStepWS child = new FoodStepWS(new Long(i),ModelUtils.toCompanyWS(company),s.getLat(),s.getLng(),s.getAlt(),new Date(s.getDate()),null,null,icon,stepCompany.getName());
+				child.setCompany(ModelUtils.toCompanyWS(company));
+				previous.getChildren().put(child.getCompany().getId(), child);
+				previous = child;
+				i++;
+			}
+		}
+		
+		return graph;
+	}
+	
+	public List<StepWS> getCurrentSteps(Long orderID) throws FoodtripException {
+		OrderRepository orderRepository = connector.getOrderRepository();
+		StepRepository stepRepository = connector.getStepRepository();
+		CompanyRepository companyRepository = connector.getCompanyRepository();
+		if(orderID == null) {
+			logger.error("invalid order id");
+			throw new FoodtripException(FoodtripError.INVALID_ORDER.getCode());
+		}
+		
+		Order order = orderRepository.findOne(orderID);
+		if (order == null || order.getStep() == null) {
+			logger.error("Invalid ID or first step null. Could not retrieve order inside the db");
+			throw new FoodtripException(FoodtripError.INVALID_ORDER.getCode());
+		}
+		
+		//create list of foodtrip leaves
+		List<StepWS> steps = new ArrayList<StepWS>();
+		
+		//Get all the step in the graph: first step is excluded
+		Iterable<Step> stepsIt = stepRepository.getCurrentSteps(order.getStep().getId());
+		Iterator<Step> stepsIterator = stepsIt.iterator();
+		while(stepsIterator.hasNext()) {
+			Step s = stepsIterator.next();
+			Company company = companyRepository.findOne(s.getCompanyID());
+			if(company == null) {
+				logger.error("Invalid company" + s.getCompanyID());
 				continue;
 			}
-			
-			FoodStepWS s = new FoodStepWS(new Long(i),ModelUtils.toCompanyWS(c),cToc.getLat(),cToc.getLng(),cToc.getAlt(),cToc.getDate(),cToc.getQuantity(),cToc.getAmount(),icon,infoWindow);
-			steps.add(s);
-			
-			previousCompany = c;
-			i--;
+			StepWS step = new StepWS();
+			step.setCompany(ModelUtils.toCompanyWS(company));
+			step.setStepID(s.getId());
+			steps.add(step);
 		}
 		
 		return steps;
 	}
 	
-	//TODO:USE A QUERY FOR IT
-	private CompanyToCompanyRel findCompanyToCompanyRel(
-			Company start, Company end, Long orderID) {
-		if (start == null) {
-			logger.debug("startPointNull");
-			return null;
-		}
-		
-		for(CompanyToCompanyRel cToC : end.getCompanyToCompanyRel()) {
-			if (cToC.getStart().getId().equals(start.getId()) && cToC.getOriginalOrderID().equals(orderID)) {
-				return cToC;
-			}
-		}
-		
-		return null;
-	}
-
-	public void addStep(Long endCompany, Long orderID, CompanyWS company) {
+	public void addStep(Long currentEndPointID, Long orderID, CompanyWS company,PointWS point) throws FoodtripException {
 		
 		if (orderID == null) {
 			logger.error("Invalid null order");
-			return;
+			throw new FoodtripException(FoodtripError.INVALID_ORDER.getCode());
 		}
 		
 		/*get an order*/
 		GraphDatabaseService graph = connector.graphDatabaseService();
 		OrderRepository orderRepository = connector.getOrderRepository();
 		CompanyRepository companyRepository = connector.getCompanyRepository();
+		StepRepository stepRepository = connector.getStepRepository();
+		
 		
 		Order order = orderRepository.findOne(orderID);
-		if (order == null) {
-			logger.error("Invalid ID. Could not retrieve order inside the db");
-			return;
+		if (order == null || order.getStep() == null) {
+			logger.error("Invalid ID or first Step null. Could not retrieve order inside the db");
+			throw new FoodtripException(FoodtripError.INVALID_ORDER.getCode());
 		}
-		
-		graph.beginTx();
+	
+		Company newCompany = companyRepository.findOne(company.getId());
+		if(newCompany == null) {
+			logger.error("Invalid company id");
+			throw new FoodtripException(FoodtripError.INVALID_COMPANY.getCode());
+		}
+
+		Transaction tx = graph.beginTx();
 		try {
 			/*get the trip current end-point*/
-			Long previousEndPoint = endCompany;
-			Company previousEPCompany = companyRepository.findOne(previousEndPoint);
-			Company newCompany = companyRepository.findOne(company.getId());
+			Step currentEndPoint = null;
+			if(currentEndPointID == null) {
+				currentEndPoint = order.getStep();
+			}else {
+				currentEndPoint = stepRepository.findOne(currentEndPointID);	
+			}
 			
-			if(previousEPCompany == null) {
+			if (currentEndPoint == null) {
 				logger.error("Invalid end point");
-				return;
-			}
-
-			if(!order.getEndPoint().contains(previousEndPoint)) {
-				logger.error("Invalid end point");
-				return;
+				throw new FoodtripException(FoodtripError.INVALID_ORDER.getCode());
 			}
 			
-			/*create a new relation between old and new end-point*/
-			CompanyToCompanyRel rel = new CompanyToCompanyRel();
-			rel.setStart(previousEPCompany);
-			rel.setEnd(newCompany);
-			rel.setOriginalOrderID(orderID);
-			if(newCompany.getCompanyToCompanyRel() == null) {
-				newCompany.setCompanyToCompanyRel(new HashSet<CompanyToCompanyRel>());
+			//check if a step already exists
+			for(Step s: currentEndPoint.getNextSteps()) {
+				if(s.getCompanyID().equals(newCompany.getId())) {
+					throw new FoodtripException(FoodtripError.DUPLICATE_STEP.getCode());	
+				}
 			}
-			newCompany.getCompanyToCompanyRel().add(rel);
-			newCompany = companyRepository.save(newCompany);
 			
-			//update order end-point with the id of the new company
-			order.getEndPoint().add(newCompany.getId());
+			//define lat lng and alt
+			Float lat = null;
+			Float lng = null;
+			Float alt = null;
+			if (point!= null) {
+				lat = point.getLat();
+				lng = point.getLng();
+				alt = point.getAlt();
+			} else {
+				lat = newCompany.getLat();
+				alt = newCompany.getAlt();
+				lng = newCompany.getLng();
+			}
 			
-			orderRepository.save(order);
+			//define and save a new step
+			Step newStep = new Step(); 
+			newStep.setCompanyID(newCompany.getId());
+			newStep.setAlt(alt);
+			newStep.setLng(lng);
+			newStep.setLat(lat);
+			stepRepository.save(newStep);
+			
+			//define and save previous end point (for relation purpose)
+			currentEndPoint.getNextSteps().add(newStep);
+			stepRepository.save(currentEndPoint);
 		} catch(Exception e) {
 			logger.error("Error: ", e);
+			throw new FoodtripException(FoodtripError.GENERIC_ERROR.getCode());
+		} finally {
+			tx.close();
 		}
 	}
 }

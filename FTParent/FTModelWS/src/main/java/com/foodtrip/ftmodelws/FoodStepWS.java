@@ -1,8 +1,11 @@
 package com.foodtrip.ftmodelws;
 
+import java.io.Serializable;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
-public class FoodStepWS implements Comparable<FoodStepWS> {
+public class FoodStepWS implements Comparable<FoodStepWS>,Serializable {
 
 	public static final String MARKER_ICON_START="./img/start.png";
 	public static final String MARKER_ICON="./img/marker.png";
@@ -16,7 +19,6 @@ public class FoodStepWS implements Comparable<FoodStepWS> {
 	private Long id;
 
 	private Double quantity;
-	
 	private Double amount;
 
 	//spatial information
@@ -29,6 +31,8 @@ public class FoodStepWS implements Comparable<FoodStepWS> {
 
 	private CompanyWS company;
 
+	private Map<Long,FoodStepWS> children = new HashMap<Long, FoodStepWS>();
+	
 	private String markerIcon=MARKER_ICON;
 
 	private String infoWindow;
@@ -154,5 +158,14 @@ public class FoodStepWS implements Comparable<FoodStepWS> {
 	public void setInfoWindow(String infoWindow) {
 		this.infoWindow = infoWindow;
 	}
+
+	public Map<Long,FoodStepWS> getChildren() {
+		return children;
+	}
+
+	public void setChildren(Map<Long,FoodStepWS> children) {
+		this.children = children;
+	}
+
 	
 }

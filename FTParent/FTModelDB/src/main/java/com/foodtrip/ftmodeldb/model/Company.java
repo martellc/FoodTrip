@@ -1,6 +1,8 @@
 package com.foodtrip.ftmodeldb.model;
 
+import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.neo4j.graphdb.Direction;
@@ -26,6 +28,7 @@ public class Company {
 
 	private String vatNumber;
 
+	@Indexed(indexName="type", indexType=IndexType.FULLTEXT)
 	private String type;
 
 	//spatial information
@@ -33,10 +36,57 @@ public class Company {
 	private Float lng;
 	private Float alt;
 	
+	private String description;
+	private List<String> certifications;
+	
+	private String facebookID;
+	private String googlePlusID;
+	private String email;
+	private Date foundingDate;
+
+	public String getFacebookID() {
+		return facebookID;
+	}
+
+
+	public void setFacebookID(String facebookID) {
+		this.facebookID = facebookID;
+	}
+
+
+	public String getGooglePlusID() {
+		return googlePlusID;
+	}
+
+
+	public void setGooglePlusID(String googlePlusID) {
+		this.googlePlusID = googlePlusID;
+	}
+
+
+	public String getEmail() {
+		return email;
+	}
+
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+
+	public Date getFoundingDate() {
+		return foundingDate;
+	}
+
+
+	public void setFoundingDate(Date foundingDate) {
+		this.foundingDate = foundingDate;
+	}
+
+
 	public Company() {
 
 	}
-
 
 	public Company(String name, String companyID, String vatNumber,
 			Person president, Person ceo, Address address) {
@@ -74,8 +124,8 @@ public class Company {
 	@RelatedTo(type = "LOCATED_AT", direction = Direction.OUTGOING)
 	private Address address;
 
-	@Fetch @RelatedToVia(type = "PATH", direction = Direction.INCOMING)
-	private Set<CompanyToCompanyRel> companyToCompanyRel = new HashSet<CompanyToCompanyRel>();
+//	@Fetch @RelatedToVia(type = "PATH", direction = Direction.INCOMING)
+//	private Set<CompanyToCompanyRel> companyToCompanyRel = new HashSet<CompanyToCompanyRel>();
 
 	public Long getId() {
 		return id;
@@ -140,13 +190,13 @@ public class Company {
 	public void setVatNumber(String vatNumber) {
 		this.vatNumber = vatNumber;
 	}
-	public Set<CompanyToCompanyRel> getCompanyToCompanyRel() {
-		return companyToCompanyRel;
-	}
-
-	public void setCompanyToCompanyRel(Set<CompanyToCompanyRel> nextStepsRel) {
-		this.companyToCompanyRel = nextStepsRel;
-	}
+//	public Set<CompanyToCompanyRel> getCompanyToCompanyRel() {
+//		return companyToCompanyRel;
+//	}
+//
+//	public void setCompanyToCompanyRel(Set<CompanyToCompanyRel> nextStepsRel) {
+//		this.companyToCompanyRel = nextStepsRel;
+//	}
 
 
 	public String getType() {
@@ -190,5 +240,25 @@ public class Company {
 
 	public void setAlt(Float alt) {
 		this.alt = alt;
+	}
+
+
+	public String getDescription() {
+		return description;
+	}
+
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+
+	public List<String> getCertifications() {
+		return certifications;
+	}
+
+
+	public void setCertifications(List<String> certifications) {
+		this.certifications = certifications;
 	}
 }

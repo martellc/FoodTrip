@@ -1,8 +1,9 @@
 package com.foodtrip.ftmodelws;
 
+import java.io.Serializable;
 import java.util.Collection;
 
-public class PersonWS {
+public class PersonWS  implements Serializable {
 
 	private Long id;
 	private String name;

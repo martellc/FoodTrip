@@ -1,8 +1,10 @@
 package com.foodtrip.ftmodelws;
 
+import java.io.Serializable;
 
 
-public class TripIDWS {
+
+public class TripIDWS  implements Serializable {
 
 	private String id;
 
