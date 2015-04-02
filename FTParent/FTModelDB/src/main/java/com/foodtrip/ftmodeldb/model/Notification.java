@@ -8,7 +8,7 @@ public class Notification {
 
 	@GraphId 
 	private Long id;
-
+	
 	private String companyName;
 	private String companyVatNumber;
 	private String companyAddress;
