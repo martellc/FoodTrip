@@ -1,7 +1,6 @@
 package com.foodtrip.ftmodeldb.model;
 
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -11,7 +10,6 @@ import org.springframework.data.neo4j.annotation.GraphId;
 import org.springframework.data.neo4j.annotation.Indexed;
 import org.springframework.data.neo4j.annotation.NodeEntity;
 import org.springframework.data.neo4j.annotation.RelatedTo;
-import org.springframework.data.neo4j.annotation.RelatedToVia;
 import org.springframework.data.neo4j.support.index.IndexType;
 
 @NodeEntity
@@ -26,6 +24,7 @@ public class Company {
 
 	private String companyID;
 
+	@Indexed(indexName="vatNumber", indexType=IndexType.FULLTEXT)
 	private String vatNumber;
 
 	@Indexed(indexName="type", indexType=IndexType.FULLTEXT)
@@ -44,6 +43,8 @@ public class Company {
 	private String email;
 	private Date foundingDate;
 
+	private String country;
+	
 	public String getFacebookID() {
 		return facebookID;
 	}
@@ -108,6 +109,9 @@ public class Company {
 	}
 
 
+	@RelatedTo(type = "NOTIFY", direction = Direction.INCOMING)
+	private Set<Notification> notifications;
+	
 	@Fetch 
 	@RelatedTo(type = "PRESIDENT_OF", direction = Direction.INCOMING)
 	private Person president;
@@ -260,5 +264,15 @@ public class Company {
 
 	public void setCertifications(List<String> certifications) {
 		this.certifications = certifications;
+	}
+
+
+	public String getCountry() {
+		return country;
+	}
+
+
+	public void setCountry(String country) {
+		this.country = country;
 	}
 }

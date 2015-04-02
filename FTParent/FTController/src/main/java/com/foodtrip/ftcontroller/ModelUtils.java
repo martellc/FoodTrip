@@ -56,6 +56,10 @@ public class ModelUtils {
 		ret.setGooglePlusID(companyWS.getGooglePlusID());
 		ret.setEmail(companyWS.getEmail());
 		
+		if(ret.getAddress() != null) {
+			ret.setCountry(ret.getAddress().getState());	
+		}
+		
 		ret.setName(companyWS.getName());
 		ret.setPresident(toPersonDB(companyWS.getPresident()));
 		ret.setType(companyWS.getType());

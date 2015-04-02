@@ -61,6 +61,11 @@ public class FTTripController extends FTController {
 		
 		//create the food graph path
 		Step firstStep = order.getStep();
+		if(firstStep == null ) {
+			logger.error("Invalid order id or step null");
+			throw new FoodtripException(FoodtripError.INVALID_ORDER.getCode());	
+		}
+		
 		Node start = connector.getGraphDatabaseService().getNodeById(firstStep.getId());
 		Node end = connector.getGraphDatabaseService().getNodeById(endStepID);
 		TraversalDescription traversalDescription = Traversal.description()
@@ -69,8 +74,13 @@ public class FTTripController extends FTController {
 				.evaluator(Evaluators.excludeStartPosition())
 				.evaluator(Evaluators.endNodeIs(Evaluation.INCLUDE_AND_CONTINUE,Evaluation.INCLUDE_AND_CONTINUE, end))
 				.uniqueness(Uniqueness.RELATIONSHIP_GLOBAL );
-		FoodStepWS graph = getFoodStepWS(start,end,traversalDescription);
+		List<String> mapPathsList = new ArrayList<String>();
+		FoodStepWS graph = getFoodStepWS(start,end,traversalDescription,mapPathsList);
+		List<FoodStepWS> flatFoodGraph = createFlatFoodGraph(graph);
+		
 		t.setFoodGraph(graph);
+		t.setFlatFoodGraph(flatFoodGraph);
+		t.setPaths(mapPathsList.toArray(new String[mapPathsList.size()]));
 		
 		//add the product
 		Product product = order.getOrderProductRel().getProduct();
@@ -81,32 +91,31 @@ public class FTTripController extends FTController {
 		CompanyWS farmWS = ModelUtils.toCompanyWS(farm);
 		t.setProducer(farmWS);
 
-		//create paths for google maps plugin
-		t.setPath(createPaths(graph));
-		
 		return t;
 	}
 	
-	private String createPaths(FoodStepWS graph) {
-		String path = "[ ";
+	private List<FoodStepWS> createFlatFoodGraph(FoodStepWS graph) {
+		List<FoodStepWS> flatFoodGraph = new ArrayList<FoodStepWS>();
 		
-		
-//		for(FoodStepWS f : steps) {
-//			if(f.getLat()== null || f.getLng()== null) {
-//				continue;
-//			}
-//			path+= "["+ f.getLat() +"," + f.getLng() +"],";
-//		}
-//		if(path.endsWith(",")) {
-//			path = path.substring(0,path.length()-1);
-//		}
-//		
-		path+=" ]";
-		
-		return path;
+		flatFoodGraph.add(graph);
+		createFlatFoodGraph(graph,flatFoodGraph);
+		return flatFoodGraph;
 	}
 
-	public FoodStepWS getFoodStepWS (Node start,Node end, TraversalDescription path) throws FoodtripException {
+	private void createFlatFoodGraph(FoodStepWS graph,
+			List<FoodStepWS> flatFoodGraph) {
+		
+		
+		for(FoodStepWS child : graph.getChildren().values()) {
+			flatFoodGraph.add(child);
+		}
+		
+		for(FoodStepWS child : graph.getChildren().values()) {
+			createFlatFoodGraph(child,flatFoodGraph);
+		}
+	}
+
+	public FoodStepWS getFoodStepWS (Node start,Node end, TraversalDescription path, List<String> mapPathsList) throws FoodtripException {
 		
 		if(path == null || start == null) {
 			throw new FoodtripException(FoodtripError.INVALID_TRIP.getCode());
@@ -125,15 +134,22 @@ public class FTTripController extends FTController {
 			throw new FoodtripException(FoodtripError.INVALID_TRIP.getCode());
 		}
 
-		FoodStepWS graph = new FoodStepWS(new Long(0),ModelUtils.toCompanyWS(stepCompany),step.getLat(),step.getLng(),step.getAlt(),new Date(step.getDate()),null,null,FoodStepWS.MARKER_ICON_START,stepCompany.getName());
+		FoodStepWS graph = new FoodStepWS(step.getId(),ModelUtils.toCompanyWS(stepCompany),step.getLat(),step.getLng(),step.getAlt(),new Date(step.getDate()),null,null,FoodStepWS.MARKER_ICON_START,stepCompany.getName());
+		
 		for (Path position : path.traverse(start)) {
 			if(position.length() == 0) {
 				continue;
 			}
-
+			String mapPath = null;
+			boolean createPath = false;
+			if(position.endNode().equals(end)) {
+				createPath = true;
+				mapPath = "[";
+			}
+			
 			Node n = null;
 			FoodStepWS previous = null;
-
+			
 			int i = 1;
 			Iterator<Node> it = position.nodes().iterator();
 			while (it.hasNext()) {
@@ -141,6 +157,9 @@ public class FTTripController extends FTController {
 				
 				if (n.equals(start)) {
 					previous = graph;
+					if(createPath && graph.getLat()!= null && graph.getLng()!= null) {
+						mapPath += "["+ graph.getLat()/10000000 +"," + graph.getLng()/10000000 +"],";
+					}
 					continue;
 				}
 				
@@ -150,20 +169,40 @@ public class FTTripController extends FTController {
 				
 				//crea uno StepGraph
 				Step s = stepRepository.findOne(n.getId());
+				
+				
+				if(createPath && s.getLat()!= null && s.getLng()!= null) {
+					mapPath += "["+ s.getLat()/10000000 +"," + s.getLng()/10000000 +"],";
+				}
+				
+				if(previous.getChildren().containsKey(s.getCompanyID())) {
+					previous = previous.getChildren().get(s.getCompanyID());
+					continue;
+				}
+					
 				Company company = companyRepository.findOne(s.getCompanyID());
 				if (company == null) {
 					continue;
 				}
 				
 				String icon = n.equals(end) ? FoodStepWS.MARKER_ICON_END : FoodStepWS.MARKER_ICON;
-				FoodStepWS child = new FoodStepWS(new Long(i),ModelUtils.toCompanyWS(company),s.getLat(),s.getLng(),s.getAlt(),new Date(s.getDate()),null,null,icon,stepCompany.getName());
+				FoodStepWS child = new FoodStepWS(s.getId(),ModelUtils.toCompanyWS(company),s.getLat(),s.getLng(),s.getAlt(),new Date(s.getDate()),null,null,icon,stepCompany.getName());
 				child.setCompany(ModelUtils.toCompanyWS(company));
+				child.setParentID(previous.getId());
 				previous.getChildren().put(child.getCompany().getId(), child);
 				previous = child;
 				i++;
 			}
+			
+			if(mapPath != null) {
+				if(mapPath.endsWith(",")) {
+					mapPath = mapPath.substring(0,mapPath.length()-1);
+				}
+				
+				mapPath+=" ]";
+				mapPathsList.add(mapPath);
+			}
 		}
-		
 		return graph;
 	}
 	

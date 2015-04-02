@@ -1,162 +1,142 @@
-		<div class="jumbotron">
-			<p class="lead">{{'TRIP_TEXT_LABEL' | translate}}</p>
-			<form name="tripForm" class="formTrip">
-				<div class="form-group col-xs-12 col-md-10">
-					<input type="text" class="form-control" ng-model="tripID"
-						required />
-				</div>
-				<div class="col-xs-12 col-md-2">
-					<button class="btn2 btn2-success pull-center "
-						ng-click="getTrip('./trip.html');google.maps.event.trigger($scope.map,'resize');">
-						<span class="glyphicon"></span>{{'GET_TRIP_BUTTON' | translate}}
-					</button>
-				</div>
-			</form>
-
+<div class="jumbotron">
+	<p class="lead">{{'TRIP_TEXT_LABEL' | translate}}</p>
+	<form name="tripForm" class="formTrip">
+		<div class="form-group col-xs-12 col-md-10">
+			<input type="text" class="form-control" ng-model="tripID" required />
 		</div>
-		
+		<div class="col-xs-12 col-md-2">
+			<button class="btn2 btn2-success pull-center "
+				ng-click="getTrip('./trip.html');google.maps.event.trigger($scope.map,'resize');">
+				<span class="glyphicon"></span>{{'GET_TRIP_BUTTON' | translate}}
+			</button>
+		</div>
+	</form>
+
+</div>
+<div class="row marketing" ng-if="showtrip">
+
+	<div>
+		<h3>{{product.name}} - ({{tripID}})</h3>
+	</div>
 
 
 
-		<div class="row marketing" ng-if="showtrip">
+	<div>
+		<ul class="nav nav-tabs">
+			<li role="presentation" ng-class="{active: tabIndex == 0}"><a
+				href="#" ng-click="showProductDetail()">{{'PRODUCT_DETAIL' |
+					translate}}</a></li>
+			<li role="presentation" ng-class="{active: tabIndex == 1}"><a
+				href="#" ng-click="showProductTrip()">{{'FOODTRIP' | translate}}</a></li>
+			<li role="presentation" ng-class="{active: tabIndex == 2}"><a
+				href="#" ng-click="showTripMap()">{{'MAP' | translate}}</a></li>
+		</ul>
 
-			<div>
-				<h3>{{product.name}}      -      ({{tripID}})</h3>
+
+		<div id="dettagliProdotto" ng-show="tabIndex==0" class="tabContent">
+
+			<div class="col-xs-12 col-md-6" ng-show="!showMap">
+				<div class="div-map">
+					<map id="productMap" center="{{product.lat}},{{product.lng}}"
+						zoom="6">
+						<marker position="{{product.lat}},{{product.lng}}" visible="true" />
+					</map>
+				</div>
 			</div>
-
-			<div>
-				<ul class="nav nav-tabs">
-					<li role="presentation" ng-class="{active: tabIndex == 0}"><a
-						href="#" ng-click="showProductDetail()">{{'PRODUCT_DETAIL' | translate}}</a></li>
-					<li role="presentation" ng-class="{active: tabIndex == 1}"><a
-						href="#" ng-click="showProductTrip()">{{'FOODTRIP' | translate}}</a></li>
-					<li role="presentation" ng-class="{active: tabIndex == 2}"><a
-						href="#" ng-click="showTripMap()">{{'MAP' | translate}}</a></li>
-				</ul>
-				<div id="dettagliProdotto" ng-show="tabIndex == 0" class="tabContent">
-					<div class="col-xs-12 col-md-6" ng-show="!showMap">
-						<div class="div-map">
-							<map id="productMap" center="{{product.lat}},{{product.lng}}"
-								zoom="6">
-								<marker position="{{product.lat}},{{product.lng}}"
-									visible="true" />
-							</map>
-						</div>
-					</div>
-					<div class="col-xs-12 col-md-6 top1" ng-show="!showMap">
-						<div class="p-grey block pull-center">{{'SAWING_DATE' | translate}} {{product.sawingDate | date :
-							'dd/MM/yyyy'}})</div>
-						<div class="p-grey block pull-center">{{'HARVEST_DATE' | translate}} ({{product.harvestDate | date :
-							'dd/MM/yyyy'}})</div>
-						<div class="block">
-							<p class="p-grey" style="margin-top:30px;margin-bottom:30px;">
-								<span style="display: block">{{'PRODUCED_BY' | translate}} <a>{{producer.name}}</a></span>
-								{{producer.address.streetName}}
-								{{producer.address.streetNumber}} {{producer.address.zipCode}}
-								{{producer.address.city.name}} {{producer.address.state}}<br/>
-								<span class="p-grey">{{'CERTIFICATIONS' | translate}}:</span> <span class="p-red"
-									ng-show="!product.certifications.length">{{'NO_CERTIFICATIONS' | translate}}</span> <span class="p-grey"
-									ng-show="product.certifications.length"
-									ng-repeat="c in product.certifications">{{c}}&nbsp;</span>
-							</p>
-						</div>
-						<div class="block">
-							<table class="product-detail-table">
-								<tr>
-									<td>{{'AGR_TRAD' | translate}}</td>
-									<td class="pull-left"
-										ng-show="!product.biological && !product.ogm && !product.suistainable && !product.biodynamic && !product.ipm"><img
-										src="img/yes.png" /></td>
-									<td class="pull-left"
-										ng-show="product.biological || product.ogm || product.sustainable || product.biodadynamic || product.ipm"><img
-										src="img/no.png" /></td>
-									<td  class="padd-left-15">{{'AGR_BIO' | translate}}</td>
-									<td class="pull-left" ng-show="product.biological"><img
-										src="img/yes.png" /></td>
-									<td class="pull-left" ng-show="!product.biological"><img
-										src="img/no.png" /></td>
-								</tr>
-								<tr>
-									<td>{{'AGR_OGM' | translate}}</td>
-									<td class="pull-left" ng-show="product.ogm"><img
-										src="img/yes.png" /></td>
-									<td class="pull-left" ng-show="!product.ogm"><img
-										src="img/no.png" /></td>
-									<td class="padd-left-15">{{'AGR_SUSTAINABLE' | translate}}</td>
-									<td class="pull-left" ng-show="product.sustainable"><img
-										src="img/yes.png" /></td>
-									<td class="pull-left" ng-show="!product.sustainable"><img
-										src="img/no.png" /></td>
-								</tr>
-								<tr>
-									<td>{{'AGR_BIODIN' | translate}}</td>
-									<td class="pull-left" ng-show="product.biodynamic"><img
-										src="img/yes.png" /></td>
-									<td class="pull-left" ng-show="!product.biodynamic"><img
-										src="img/no.png" /></td>
-									<td class="padd-left-15">{{'AGR_IPM' | translate}}</td>
-									<td class="pull-left" ng-show="product.ipm"><img
-										src="img/yes.png" /></td>
-									<td class="pull-left" ng-show="!product.ipm"><img
-										src="img/no.png" /></td>
-								</tr>
-							</table>
-						</div>
-					</div>
+			<div class="col-xs-12 col-md-6 top1" ng-show="!showMap">
+				<div class="p-grey block pull-center">{{'SAWING_DATE' |
+					translate}} {{product.sawingDate | date : 'dd/MM/yyyy'}})</div>
+				<div class="p-grey block pull-center">{{'HARVEST_DATE' |
+					translate}} ({{product.harvestDate | date : 'dd/MM/yyyy'}})</div>
+				<div class="block">
+					<p class="p-grey" style="margin-top: 30px; margin-bottom: 30px;">
+						<span style="display: block">{{'PRODUCED_BY' | translate}}
+							<a>{{producer.name}}</a>
+						</span> {{producer.address.streetName}} {{producer.address.streetNumber}}
+						{{producer.address.zipCode}} {{producer.address.city.name}}
+						{{producer.address.state}}<br /> <span class="p-grey">{{'CERTIFICATIONS'
+							| translate}}:</span> <span class="p-red"
+							ng-show="!product.certifications.length">{{'NO_CERTIFICATIONS'
+							| translate}}</span> <span class="p-grey"
+							ng-show="product.certifications.length"
+							ng-repeat="c in product.certifications">{{c}}&nbsp;</span>
+					</p>
 				</div>
-				<div id="foodTrip" class="tabContent" ng-show="tabIndex==1">
-					<div class="col-xs-12 col-md-12">
-						<table ng-if="!$first" ng-repeat="step in results" class="tableTrip">
-						    <tr>
-							<td ng-class-odd="'col-md-6 progtrckr-done left-circle'" ng-class-even="'progtrckr-done'" >
-							   <div id="tripContent" ng-class-odd="'trip-left'" ng-class-even="'hide'">
-								<span class="block title">{{step.company.name}}
-									({{step.company.type}})</span>
-								<span class="block">{{'PRODUCT_ACQUIRED' | translate}} {{step.date | date : 'dd/MM/yyyy'}}
-								</span>
-								<span class="block">{{step.company.address.streetName}}
-									{{step.company.address.streetNumber}}
-									{{step.company.address.zipCode}}
-									{{step.company.address.city.name}} {{producer.address.state}}</span>
-
-								<a>{{'COMPANY_DETAIL' | translate}}</a>
-							   </div>
-							</td>
-						  	<td ng-class-odd="''" ng-class-even="'col-md-6 right-circle'">
-							    <div id="tripContent" ng-class-odd="'hide'" ng-class-even="'trip-right'">	
-								<span class="block title">{{step.company.name}}
-										({{step.company.type}})</span>
-									<span class="block">{{'PRODUCT_ACQUIRED' | translate}} {{step.date | date : 'dd/MM/yyyy'}}
-									</span>
-									<span class="block">{{step.company.address.streetName}}
-										{{step.company.address.streetNumber}}
-										{{step.company.address.zipCode}}
-										{{step.company.address.city.name}} {{producer.address.state}}</span>
-									<span>
-									<a>{{'COMPANY_DETAIL' | translate}}</a>
- 							   </div>
-							</td>
-						   </tr>
-						</table>
-					</div>
+				<div class="block">
+					<table class="product-detail-table">
+						<tr>
+							<td>{{'AGR_TRAD' | translate}}</td>
+							<td class="pull-left"
+								ng-show="!product.biological && !product.ogm && !product.suistainable && !product.biodynamic && !product.ipm"><img
+								src="img/yes.png" /></td>
+							<td class="pull-left"
+								ng-show="product.biological || product.ogm || product.sustainable || product.biodadynamic || product.ipm"><img
+								src="img/no.png" /></td>
+							<td class="padd-left-15">{{'AGR_BIO' | translate}}</td>
+							<td class="pull-left" ng-show="product.biological"><img
+								src="img/yes.png" /></td>
+							<td class="pull-left" ng-show="!product.biological"><img
+								src="img/no.png" /></td>
+						</tr>
+						<tr>
+							<td>{{'AGR_OGM' | translate}}</td>
+							<td class="pull-left" ng-show="product.ogm"><img
+								src="img/yes.png" /></td>
+							<td class="pull-left" ng-show="!product.ogm"><img
+								src="img/no.png" /></td>
+							<td class="padd-left-15">{{'AGR_SUSTAINABLE' | translate}}</td>
+							<td class="pull-left" ng-show="product.sustainable"><img
+								src="img/yes.png" /></td>
+							<td class="pull-left" ng-show="!product.sustainable"><img
+								src="img/no.png" /></td>
+						</tr>
+						<tr>
+							<td>{{'AGR_BIODIN' | translate}}</td>
+							<td class="pull-left" ng-show="product.biodynamic"><img
+								src="img/yes.png" /></td>
+							<td class="pull-left" ng-show="!product.biodynamic"><img
+								src="img/no.png" /></td>
+							<td class="padd-left-15">{{'AGR_IPM' | translate}}</td>
+							<td class="pull-left" ng-show="product.ipm"><img
+								src="img/yes.png" /></td>
+							<td class="pull-left" ng-show="!product.ipm"><img
+								src="img/no.png" /></td>
+						</tr>
+					</table>
 				</div>
-				
-				<div ng-if="tabIndex==2" class="tabContent">
-				<div class="col-xd-12 col-md-12">					
-					<div class="div-map">
-						<map id="productMap" class="map400" center="{{product.lat}},{{product.lng}}"
-							zoom="5">
-							<marker id="marker_{{step.id}}" ng-repeat="step in results"
+			</div>
+		</div>
+		<div id="foodTrip" class="tabContent" ng-show="tabIndex==1">
+			<table id="trip-table">
+				<div id="cy"></div>
+			</table>
+		</div>
+
+		<div ng-if="tabIndex==2" class="tabContent">
+			<div class="col-xd-12 col-md-12">
+				<div class="div-map">
+					<map id="productMap" class="map400"
+						center="{{product.lat}},{{product.lng}}" zoom="5">
+
+						<div ng-repeat="step in tripView.flatFoodGraph">
+							<marker id="marker_{{step.id}}"
 								position="{{step.lat}},{{step.lng}}" icon="{{step.markerIcon}}"
-								visible="true"
-								on-click="showInfoWindow(event, 'info_{{step.id}}')"/>
-							<info-window id="info_{{step.id}}" visible-on-marker="marker_{{step.id}}"> <div ng-non-bindable=""> <div id="siteNotice"></div> <div id="bodyContent"> {{step.infoWindow}} </div> </div> </info-window>
-						
-							<shape name="polyline" path="{{path}}" geodesic="true" 
-								stroke-opacity="0" ,="" icons="[{ icon: { path: 'M 0,-1 0,1', strokeOpacity: 1, scale: 3 }, offset: '0', repeat: '20px' }]"/>
-						</map>
-					</div>
-				</div>
+								on-click="showInfoWindow(event, 'info_{{step.id}}')"> </marker>
+							<info-window id="info_{{step.id}}"
+								visible-on-marker="marker_{{step.id}}">
+							<div>
+								<div id="siteNotice"></div>
+								<div id="bodyContent">{{step.company.name}}</div>
+							</div>
+							</info-window>
+						</div>
+						<shape ng-repeat="path in paths" name="polyline" path="{{path}}"
+							geodesic="true" stroke-color="#4E8DCE" stroke-opacity="0.7"
+							stroke-weight="1" />
+					</map>
+
 				</div>
 			</div>
-	
+		</div>
+	</div>
+</div>

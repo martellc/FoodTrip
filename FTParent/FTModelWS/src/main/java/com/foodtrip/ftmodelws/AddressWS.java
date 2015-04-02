@@ -46,5 +46,12 @@ public class AddressWS  implements Serializable {
 	}
 	public void setId(Long id) {
 		this.id = id;
-	}	
+	}
+	
+	public String getHtmlString() {
+		String htmlAddress = this.streetName + " "+ this.streetNumber +"<br/>";
+		htmlAddress += this.getCity().getName() +" " +  this.getZipCode()+"<br/>";
+		htmlAddress += this.getState();
+		return htmlAddress;
+	}
 }

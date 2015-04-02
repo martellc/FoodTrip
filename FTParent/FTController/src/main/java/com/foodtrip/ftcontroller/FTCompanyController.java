@@ -1,5 +1,7 @@
 package com.foodtrip.ftcontroller;
 
+import java.util.List;
+
 import javax.ejb.Stateless;
 
 import org.apache.log4j.Logger;
@@ -72,6 +74,36 @@ public class FTCompanyController extends FTController {
 		} catch(Exception e) {
 			logger.error("Error",e);
 			throw new FoodtripException(FoodtripError.GENERIC_ERROR.getCode());
+		}
+	}
+
+
+	public CompanyWS[] searchCompany(String vatOrName) {
+		
+		if((vatOrName == null || vatOrName.isEmpty())) {
+			logger.error("Null name or vat");
+			return null;
+		}
+		
+		GraphDatabaseService graph = connector.graphDatabaseService();
+		CompanyRepository repo = connector.getCompanyRepository();
+		graph.beginTx();
+		try {
+			List<Company> companies = repo.findCompany("(?i).*" + vatOrName + ".*");
+			if(companies == null) {
+				logger.error("Null companies");
+				return null;
+			}
+			int i = 0;
+			CompanyWS[] companiesWS = new CompanyWS[companies.size()];
+			for(Company c : companies) {
+				companiesWS[i] = ModelUtils.toCompanyWS(c);
+				i++;
+			}
+			return companiesWS;
+		} catch(Exception e) {
+			logger.error("Error",e);
+			return null;
 		}
 	}
 }

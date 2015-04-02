@@ -209,4 +209,15 @@ public class CompanyWS implements Serializable {
 	public void setFarm(boolean farm) {
 		this.farm = farm;
 	}
+	public String toString() {
+		return this.getId() + " [Name:" + getName() + "]"; 
+	}
+	
+	public String getHtmlString() {
+		String htmlCompany ="<b>" + this.getName() + "</b><br/><br/>";
+		if (this.getAddress() != null) {
+			htmlCompany += this.getAddress().getHtmlString();		
+		}
+		return htmlCompany;
+	}
 }

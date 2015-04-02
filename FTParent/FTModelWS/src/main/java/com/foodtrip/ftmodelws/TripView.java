@@ -1,7 +1,9 @@
 package com.foodtrip.ftmodelws;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 public class TripView  implements Serializable {
 
@@ -11,7 +13,10 @@ public class TripView  implements Serializable {
 	
 	private FoodStepWS foodGraph;
 
-	private String path;
+	
+	private List<FoodStepWS> flatFoodGraph = new ArrayList<FoodStepWS>();
+	
+	private String[] paths;
 	
 	public ProductWS getProduct() {
 		return product;
@@ -30,17 +35,6 @@ public class TripView  implements Serializable {
 		this.producer = producer;
 	}
 
-
-	public String getPath() {
-		return path;
-	}
-
-
-	public void setPath(String path) {
-		this.path = path;
-	}
-
-
 	public FoodStepWS getFoodGraph() {
 		return foodGraph;
 	}
@@ -48,5 +42,25 @@ public class TripView  implements Serializable {
 
 	public void setFoodGraph(FoodStepWS foodGraph) {
 		this.foodGraph = foodGraph;
+	}
+
+
+	public List<FoodStepWS> getFlatFoodGraph() {
+		return flatFoodGraph;
+	}
+
+
+	public void setFlatFoodGraph(List<FoodStepWS> flatGraph) {
+		this.flatFoodGraph = flatGraph;
+	}
+
+
+	public String[] getPaths() {
+		return paths;
+	}
+
+
+	public void setPaths(String[] paths) {
+		this.paths = paths;
 	}
 }

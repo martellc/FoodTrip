@@ -1,6 +1,7 @@
 package com.foodtrip.ftmodelws;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -25,6 +26,8 @@ public class FoodStepWS implements Comparable<FoodStepWS>,Serializable {
 	private Float lat;
 	private Float lng;
 	private Float alt;
+	
+	private Long parentID;
 	
 	//date
 	private Date date;
@@ -77,7 +80,7 @@ public class FoodStepWS implements Comparable<FoodStepWS>,Serializable {
 	}
 
 	public Float getLat() {
-		return lat;
+		return lat/10000000;
 	}
 
 	public void setLat(Float lat) {
@@ -85,7 +88,7 @@ public class FoodStepWS implements Comparable<FoodStepWS>,Serializable {
 	}
 
 	public Float getLng() {
-		return lng;
+		return lng/10000000;
 	}
 
 	public void setLng(Float lng) {
@@ -127,7 +130,7 @@ public class FoodStepWS implements Comparable<FoodStepWS>,Serializable {
 			return false;
 		}
 		
-		if(this.getId().equals(otherStep.getId())) {
+		if(!this.getId().equals(otherStep.getId())) {
 			return false;
 		}
 		
@@ -167,5 +170,20 @@ public class FoodStepWS implements Comparable<FoodStepWS>,Serializable {
 		this.children = children;
 	}
 
+	public FoodStepWS[] getChildrenArray() {
+		Collection<FoodStepWS> c = this.children.values();
+		return c.toArray(new FoodStepWS[c.size()]);
+	}
+
+	public Long getParentID() {
+		return parentID;
+	}
+
+	public void setParentID(Long parentID) {
+		this.parentID = parentID;
+	}
 	
+	public String toString() {
+		return this.getId() + "[Company:" + company.getId() + "]"; 
+	}
 }

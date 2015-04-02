@@ -418,3 +418,10 @@ h1, h2, h3 {-family: 'Archivo Narrow', sans-serif;
     height: 300px !important;
 }
 }
+
+#cy {
+  height: 400px;
+  width: 100%;
+  left: 0;
+  top: 0;
+}

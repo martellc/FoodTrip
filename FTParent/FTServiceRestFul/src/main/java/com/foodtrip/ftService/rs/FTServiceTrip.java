@@ -27,7 +27,7 @@ public class FTServiceTrip {
     @Path("/{orderID}/{endCompany}")
     @GET
     @Produces({MediaType.APPLICATION_JSON })
-    public Response getTripGET(@PathParam(value = "endCompany")Long endCompany, @PathParam(value = "orderID")Long orderID) {
+    public Response getTrip(@PathParam(value = "endCompany")Long endCompany, @PathParam(value = "orderID")Long orderID) {
     	try {
 			TripView view = new FTTripController().getTrip(orderID,endCompany);
 			return Response.status(Status.ACCEPTED)
