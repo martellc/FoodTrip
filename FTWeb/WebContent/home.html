@@ -1,0 +1,44 @@
+<div class="jumbotron">
+	<div class="container">
+	        <h1>{{'MAIN_MESSAGE' | translate}}</h1>
+	        <p>{{'INTRO_MESSAGE' | translate}}</p>
+	        <p><a role="button" href="#learnmore" class="btn btn-primary btn-lg">{{'LEARN_MORE' | translate}}</a></p>
+	</div>
+</div>
+<div class="container top40">
+      <div class="row">
+        <div class="col-md-4 col-xs-12">
+          <h2>{{'HOW_WORKS' | translate}}</h2>
+          <p class="section">{{'HOW_WORKS_MESSAGE' | translate}} </p>
+          <p><a role="button" href="#howitworks" class="btn btn-default">{{'VIEW_DETAILS' | translate}}</a></p>
+        </div>
+        <div class="col-md-4 col-xs-12">
+          <h2>{{'REGISTER_YOUR_COMPANY' | translate}}</h2>
+          <p class="section">{{'REGISTER_YOUR_COMPANY_MESSAGE' | translate}} </p>
+          <p><a role="button" ng-click="changeMainTab(3);" href="#register" class="btn btn-default">{{'REGISTER' | translate}}</a></p>
+       </div>
+        <div class="col-md-4 col-xs-12 formTripFirstPage">
+          <h2>{{'TRY_IT' | translate}}</h2>
+          <p class="section2" ng-html-bind-unsafe>{{'TRY_IT_MESSAGE' | translate}}"</p>
+          <form name="tripForm">
+          		<div><label>{{'TRIP_TEXT_LABEL_SMALL' | translate}}</label></div>
+          		<table style="width:100%" id="tripTable">
+					<tr>
+					<td>
+						<input type="text" ng-trim="true" class="form-control" ng-model="tripID" />
+					</td>
+					<td>
+						<button class="btn2 btn2-success pull-center"
+							ng-click="getTrip('./trip.html',tripID);google.maps.event.trigger($scope.map,'resize');">
+							<span class="glyphicon"></span>{{'GET_TRIP_BUTTON' | translate}}
+						</button>
+					</td>
+					</tr>
+				</table>
+				
+			</form>
+          
+        </div>
+      </div>
+</div>
+<div ng-include="'loadingDiv.html'"> </div>
