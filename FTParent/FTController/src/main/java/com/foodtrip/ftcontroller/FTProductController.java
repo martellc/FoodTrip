@@ -45,6 +45,7 @@ public class FTProductController extends FTController {
 			throw new FoodtripException(FoodtripError.INVALID_COMPANY.getCode());
 
 		}
+		new FTCompanyController().checkCompany(pWS.getFarm());
 		
 		graph.beginTx();
 		try {

@@ -4,6 +4,7 @@ import javax.ejb.Stateless;
 
 import org.apache.log4j.Logger;
 import org.neo4j.graphdb.GraphDatabaseService;
+import org.neo4j.graphdb.Transaction;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.foodtrip.ftcontroller.exception.FoodtripError;
@@ -14,7 +15,10 @@ import com.foodtrip.ftmodeldb.model.Step;
 import com.foodtrip.ftmodeldb.repo.OrderRepository;
 import com.foodtrip.ftmodeldb.repo.ProductRepository;
 import com.foodtrip.ftmodeldb.repo.StepRepository;
+import com.foodtrip.ftmodelws.CompanyWS;
+import com.foodtrip.ftmodelws.FarmWS;
 import com.foodtrip.ftmodelws.OrderWS;
+import com.foodtrip.ftmodelws.PointWS;
 
 @Stateless
 public class FTOrderController extends FTController {
@@ -43,43 +47,56 @@ public class FTOrderController extends FTController {
 			throw new FoodtripException(FoodtripError.INVALID_PRODUCT.getCode());
 		}
 		
-		if(order.getProduct().getFarm() == null) {
+		CompanyWS farm = order.getProduct().getFarm();
+		if(farm == null) {
 			logger.error("Invalid farm");
 			throw new FoodtripException(FoodtripError.INVALID_COMPANY.getCode());
 		}
+		new FTCompanyController().checkCompany(farm);
 		
-		graph.beginTx();
+		if(order.getNextStep() == null) {
+			logger.error("Invalid next step");
+			throw new FoodtripException(FoodtripError.INVALID_COMPANY.getCode());
+		}
+		
+		Transaction tx = graph.beginTx();
 		try {
 			Order orderDB = ModelUtils.toOrderDB(order);
-			
-			boolean newProduct = orderDB.getOrderProductRel().getProduct().getId() == null;			
-			Product product = productRepo.save(orderDB.getOrderProductRel().getProduct());
-			
-			if(newProduct) {
-				orderDB.getOrderProductRel().setProduct(product);
-			}
+		
+			//update the product: (always better to save it again)
+			Product p = orderDB.getOrderProductRel().getProduct();
+			Product product = productRepo.save(p);
+			orderDB.getOrderProductRel().setProduct(product);
 			
 			Float alt = product.getAlt() == null? product.getFarm().getAlt(): product.getAlt();
 			Float lng = product.getLng() == null? product.getFarm().getLng(): product.getLng();
 			Float lat = product.getLat() == null? product.getFarm().getLat() :product.getLat();
 			
+			//create first step (lat and lng are from product)
 			Step step = new Step();
 			step.setAlt(alt);
+			step.setState(Step.STATE_CONFIRMED);
 			step.setLat(lat);
 			step.setLng(lng);
 			step.setCompanyID(product.getFarm().getId());
-			
 			orderDB.setStep(step);
-			
 			StepRepo.save(step);
+			
+			//save the order
 			Order updatedOrder = repo.save(orderDB);
+			
+			//add the next step (the company who bought from the farm)
+			PointWS point = order.getNextStep().getPoint();
+			CompanyWS seller = order.getNextStep().getCompany();
+			new FTTripController().addStep(step.getId(), updatedOrder.getId(), seller, point,false);
 			
 			return ModelUtils.toOrderWS(updatedOrder);
 		}catch(Exception e) {
+			tx.failure();
 			logger.error("Error",e);
 			throw new FoodtripException(FoodtripError.GENERIC_ERROR.getCode());
 		}finally {
-			
+			tx.close();
 		}
 	}
 	

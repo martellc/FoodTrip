@@ -22,11 +22,33 @@ public class Person {
 	
 	private String email;
 	
+	private int gender; //0 M - 1 F
+	
 	private String facebookAccoount;
 	
 	private String googlePlusAccount;
 	
 	private int age;
+
+	private Long birthDate;
+	private String birthPlace;
+	
+
+	public Long getBirthDate() {
+		return birthDate;
+	}
+
+	public void setBirthDate(Long birthDate) {
+		this.birthDate = birthDate;
+	}
+
+	public String getBirthPlace() {
+		return birthPlace;
+	}
+
+	public void setBirthPlace(String birthPlace) {
+		this.birthPlace = birthPlace;
+	}
 
 	@Fetch
 	@RelatedTo(type="LIVE_IN", direction=Direction.OUTGOING)
@@ -147,5 +169,13 @@ public class Person {
 
 	public void setFiscalCode(String fiscalCode) {
 		this.fiscalCode = fiscalCode;
+	}
+
+	public int getGender() {
+		return gender;
+	}
+
+	public void setGender(int gender) {
+		this.gender = gender;
 	}
 }

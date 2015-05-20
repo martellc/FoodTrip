@@ -18,7 +18,7 @@ public class FTServiceAddStep {
     @POST
     public Response addStep(NewStepWS step) throws FoodtripException {
     	try {
-			new FTTripController().addStep(step.getEndPoint(), step.getOrderId(), step.getCompany(),step.getPoint());
+			new FTTripController().addStep(step.getEndPoint(), step.getOrderId(), step.getCompany(),step.getPoint(),true);
 			return Response.status(Status.ACCEPTED)
 					.type(MediaType.APPLICATION_JSON)
 					.build();	

@@ -5,6 +5,8 @@ import java.util.Collection;
 
 public class PersonWS  implements Serializable {
 
+	private static final long serialVersionUID = 1L;
+
 	private Long id;
 	private String name;
 	private String surname;
@@ -13,8 +15,12 @@ public class PersonWS  implements Serializable {
 	private String facebookID;
 	private String googlePlusID;
 	
+	private int gender; //0 M - 1 F
 	private String email;
 	private String mobileNumber;
+	
+	private Long birthDate;
+	private String birthPlace;
 	
 	private AddressWS address;
 	
@@ -106,6 +112,30 @@ public class PersonWS  implements Serializable {
 
 	public void setGooglePlusID(String googlePlusID) {
 		this.googlePlusID = googlePlusID;
+	}
+
+	public Long getBirthDate() {
+		return birthDate;
+	}
+
+	public void setBirthDate(Long birthDate) {
+		this.birthDate = birthDate;
+	}
+
+	public String getBirthPlace() {
+		return birthPlace;
+	}
+
+	public void setBirthPlace(String birthPlace) {
+		this.birthPlace = birthPlace;
+	}
+
+	public int getGender() {
+		return gender;
+	}
+
+	public void setGender(int gender) {
+		this.gender = gender;
 	}
 
 

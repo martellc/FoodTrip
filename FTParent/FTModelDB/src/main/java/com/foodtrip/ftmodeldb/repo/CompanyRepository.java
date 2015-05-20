@@ -6,6 +6,7 @@ import org.springframework.data.neo4j.annotation.Query;
 import org.springframework.data.neo4j.repository.GraphRepository;
 
 import com.foodtrip.ftmodeldb.model.Company;
+import com.foodtrip.ftmodeldb.model.DeviceInfo;
 
 public interface CompanyRepository extends GraphRepository<Company> {
 
@@ -26,5 +27,11 @@ public interface CompanyRepository extends GraphRepository<Company> {
 	
 	@Query("MATCH (n:Company {vatNumber:{0} , country:{1}}) return n")
     public Company findByNameCountry(String name, String country);
+
+	@Query("MATCH (n:Company {companyKey:{0} }) return n")
+    public Company findByCompanyKey(String companyKey);
+	
+	@Query("MATCH (n:Company)-[r:DEVICES]->(m:DeviceInfo {uuid:{1}}) where id(n)={0} return m")
+    public DeviceInfo getDeviceInfo(Long companyID, Long uuid);
 }
 

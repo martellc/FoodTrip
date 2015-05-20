@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 public class AddressWS  implements Serializable {
 
+	private static final long serialVersionUID = 1L;
+
 	private Long id;
 	private String streetName;
 	private String streetNumber;
@@ -49,8 +51,9 @@ public class AddressWS  implements Serializable {
 	}
 	
 	public String getHtmlString() {
-		String htmlAddress = this.streetName + " "+ this.streetNumber +"<br/>";
-		htmlAddress += this.getCity().getName() +" " +  this.getZipCode()+"<br/>";
+		String cityName = this.getCity().getName() == null ? "" : this.getCity().getName();
+		String htmlAddress = this.streetName + " "+ this.streetNumber +"\n";
+		htmlAddress += cityName +" " +  this.getZipCode()+"\n";
 		htmlAddress += this.getState();
 		return htmlAddress;
 	}

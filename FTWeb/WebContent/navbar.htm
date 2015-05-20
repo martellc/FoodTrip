@@ -1,16 +1,17 @@
-<div class="rowfluid header">
-	
-	<h3 class="text-muted">Foodtrip</h3>
-	
-	<ul class="nav nav-pills nav-align">
-		<li role="presentation" ng-class="{active: mainTabIndex == 0}"><a href="#" ng-click="changeMainTab(0);">{{'HOME' | translate}}</a></li>
-		<li role="presentation" ng-class="{active: mainTabIndex == 1}"><a href="#" ng-click="changeMainTab(1);">{{'WHY' | translate}}</a></li>
-		<li role="presentation" ng-class="{active: mainTabIndex == 2}"><a href="#" ng-click="changeMainTab(2);">{{'DOWNLOAD' | translate}}</a></li>
-	</ul>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+	<div class="container">
+		<div class="navbar-header">
+			<a class="navbar-brand" href="#home" ng-click="changeMainTab(-1);">Foodtrip</a>
+		</div>
+		<div class="navbar-collapse collapse" id="navbar">
+			<ul class="nav nav-pills  navbar-right" style="padding-top:5px;">
+				<li role="presentation" ng-class="{active: mainTabIndex == -1}"><a href="#home" ng-click="changeMainTab(-1);">{{'HOME' | translate}}</a></li>	
+				<li role="presentation" ng-class="{active: mainTabIndex == 0}"><a href="#foodtrip" ng-click="changeMainTab(0);">{{'TRIP' | translate}}</a></li>
+				<li role="presentation" ng-class="{active: mainTabIndex == 3 || mainTabIndex == 4}"><a href="#register" ng-click="changeMainTab(3);">{{'REGISTER' | translate}}</a></li>
+				<li role="presentation" ng-class="{active: mainTabIndex == 6}"><a href="#faq" ng-click="changeMainTab(6);">{{'FAQ' | translate}}</a></li>
+			</ul>
+		</div>
+	</div>
+</nav>
 
-	
-</div>
 
-<div id="loadingDiv" class="spinner" ng-show="loading">
-	<img src="img/ajax-loader.gif" class="ajax-loader"/>
-</div>

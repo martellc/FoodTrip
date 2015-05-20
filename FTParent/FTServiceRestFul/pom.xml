@@ -18,6 +18,12 @@
 	</properties>
 	<dependencies>
 		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-bundle</artifactId>
+			<version>1.19</version>
+		</dependency>
+
+		<dependency>
 			<groupId>org.glassfish.jersey.media</groupId>
 			<artifactId>jersey-media-json-processing</artifactId>
 			<version>2.15</version>
@@ -35,6 +41,12 @@
 		</dependency>
 		<!-- if you are using Jersey client specific features without the server 
 			side -->
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-core</artifactId>
+			<version>1.19</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.glassfish.jersey.core</groupId>
 			<artifactId>jersey-client</artifactId>
@@ -89,6 +101,12 @@
 			<artifactId>FTModelDB</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 			<scope>compile</scope>
+			<exclusions>
+				<exclusion>
+					<artifactId>jersey-client</artifactId>
+					<groupId>com.sun.jersey</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>.org.slf4j</groupId>

@@ -5,6 +5,8 @@ import java.io.Serializable;
 
 public class NewStepWS  implements Serializable {
 
+	private static final long serialVersionUID = 1L;
+	
 	private Long endPoint;
 	private Long orderId;
 	private CompanyWS company;

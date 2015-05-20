@@ -6,7 +6,11 @@ public enum FoodtripError {
     INVALID_COMPANY("02"), 
     DUPLICATE_STEP("03"),
     INVALID_PRODUCT ("04"),
-    INVALID_TRIP ("05");
+    INVALID_TRIP ("05"),
+    INVALID_STEP ("06"),
+    INVALID_STEP_CONFIRM ("07"),
+    INVALID_LICENSE("08"),
+    INVALID_COMPANY_KEY("09");
     
     private String code;
     FoodtripError(String code) {

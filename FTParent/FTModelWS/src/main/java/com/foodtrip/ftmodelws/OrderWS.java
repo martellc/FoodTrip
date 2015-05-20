@@ -5,6 +5,8 @@ import java.io.Serializable;
 
 public class OrderWS implements Serializable {
 
+	private static final long serialVersionUID = 1L;
+
 	public OrderWS() {
 		super();
 	}
@@ -20,6 +22,8 @@ public class OrderWS implements Serializable {
 	private Double amout;
 
 	private Double quantity;
+	
+	private NewStepWS nextStep;
 	
 	public Double getAmout() {
 		return amout;
@@ -67,5 +71,13 @@ public class OrderWS implements Serializable {
 
 	public void setDate(long date) {
 		this.date = date;
+	}
+
+	public NewStepWS getNextStep() {
+		return nextStep;
+	}
+
+	public void setNextStep(NewStepWS nextStep) {
+		this.nextStep = nextStep;
 	}	
 }

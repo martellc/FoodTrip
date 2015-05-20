@@ -2,6 +2,7 @@ package com.foodtrip.ftcontroller;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 
@@ -21,10 +22,12 @@ import org.neo4j.kernel.Traversal;
 import com.foodtrip.ftcontroller.exception.FoodtripError;
 import com.foodtrip.ftcontroller.exception.FoodtripException;
 import com.foodtrip.ftmodeldb.model.Company;
+import com.foodtrip.ftmodeldb.model.Notification;
 import com.foodtrip.ftmodeldb.model.Order;
 import com.foodtrip.ftmodeldb.model.Product;
 import com.foodtrip.ftmodeldb.model.Step;
 import com.foodtrip.ftmodeldb.repo.CompanyRepository;
+import com.foodtrip.ftmodeldb.repo.NotificationRepository;
 import com.foodtrip.ftmodeldb.repo.OrderRepository;
 import com.foodtrip.ftmodeldb.repo.StepRepository;
 import com.foodtrip.ftmodelws.CompanyWS;
@@ -37,26 +40,42 @@ import com.foodtrip.ftmodelws.TripView;
 public class FTTripController extends FTController {
 	private static final Logger logger = Logger.getLogger(FTTripController.class);
 	
+	public static final String DEFAULT_TRIP = "676-690";
+	public static final long DEFAULT_TRIP_ENDPOINT = 690l;
+	public static final long DEFAULT_TRIP_ORDER = 676l;
+	
 	public TripView getTrip(Long orderID,Long endStepID) throws FoodtripException {		
 		TripView t = new TripView();
+		boolean isDefault = false;
 		
 		if (orderID == null || endStepID == null) {
 			logger.error("Invalid null value");
-			throw new FoodtripException(FoodtripError.INVALID_ORDER.getCode());
+			orderID = DEFAULT_TRIP_ORDER;
+			endStepID = DEFAULT_TRIP_ENDPOINT;
+			isDefault =true;
 		}
 		
-		CompanyRepository companyRepository = connector.getCompanyRepository();
-		Company endPoint = companyRepository.findOne(endStepID);
+		StepRepository stepRepository = connector.getStepRepository();
+		Step endPoint = stepRepository.findOne(endStepID);
 		if(endPoint == null) {
 			logger.error("Invalid end point");
-			throw new FoodtripException(FoodtripError.INVALID_COMPANY.getCode());
+			isDefault = true;
 		}
 
 		OrderRepository orderRepository = connector.getOrderRepository();
 		Order order = orderRepository.findOne(orderID);
 		if (order == null || order.getStep() == null) {
 			logger.error("Invalid order id or step null");
-			throw new FoodtripException(FoodtripError.INVALID_ORDER.getCode());
+			isDefault = true;
+		}
+		
+		//if the user insert a wrong trip id use the default
+		if(isDefault) {
+			t.setDefault(true);
+			orderID = DEFAULT_TRIP_ORDER;
+			endStepID = DEFAULT_TRIP_ENDPOINT;
+			endPoint = stepRepository.findOne(DEFAULT_TRIP_ENDPOINT);
+			order = orderRepository.findOne(DEFAULT_TRIP_ORDER);
 		}
 		
 		//create the food graph path
@@ -72,8 +91,8 @@ public class FTTripController extends FTController {
 				.breadthFirst()
 				.relationships(Step.Rels.STEP)
 				.evaluator(Evaluators.excludeStartPosition())
-				.evaluator(Evaluators.endNodeIs(Evaluation.INCLUDE_AND_CONTINUE,Evaluation.INCLUDE_AND_CONTINUE, end))
-				.uniqueness(Uniqueness.RELATIONSHIP_GLOBAL );
+				.evaluator(Evaluators.endNodeIs(Evaluation.INCLUDE_AND_CONTINUE,Evaluation.EXCLUDE_AND_CONTINUE, end))
+				.uniqueness(Uniqueness.NODE_PATH );
 		List<String> mapPathsList = new ArrayList<String>();
 		FoodStepWS graph = getFoodStepWS(start,end,traversalDescription,mapPathsList);
 		List<FoodStepWS> flatFoodGraph = createFlatFoodGraph(graph);
@@ -134,8 +153,10 @@ public class FTTripController extends FTController {
 			throw new FoodtripException(FoodtripError.INVALID_TRIP.getCode());
 		}
 
-		FoodStepWS graph = new FoodStepWS(step.getId(),ModelUtils.toCompanyWS(stepCompany),step.getLat(),step.getLng(),step.getAlt(),new Date(step.getDate()),null,null,FoodStepWS.MARKER_ICON_START,stepCompany.getName());
+		String startIconPath = FoodStepWS.MARKER_ICON_PATH + FoodStepWS.MARKER_ICON_NAME + "1.png";
+		FoodStepWS graph = new FoodStepWS(step.getId(),ModelUtils.toCompanyWS(stepCompany),step.getLat(),step.getLng(),step.getAlt(),new Date(step.getDate()),null,null,startIconPath,stepCompany.getName());
 		
+		int index = 2;
 		for (Path position : path.traverse(start)) {
 			if(position.length() == 0) {
 				continue;
@@ -150,7 +171,6 @@ public class FTTripController extends FTController {
 			Node n = null;
 			FoodStepWS previous = null;
 			
-			int i = 1;
 			Iterator<Node> it = position.nodes().iterator();
 			while (it.hasNext()) {
 				n = it.next();
@@ -158,7 +178,7 @@ public class FTTripController extends FTController {
 				if (n.equals(start)) {
 					previous = graph;
 					if(createPath && graph.getLat()!= null && graph.getLng()!= null) {
-						mapPath += "["+ graph.getLat()/10000000 +"," + graph.getLng()/10000000 +"],";
+						mapPath += "["+ graph.getLat() +"," + graph.getLng() +"],";
 					}
 					continue;
 				}
@@ -172,7 +192,7 @@ public class FTTripController extends FTController {
 				
 				
 				if(createPath && s.getLat()!= null && s.getLng()!= null) {
-					mapPath += "["+ s.getLat()/10000000 +"," + s.getLng()/10000000 +"],";
+					mapPath += "["+ s.getLat() +"," + s.getLng() +"],";
 				}
 				
 				if(previous.getChildren().containsKey(s.getCompanyID())) {
@@ -185,13 +205,14 @@ public class FTTripController extends FTController {
 					continue;
 				}
 				
-				String icon = n.equals(end) ? FoodStepWS.MARKER_ICON_END : FoodStepWS.MARKER_ICON;
+				String icon = FoodStepWS.MARKER_ICON_PATH + FoodStepWS.MARKER_ICON_NAME + index +".png";
 				FoodStepWS child = new FoodStepWS(s.getId(),ModelUtils.toCompanyWS(company),s.getLat(),s.getLng(),s.getAlt(),new Date(s.getDate()),null,null,icon,stepCompany.getName());
 				child.setCompany(ModelUtils.toCompanyWS(company));
 				child.setParentID(previous.getId());
 				previous.getChildren().put(child.getCompany().getId(), child);
 				previous = child;
-				i++;
+				
+				index++;
 			}
 			
 			if(mapPath != null) {
@@ -243,19 +264,21 @@ public class FTTripController extends FTController {
 		return steps;
 	}
 	
-	public void addStep(Long currentEndPointID, Long orderID, CompanyWS company,PointWS point) throws FoodtripException {
+	public void addStep(Long currentStepEndPointID, Long orderID, CompanyWS company,PointWS point,boolean useTransaction) throws FoodtripException {
 		
 		if (orderID == null) {
 			logger.error("Invalid null order");
 			throw new FoodtripException(FoodtripError.INVALID_ORDER.getCode());
 		}
 		
+		new FTCompanyController().checkCompany(company);
+		
 		/*get an order*/
 		GraphDatabaseService graph = connector.graphDatabaseService();
 		OrderRepository orderRepository = connector.getOrderRepository();
 		CompanyRepository companyRepository = connector.getCompanyRepository();
 		StepRepository stepRepository = connector.getStepRepository();
-		
+		NotificationRepository ntfsRepository = connector.getNotificationRepository();
 		
 		Order order = orderRepository.findOne(orderID);
 		if (order == null || order.getStep() == null) {
@@ -269,14 +292,18 @@ public class FTTripController extends FTController {
 			throw new FoodtripException(FoodtripError.INVALID_COMPANY.getCode());
 		}
 
-		Transaction tx = graph.beginTx();
+		Transaction tx = null;
+		if(useTransaction) {
+			tx = graph.beginTx();
+		}
+		
 		try {
 			/*get the trip current end-point*/
 			Step currentEndPoint = null;
-			if(currentEndPointID == null) {
+			if(currentStepEndPointID == null) {
 				currentEndPoint = order.getStep();
 			}else {
-				currentEndPoint = stepRepository.findOne(currentEndPointID);	
+				currentEndPoint = stepRepository.findOne(currentStepEndPointID);	
 			}
 			
 			if (currentEndPoint == null) {
@@ -311,12 +338,78 @@ public class FTTripController extends FTController {
 			newStep.setAlt(alt);
 			newStep.setLng(lng);
 			newStep.setLat(lat);
+			newStep.setState(Step.STATE_TO_BE_CONFIRMED); 
 			stepRepository.save(newStep);
 			
 			//define and save previous end point (for relation purpose)
 			currentEndPoint.getNextSteps().add(newStep);
 			stepRepository.save(currentEndPoint);
+			
+			//send notification to the seller (to confirm the new step)
+			Notification n = new Notification();
+			n.setCompanyID(currentEndPoint.getCompanyID()); //this is the previous company id
+			n.setFoodTrip(orderID);
+			n.setProductID(order.getOrderProductRel().getProduct().getId());
+			n.setState(Notification.STATE_NEW);
+			n.setStepID(newStep.getId());
+			n = ntfsRepository.save(n);
+			
+			//add the notification and save the seller
+			if(newCompany.getNotifications() == null) {
+				newCompany.setNotifications(new HashSet<Notification>());
+			}
+			newCompany.getNotifications().add(n);
+			companyRepository.save(newCompany);
+			
 		} catch(Exception e) {
+			if(useTransaction){tx.failure();}
+			logger.error("Error: ", e);
+			throw new FoodtripException(FoodtripError.GENERIC_ERROR.getCode());
+		} finally {
+			if(useTransaction) {tx.close();}
+		}
+	}
+
+	public void confirmOrDenyStep(Long notificationID, CompanyWS company,boolean confirmed) throws FoodtripException {
+		GraphDatabaseService graph = connector.graphDatabaseService();
+		StepRepository stepRepository = connector.getStepRepository();
+		NotificationRepository ntfsRepository = connector.getNotificationRepository();
+
+		Transaction tx = null;
+	
+		if(notificationID == null) {
+			throw new FoodtripException(FoodtripError.INVALID_STEP.getCode());
+		}	
+		if(company == null || company.getId() == null) {
+			throw new FoodtripException(FoodtripError.INVALID_COMPANY.getCode());
+		}
+		new FTCompanyController().checkCompany(company);
+		
+		try {
+			tx = graph.beginTx();	
+			Notification n = ntfsRepository.findOne(notificationID);
+			if(n == null || n.getId() == null) {
+				throw new FoodtripException(FoodtripError.INVALID_STEP.getCode());
+			}
+			
+			Step step = stepRepository.findOne(n.getStepID());
+			if(step == null || step.getId() == null) {
+				throw new FoodtripException(FoodtripError.INVALID_STEP.getCode());
+			}
+			
+			if(step.getCompanyID().longValue() != company.getId().longValue()) {
+				throw new FoodtripException(FoodtripError.INVALID_STEP_CONFIRM.getCode());
+			}
+			
+			step.setState(confirmed ? Step.STATE_CONFIRMED : Step.STATE_INVALID);
+			n.setState(confirmed ? Notification.STATE_STEP_CONFIRMED : Notification.STATE_STEP_INVALID);
+			
+			stepRepository.save(step);
+			ntfsRepository.save(n);
+			
+			tx.success();
+		} catch(Exception e) {
+			tx.failure();
 			logger.error("Error: ", e);
 			throw new FoodtripException(FoodtripError.GENERIC_ERROR.getCode());
 		} finally {

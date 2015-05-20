@@ -1,17 +1,16 @@
 package com.foodtrip.ftcontroller;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import com.foodtrip.ftmodeldb.model.Address;
 import com.foodtrip.ftmodeldb.model.City;
 import com.foodtrip.ftmodeldb.model.Company;
 import com.foodtrip.ftmodeldb.model.Farm;
+import com.foodtrip.ftmodeldb.model.Notification;
 import com.foodtrip.ftmodeldb.model.Order;
 import com.foodtrip.ftmodeldb.model.OrderProductRel;
 import com.foodtrip.ftmodeldb.model.Person;
@@ -20,6 +19,7 @@ import com.foodtrip.ftmodelws.AddressWS;
 import com.foodtrip.ftmodelws.CityWS;
 import com.foodtrip.ftmodelws.CompanyWS;
 import com.foodtrip.ftmodelws.FarmWS;
+import com.foodtrip.ftmodelws.NotificationWS;
 import com.foodtrip.ftmodelws.OrderWS;
 import com.foodtrip.ftmodelws.PersonWS;
 import com.foodtrip.ftmodelws.ProductWS;
@@ -67,6 +67,12 @@ public class ModelUtils {
 		ret.setAlt(companyWS.getAlt());
 		ret.setLng(companyWS.getLng());
 		ret.setLat(companyWS.getLat());
+		
+
+		ret.setCompanyKey(companyWS.getCompanyKey());
+		ret.setCreator(ModelUtils.toPersonDB(companyWS.getCreator()));
+		ret.setCompanyTypeDescription(companyWS.getCompanyTypeDescription());
+		ret.setCompanyDescription(companyWS.getCompanyDescription());
 	}
 
 	public static Person toPersonDB(PersonWS personWS) {
@@ -86,6 +92,9 @@ public class ModelUtils {
 		ret.setAddress(toAddressDB(personWS.getAddress()));
 		ret.setVerifiedUser(false);
 		ret.setMobileNumber(personWS.getMobileNumber());
+		ret.setBirthDate(personWS.getBirthDate());
+		ret.setBirthPlace(personWS.getBirthPlace());
+		ret.setGender(personWS.getGender());
 		
 		return ret;
 	}
@@ -97,7 +106,9 @@ public class ModelUtils {
 		
 		Address ret = new Address();
 		ret.setId(addressWS.getId());
-		ret.setCity(toCityDB(addressWS.getCity()));
+		City city = toCityDB(addressWS.getCity());
+		ret.setCity(city);
+		ret.setCityName(city != null ? city.getName() : null);
 		ret.setStreetNumber(addressWS.getStreetNumber());
 		ret.setStreetName(addressWS.getStreetName());
 		ret.setZipCode(addressWS.getZipCode());
@@ -150,12 +161,14 @@ public class ModelUtils {
 		retWS.setAlt(company.getAlt());
 		retWS.setLng(company.getLng());
 		retWS.setLat(company.getLat());
-		
+		retWS.setCreator(ModelUtils.toPersonWS(company.getCreator()));
+		retWS.setCompanyTypeDescription(company.getCompanyTypeDescription());
+		retWS.setCompanyDescription(company.getCompanyDescription());
 		retWS.setFacebookID(company.getFacebookID());
 		retWS.setFoundingDate(company.getFoundingDate());
 		retWS.setGooglePlusID(company.getGooglePlusID());
 		retWS.setEmail(company.getEmail());
-		
+		retWS.setCompanyKey(company.getCompanyKey());
 	}
 
 	private static AddressWS toAddressWS(Address address) {
@@ -163,9 +176,18 @@ public class ModelUtils {
 			return null;
 		}
 		AddressWS retWS = new AddressWS();
-		if (address.getCity() != null) {
-			retWS.setCity(new CityWS(address.getCity().getName(),address.getCity().getId()));
+		
+		String cityName = address.getCityName();
+		CityWS city = new CityWS();
+		if(cityName != null) {
+			city.setName(cityName);
 		}
+		
+		if (address.getCity() != null && address.getCity().getName() != null) {
+			city.setName(address.getCity().getName());
+		}
+		retWS.setCity(city);
+		
 		retWS.setState(address.getState());
 		retWS.setStreetName(address.getStreetName());
 		retWS.setStreetNumber(address.getStreetNumber());
@@ -192,6 +214,10 @@ public class ModelUtils {
 		retWS.setName(p.getName());
 		retWS.setSurname(p.getSurname());
 		
+		retWS.setBirthDate(p.getBirthDate());
+		retWS.setBirthPlace(p.getBirthPlace());
+		retWS.setGender(p.getGender());
+		
 		return retWS;
 	}
 
@@ -211,6 +237,10 @@ public class ModelUtils {
 		pDB.setType(pWS.getType());
 		pDB.setId(pWS.getId());
 		pDB.setDescription(pWS.getDescription());
+		
+		pDB.setLat(pWS.getLat());
+		pDB.setLng(pWS.getLng());
+		
 		return pDB;
 	}
 
@@ -301,5 +331,19 @@ public class ModelUtils {
 		c.set(data/10000,(data%10000)/100-1,data%100,0,0,0);
 		c.set(Calendar.MILLISECOND,0);
 		return c.getTime();
+	}
+
+	public static NotificationWS toNotificationWS(Notification n, Product p,Company c) {
+		NotificationWS nWS = new NotificationWS();
+		nWS.setDate(n.getDate());
+		nWS.setId(n.getId());
+		nWS.setFoodTrip(n.getFoodTrip());
+		nWS.setMessage(n.getMessage());
+		nWS.setProduct(ModelUtils.toProductWS(p));
+		nWS.setState(n.getState());
+		nWS.setStepID(n.getStepID());
+		nWS.setCompany(ModelUtils.toCompanyWS(c));
+
+		return nWS;
 	}
 }

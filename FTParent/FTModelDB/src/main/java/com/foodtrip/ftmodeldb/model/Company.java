@@ -1,7 +1,6 @@
 package com.foodtrip.ftmodeldb.model;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
 import org.neo4j.graphdb.Direction;
@@ -35,8 +34,13 @@ public class Company {
 	private Float lng;
 	private Float alt;
 	
+	private String companyTypeDescription;
+
+	private String companyDescription;
+	
 	private String description;
-	private List<String> certifications;
+	
+	private String certifications;
 	
 	private String facebookID;
 	private String googlePlusID;
@@ -44,7 +48,47 @@ public class Company {
 	private Date foundingDate;
 
 	private String country;
+
+	@Indexed(indexName="companyKey", indexType=IndexType.FULLTEXT)
+	private String companyKey;
 	
+	@RelatedTo(type = "CREATED_BY", direction = Direction.INCOMING)
+	private Person creator;
+	
+
+	@RelatedTo(type = "NOTIFY", direction = Direction.INCOMING)
+	private Set<Notification> notifications;
+	
+	@Fetch 
+	@RelatedTo(type = "PRESIDENT_OF", direction = Direction.INCOMING)
+	private Person president;
+
+	@Fetch
+	@RelatedTo(type = "OWNER_OF", direction = Direction.INCOMING)
+	private Person owner;
+
+	@Fetch
+	@RelatedTo(type = "WORKS_AT", direction = Direction.INCOMING)
+	private Set<Person> employees;
+
+	@Fetch
+	@RelatedTo(type = "LOCATED_AT", direction = Direction.OUTGOING)
+	private Address address;
+
+	@RelatedTo(type = "DEVICES", direction = Direction.INCOMING)
+	private Set<DeviceInfo> devices;
+
+	
+	public Set<DeviceInfo> getDevices() {
+		return devices;
+	}
+
+
+	public void setDevices(Set<DeviceInfo> devices) {
+		this.devices = devices;
+	}
+
+
 	public String getFacebookID() {
 		return facebookID;
 	}
@@ -108,26 +152,6 @@ public class Company {
 		this.vatNumber = vatNumber;
 	}
 
-
-	@RelatedTo(type = "NOTIFY", direction = Direction.INCOMING)
-	private Set<Notification> notifications;
-	
-	@Fetch 
-	@RelatedTo(type = "PRESIDENT_OF", direction = Direction.INCOMING)
-	private Person president;
-
-	@Fetch
-	@RelatedTo(type = "OWNER_OF", direction = Direction.INCOMING)
-	private Person owner;
-
-	@Fetch
-	@RelatedTo(type = "WORKS_AT", direction = Direction.INCOMING)
-	private Set<Person> employees;
-
-	@Fetch
-	@RelatedTo(type = "LOCATED_AT", direction = Direction.OUTGOING)
-	private Address address;
-
 //	@Fetch @RelatedToVia(type = "PATH", direction = Direction.INCOMING)
 //	private Set<CompanyToCompanyRel> companyToCompanyRel = new HashSet<CompanyToCompanyRel>();
 
@@ -174,7 +198,16 @@ public class Company {
 	public Set<Person> getEmployees() {
 		return employees;
 	}
+	
+	public Set<Notification> getNotifications() {
+		return notifications;
+	}
 
+
+	public void setNotifications(Set<Notification> notifications) {
+		this.notifications = notifications;
+	}
+	
 	public void setEmployees(Set<Person> employees) {
 		this.employees = employees;
 	}
@@ -257,12 +290,12 @@ public class Company {
 	}
 
 
-	public List<String> getCertifications() {
+	public String getCertifications() {
 		return certifications;
 	}
 
 
-	public void setCertifications(List<String> certifications) {
+	public void setCertifications(String certifications) {
 		this.certifications = certifications;
 	}
 
@@ -275,4 +308,45 @@ public class Company {
 	public void setCountry(String country) {
 		this.country = country;
 	}
+
+
+	public String getCompanyDescription() {
+		return companyDescription;
+	}
+
+
+	public void setCompanyDescription(String companyDescription) {
+		this.companyDescription = companyDescription;
+	}
+	
+	public Person getCreator() {
+		return creator;
+	}
+
+
+	public void setCreator(Person creator) {
+		this.creator = creator;
+	}
+
+	
+	public String getCompanyTypeDescription() {
+		return companyTypeDescription;
+	}
+
+
+	public void setCompanyTypeDescription(String companyTypeDescription) {
+		this.companyTypeDescription = companyTypeDescription;
+	}
+
+
+	public String getCompanyKey() {
+		return companyKey;
+	}
+
+
+	public void setCompanyKey(String companyKey) {
+		this.companyKey = companyKey;
+	}
+
+
 }

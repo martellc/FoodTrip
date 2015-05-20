@@ -23,6 +23,10 @@ public class Step {
 		super();
 	}
 
+	public static final int STATE_INVALID = -2;
+	public static final int STATE_CONFIRMED = 0;
+	public static final int STATE_TO_BE_CONFIRMED = -1;
+	
 	@GraphId
 	private Long id;
 
@@ -34,6 +38,8 @@ public class Step {
 
 	private Double quantity;
 
+	private int state = STATE_TO_BE_CONFIRMED;
+	
 	//spatial information
 	private Float lat;
 	private Float lng;
@@ -123,6 +129,14 @@ public class Step {
 
 	public void setAlt(Float alt) {
 		this.alt = alt;
+	}
+
+	public int getState() {
+		return state;
+	}
+
+	public void setState(int state) {
+		this.state = state;
 	}
 
 

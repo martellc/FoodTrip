@@ -3,13 +3,13 @@ package com.foodtrip.ftmodelws;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 
 
 public class CompanyWS implements Serializable {
 
-	public enum CompanyType {
+	private static final long serialVersionUID = 1L;
 
+	public enum CompanyType {
 		FARM("Farm"),
 		INTERMEDIARY("Intermediary"),
 		COOP("Cooperative"),
@@ -29,16 +29,22 @@ public class CompanyWS implements Serializable {
 			this.type = type;
 		}
 	}
+	
 	private Long id;
 	private String name;
 	private String number;
 	private String type;
 	private String vatNumber;
 	private String description;
-	private List<String> certifications;
+	private String certifications;
 	private Date foundingDate;
 
 	private PersonWS owner;
+	private PersonWS creator;
+	private String companyDescription;
+
+	private String companyTypeDescription;
+	
 	private PersonWS president;
 	private AddressWS address;
 
@@ -46,6 +52,8 @@ public class CompanyWS implements Serializable {
 	private String googlePlusID;
 	private String email;
 
+	private String companyKey;
+	
 	public String getFacebookID() {
 		return facebookID;
 	}
@@ -187,11 +195,11 @@ public class CompanyWS implements Serializable {
 		this.description = description;
 	}
 
-	public List<String> getCertifications() {
+	public String getCertifications() {
 		return certifications;
 	}
 
-	public void setCertifications(List<String> certifications) {
+	public void setCertifications(String certifications) {
 		this.certifications = certifications;
 	}
 
@@ -219,5 +227,37 @@ public class CompanyWS implements Serializable {
 			htmlCompany += this.getAddress().getHtmlString();		
 		}
 		return htmlCompany;
+	}
+
+	public PersonWS getCreator() {
+		return creator;
+	}
+
+	public void setCreator(PersonWS creator) {
+		this.creator = creator;
+	}
+
+	public String getCompanyDescription() {
+		return companyDescription;
+	}
+
+	public void setCompanyDescription(String companyDescription) {
+		this.companyDescription = companyDescription;
+	}
+
+	public String getCompanyTypeDescription() {
+		return companyTypeDescription;
+	}
+
+	public void setCompanyTypeDescription(String companyTypeDescription) {
+		this.companyTypeDescription = companyTypeDescription;
+	}
+
+	public String getCompanyKey() {
+		return companyKey;
+	}
+
+	public void setCompanyKey(String companyKey) {
+		this.companyKey = companyKey;
 	}
 }

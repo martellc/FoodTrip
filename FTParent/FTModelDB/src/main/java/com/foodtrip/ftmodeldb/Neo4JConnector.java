@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import com.foodtrip.ftmodeldb.repo.CityRepository;
 import com.foodtrip.ftmodeldb.repo.CompanyRepository;
 import com.foodtrip.ftmodeldb.repo.FarmRepository;
+import com.foodtrip.ftmodeldb.repo.NotificationRepository;
 import com.foodtrip.ftmodeldb.repo.OrderRepository;
 import com.foodtrip.ftmodeldb.repo.PersonRepository;
 import com.foodtrip.ftmodeldb.repo.ProductRepository;
@@ -35,6 +36,18 @@ public class Neo4JConnector extends Neo4jConfiguration {
 	@Autowired ProductRepository productRepository;
 	@Autowired FarmRepository farmRepository;
 	@Autowired StepRepository stepRepository;
+	@Autowired NotificationRepository notificationRepository;
+	
+	public NotificationRepository getNotificationRepository() {
+		return notificationRepository;
+	}
+
+
+	public void setNotificationRepository(
+			NotificationRepository notificationRepository) {
+		this.notificationRepository = notificationRepository;
+	}
+
 
 	public PersonRepository getPersonRepository() {
 		return personRepository;

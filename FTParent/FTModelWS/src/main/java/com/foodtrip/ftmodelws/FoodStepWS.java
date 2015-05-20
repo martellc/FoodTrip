@@ -8,9 +8,10 @@ import java.util.Map;
 
 public class FoodStepWS implements Comparable<FoodStepWS>,Serializable {
 
-	public static final String MARKER_ICON_START="./img/start.png";
-	public static final String MARKER_ICON="./img/marker.png";
-	public static final String MARKER_ICON_END="./img/end.png";
+	private static final long serialVersionUID = 1L;
+
+	public static final String MARKER_ICON_PATH="img/numbers/";
+	public static final String MARKER_ICON_NAME="iconr";
 	
 	public FoodStepWS() {
 		
@@ -36,7 +37,7 @@ public class FoodStepWS implements Comparable<FoodStepWS>,Serializable {
 
 	private Map<Long,FoodStepWS> children = new HashMap<Long, FoodStepWS>();
 	
-	private String markerIcon=MARKER_ICON;
+	private String markerIcon=null;
 
 	private String infoWindow;
 	
@@ -80,7 +81,7 @@ public class FoodStepWS implements Comparable<FoodStepWS>,Serializable {
 	}
 
 	public Float getLat() {
-		return lat/10000000;
+		return lat;
 	}
 
 	public void setLat(Float lat) {
@@ -88,7 +89,7 @@ public class FoodStepWS implements Comparable<FoodStepWS>,Serializable {
 	}
 
 	public Float getLng() {
-		return lng/10000000;
+		return lng;
 	}
 
 	public void setLng(Float lng) {

@@ -1,35 +1,50 @@
+<script>
+$(window).on('scroll', function(){
+	$timeline_block.each(function(){
+		if( $(this).offset().top <= $(window).scrollTop()+$(window).height()*0.75 && $(this).find('.cd-timeline-img').hasClass('is-hidden') ) {
+			$(this).find('.cd-timeline-img, .cd-timeline-content').removeClass('is-hidden').addClass('bounce-in');
+		}
+	});
+});
+</script>
+
 <div class="jumbotron">
-	<p class="lead">{{'TRIP_TEXT_LABEL' | translate}}</p>
-	<form name="tripForm" class="formTrip">
-		<div class="form-group col-xs-12 col-md-10">
-			<input type="text" class="form-control" ng-model="tripID" required />
-		</div>
-		<div class="col-xs-12 col-md-2">
-			<button class="btn2 btn2-success pull-center "
-				ng-click="getTrip('./trip.html');google.maps.event.trigger($scope.map,'resize');">
-				<span class="glyphicon"></span>{{'GET_TRIP_BUTTON' | translate}}
-			</button>
-		</div>
-	</form>
-
-</div>
-<div class="row marketing" ng-if="showtrip">
-
-	<div>
-		<h3>{{product.name}} - ({{tripID}})</h3>
+	<div class="container">
+		<div class="col-xs-12 col-md-12 lead">{{'TRIP_TEXT_LABEL' | translate}}</div>
+		<form name="tripForm" class="formTrip">
+			<div class="form-group col-xs-12 col-md-10">
+				<input type="text" ng-trim="true" class="form-control" ng-model="tripID" />
+			</div>
+			<div class="col-xs-12 col-md-2">
+				<button class="btn2 btn2-success pull-center "
+					ng-click="getTrip('./trip.html',tripID);google.maps.event.trigger($scope.map,'resize');">
+					<span class="glyphicon"></span>{{'GET_TRIP_BUTTON' | translate}}
+				</button>
+			</div>
+		</form>
 	</div>
+</div>
+<div style="height:300px" ng-if="!$root.showtrip">
+</div>
 
+<div  class="container" ng-if="$root.tripView.default">
+ <alert type="danger" >{{'FOODTRIP_NOT_FOUND' | translate}}</alert>	
+</div>
 
-
+<div class="container" ng-if="$root.showtrip">
+	<div>
+		<h3>{{product.name}} </h3>
+		<span> {{product.description}}</</span>
+	</div>
 	<div>
 		<ul class="nav nav-tabs">
 			<li role="presentation" ng-class="{active: tabIndex == 0}"><a
-				href="#" ng-click="showProductDetail()">{{'PRODUCT_DETAIL' |
+				href="#foodtrip" ng-click="showProductDetail()">{{'PRODUCT_DETAIL' |
 					translate}}</a></li>
 			<li role="presentation" ng-class="{active: tabIndex == 1}"><a
-				href="#" ng-click="showProductTrip()">{{'FOODTRIP' | translate}}</a></li>
+				href="#foodtrip" ng-click="showProductTrip()">{{'STEPS' | translate}}</a></li>
 			<li role="presentation" ng-class="{active: tabIndex == 2}"><a
-				href="#" ng-click="showTripMap()">{{'MAP' | translate}}</a></li>
+				href="#foodtrip" ng-click="showTripMap()">{{'MAP' | translate}}</a></li>
 		</ul>
 
 
@@ -37,29 +52,29 @@
 
 			<div class="col-xs-12 col-md-6" ng-show="!showMap">
 				<div class="div-map">
-					<map id="productMap" center="{{product.lat}},{{product.lng}}"
-						zoom="6">
+					<map id="productMap" center="{{product.lat}},{{product.lng}}" class="map400"
+						zoom="4">
 						<marker position="{{product.lat}},{{product.lng}}" visible="true" />
 					</map>
 				</div>
 			</div>
-			<div class="col-xs-12 col-md-6 top1" ng-show="!showMap">
+			<div class=" detailContent col-xs-12 col-md-6" ng-show="!showMap">
 				<div class="p-grey block pull-center">{{'SAWING_DATE' |
-					translate}} {{product.sawingDate | date : 'dd/MM/yyyy'}})</div>
+					translate}} {{product.sawingDate | date : 'dd/MM/yyyy'}}</div>
 				<div class="p-grey block pull-center">{{'HARVEST_DATE' |
-					translate}} ({{product.harvestDate | date : 'dd/MM/yyyy'}})</div>
+					translate}} {{product.harvestDate | date : 'dd/MM/yyyy'}}</div>
 				<div class="block">
 					<p class="p-grey" style="margin-top: 30px; margin-bottom: 30px;">
 						<span style="display: block">{{'PRODUCED_BY' | translate}}
 							<a>{{producer.name}}</a>
 						</span> {{producer.address.streetName}} {{producer.address.streetNumber}}
 						{{producer.address.zipCode}} {{producer.address.city.name}}
-						{{producer.address.state}}<br /> <span class="p-grey">{{'CERTIFICATIONS'
+						{{producer.address.state}}<br/> <br/>
+						<span class="p-grey">{{'CERTIFICATIONS'
 							| translate}}:</span> <span class="p-red"
-							ng-show="!product.certifications.length">{{'NO_CERTIFICATIONS'
+							ng-show="producer.certifications == null">{{'NO_CERTIFICATIONS'
 							| translate}}</span> <span class="p-grey"
-							ng-show="product.certifications.length"
-							ng-repeat="c in product.certifications">{{c}}&nbsp;</span>
+							ng-show="producer.certifications != null" >{{producer.certifications}}</span>
 					</p>
 				</div>
 				<div class="block">
@@ -107,16 +122,29 @@
 			</div>
 		</div>
 		<div id="foodTrip" class="tabContent" ng-show="tabIndex==1">
-			<table id="trip-table">
-				<div id="cy"></div>
-			</table>
+			<section id="cd-timeline" class="col-xd-12 col-md-12">
+				<div class="cd-timeline-block" ng-repeat="step in tripView.flatFoodGraph">
+					<div class="cd-timeline-img cd-picture">
+						<img alt="Picture" src="img/cd-icon-picture.svg">
+					</div>
+					<div class="cd-timeline-content">
+						<div>
+							<h4 style="display:inline">{{step.company.name}}</h4>
+							<h5 style="display:inline">({{step.company.type | translate}})</h5>
+						</div>
+						<p>{{step.company.address.htmlString}}</p>
+						<a class="cd-read-more" href="#0">{{'VIEW_DETAILS' | translate }}</a>
+						<span class="cd-date">{{step.date  | date : mediumDate}}</span>
+					</div>
+				</div> 
+			</section>
 		</div>
 
 		<div ng-if="tabIndex==2" class="tabContent">
 			<div class="col-xd-12 col-md-12">
 				<div class="div-map">
-					<map id="productMap" class="map400"
-						center="{{product.lat}},{{product.lng}}" zoom="5">
+					<map id="productMap" class="map500"
+						center="{{product.lat}},{{product.lng}}" zoom="2">
 
 						<div ng-repeat="step in tripView.flatFoodGraph">
 							<marker id="marker_{{step.id}}"
@@ -131,12 +159,14 @@
 							</info-window>
 						</div>
 						<shape ng-repeat="path in paths" name="polyline" path="{{path}}"
-							geodesic="true" stroke-color="#4E8DCE" stroke-opacity="0.7"
-							stroke-weight="1" />
+							geodesic="true" stroke-color="#FF887C" stroke-opacity="0.9"
+							stroke-weight="2" />
 					</map>
-
 				</div>
 			</div>
+			
 		</div>
 	</div>
 </div>
+
+<div ng-include="'loadingDiv.html'"> </div>

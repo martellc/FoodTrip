@@ -53,6 +53,8 @@ public class Address {
 	@RelatedTo(type = "RESIDE_ON", direction = Direction.OUTGOING)
 	private City city;
 
+	private String cityName;
+	
 	private String state;
 	
 	
@@ -102,5 +104,13 @@ public class Address {
 
 	public void setState(String state) {
 		this.state = state;
+	}
+
+	public String getCityName() {
+		return cityName;
+	}
+
+	public void setCityName(String cityName) {
+		this.cityName = cityName;
 	}
 }

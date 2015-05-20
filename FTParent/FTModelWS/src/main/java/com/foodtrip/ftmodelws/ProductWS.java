@@ -50,7 +50,7 @@ public class ProductWS  implements Serializable {
 	private boolean sustainable;
 	private boolean biodynamic;
 	private boolean ipm;
-	private Set<String> certifications;
+	private String certifications;
 
 	//food type info
 	private boolean ogm;
@@ -129,11 +129,11 @@ public class ProductWS  implements Serializable {
 		this.ipm = ipm;
 	}
 
-	public Set<String> getCertifications() {
+	public String getCertifications() {
 		return certifications;
 	}
 
-	public void setCertifications(Set<String> certifications) {
+	public void setCertifications(String certifications) {
 		this.certifications = certifications;
 	}
 
