@@ -11,7 +11,7 @@ public class AddressWS  implements Serializable {
 	private String streetNumber;
 	private CityWS city;
 	private String zipCode;
-	private String state;
+	private String state; 
 	
 	public String getStreetName() {
 		return streetName;
