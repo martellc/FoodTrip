@@ -3,7 +3,6 @@ app.controller("mainController", function($window,$scope, $rootScope, $http, $lo
 	$scope.typeTooltip="<b>Produttore</b>: Utilizza questa tipologia se sei un produttore diretto od una categoria<br><br><b>Intermediario</b>: Aziende di trasporto, intermediari generici, aziende di stoccaggio, pulitura o grossisti rientrano in questa categoria<br><br><b>Distrubutore finale</b>: Nel caso la tua attivita' principale sia la distrubuzione diretta al cliente, scegli questa tipologia"
 	$scope.endCompany = '';
 	$scope.cy;
-	$scope.loading = false;
 	
 	$scope.mainTabIndex = -1;
 
@@ -19,18 +18,28 @@ app.controller("mainController", function($window,$scope, $rootScope, $http, $lo
 	};
 	
 	$scope.load = function() {
-		$scope.loading = true;
+		$rootScope.loading = true;
 	};
 	
+
 	$scope.changeMainTab = function(index) {
-		$scope.loading = true;
 		$scope.mainTabIndex = index;
-		$scope.loading = false;
+		
+		//clean trip variables
+		$rootScope.showtrip=false;
+		$rootScope.tripID = null;
+	    
+		$rootScope.product = null;
+		$rootScope.producer = null;
+
+		$rootScope.tripView = null;
+		$rootScope.paths = null;
 		
 		if(index==5) {
 			//generate guid
 			$rootScope.guid = guid();
 		}
+	
 	};
 
 	$scope.tabIndex=0;
@@ -67,7 +76,7 @@ app.controller("mainController", function($window,$scope, $rootScope, $http, $lo
 		
 		$rootScope.tripID = tripID;
 		
-		$scope.loading = true;	   
+		$rootScope.loading = true;	   
 		var postObject = new Object();
 		postObject.id = tripID;
 		
@@ -82,24 +91,26 @@ app.controller("mainController", function($window,$scope, $rootScope, $http, $lo
 			$rootScope.paths = $scope.tripView.paths;
 			$scope.showProductDetail();
 			  
-			$scope.loading = false;
+			$rootScope.loading = false;
 			$rootScope.showtrip=true;
 		}).
 		error(function(data, status, headers, config) {
-			$scope.loading = false;
+			$rootScope.loading = false;
 		});
 
 	};
 	
 	$scope.showRegistrationPhase2 = function(info,foundingDate) {
-		$scope.loading = true;
+		$rootScope.loading = true;
 		
 		$rootScope.companyInfo = info;
 		if(foundingDate != null) {
 			$rootScope.companyInfo.foundingDate = foundingDate.getTime();
 		}
 
-		$scope.loading = false;
+		$location.path( "register2" );
+		$rootScope.loading = false;
+		
 	}
 	
 	$scope.addCompany = function(info, birthDate) {
@@ -108,24 +119,28 @@ app.controller("mainController", function($window,$scope, $rootScope, $http, $lo
 		$scope.response = null;
 		
 		$rootScope.companyInfo.creator = info;
-		$rootScope.companyInfo.creator.birthDate = birthDate.getTime();
+		if(birthDate != null) {
+			$rootScope.companyInfo.creator.birthDate = birthDate.getTime();	
+		}
 		
+		$rootScope.companyInfo.companyKey = guid();
 		var postObject = new Object();
 		postObject = $rootScope.companyInfo;
 		
-		$scope.loading = true;
+		$rootScope.loading = true;
 		$http.post("http://localhost:8080/FTServiceRestFul/company", postObject).success(function (data) {
 			console.log(data);
-			$scope.loading = false;
-			
+			$rootScope.loading = false;
+			$location.path( "register3" );
 			//generate guid
-			$rootScope.guid = guid();
+			$rootScope.guid = $rootScope.companyInfo.companyKey;
 			$scope.mainTabIndex = 5;
 
 		}).
 		error(function(data, status, headers, config) {
-			$scope.loading = false;
-			$rootScope.guid = guid();
+			$rootScope.loading = false;
+			//$rootScope.guid = guid();
+			$location.path( "error" );
 		});
 
 	};

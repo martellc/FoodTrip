@@ -21,12 +21,15 @@ public class Notification {
 	private long date = new Date().getTime();
 	
 	private Long foodTrip;
+	
 	private String message;
 	
 	private int state;
 	
 	private Long productID;
 
+	private Long producerID;
+	
 	public Long getId() {
 		return id;
 	}
@@ -74,5 +77,11 @@ public class Notification {
 	}
 	public void setState(int state) {
 		this.state = state;
+	}
+	public Long getProducerID() {
+		return producerID;
+	}
+	public void setProducerID(Long producerID) {
+		this.producerID = producerID;
 	}
 }

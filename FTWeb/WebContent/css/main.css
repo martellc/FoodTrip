@@ -574,8 +574,18 @@ span.pink {
 ul {
   padding-left:10px;	
 }
+
 .step {
-	font-size:21px;
+	font-size:18px !important;
+}
+
+.stepUl  {
+	font-size:18px !important;
+	padding-left:20px !important;	
+}
+
+.stepUl > li {
+	padding-bottom:15px;	
 }
 
 .question {
@@ -583,11 +593,18 @@ ul {
    padding-bottom:10px;
 }
 
+.justify {
+	text-align:justify;
+}
 
 
+button[disabled], html input[disabled] {
+	background-color:#aaaaaa !important;
+}
 
-
-
+option {
+		background-color:white !important;
+}
 
 /*timeline*/
 #cd-timeline {

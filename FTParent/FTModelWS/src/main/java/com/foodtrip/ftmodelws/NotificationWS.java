@@ -23,6 +23,8 @@ public class NotificationWS implements Serializable {
 	
 	private ProductWS product;
 
+	private CompanyWS producer;
+	
 	public Long getStepID() {
 		return stepID;
 	}
@@ -77,5 +79,11 @@ public class NotificationWS implements Serializable {
 	}
 	public void setId(Long id) {
 		this.id = id;
+	}
+	public CompanyWS getProducer() {
+		return producer;
+	}
+	public void setProducer(CompanyWS producer) {
+		this.producer = producer;
 	}
 }

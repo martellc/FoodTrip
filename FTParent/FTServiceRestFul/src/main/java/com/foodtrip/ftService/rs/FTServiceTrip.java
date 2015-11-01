@@ -20,7 +20,7 @@ import com.sun.jersey.api.client.ClientResponse.Status;
 @Path("/trip")
 public class FTServiceTrip {
 	private static final Logger logger = Logger.getLogger(FTServiceTrip.class);
-	
+
 
 	@GET
 	@Produces("text/plain")
@@ -52,25 +52,23 @@ public class FTServiceTrip {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response getTrip(TripIDWS tripID) {
 
-		Long id = null;
+		Long orderID = null;
 		Long endStepID =null;
-		
-		if(tripID == null || tripID.getId() == null ||  tripID.getId().split("-").length < 2) {
-			tripID.setId(null);
-		} else {
+
+		if(tripID != null && tripID.getId() != null) {
 			try {
-			String[] split = tripID.getId().split("-");
-			id = Long.valueOf(split[0]);
-			endStepID =  Long.valueOf(split[1]);
+				String[] split = safeSplit(tripID.getId());
+				orderID = Long.valueOf(split[0]);
+				if (split.length ==2) endStepID =  Long.valueOf(split[1]);
 			}catch(Exception e) {
 				logger.error("error",e);
-				id=null;
+				orderID=null;
 				endStepID = null;
 			}
 		}
-		
+
 		try {
-			TripView view = new FTTripController().getTrip(id,endStepID);
+			TripView view = new FTTripController().getTrip(orderID,endStepID);
 			return Response.status(Status.ACCEPTED)
 					.entity(view)
 					.type(MediaType.APPLICATION_JSON)
@@ -81,5 +79,23 @@ public class FTServiceTrip {
 					.type(MediaType.APPLICATION_JSON)
 					.build();
 		}
+	}
+
+	private String[] safeSplit(String id) {
+		String[] retval;
+		if (!id.contains("-")) {
+			retval = new String[1];
+			retval[0]= id;
+		} else {
+			retval = id.split("-");
+			if(retval.length > 2) {
+				String[]cuttedRetval= new String[2];
+				cuttedRetval[0] = retval[0];
+				cuttedRetval[1] = retval[1];
+				return cuttedRetval;
+			}
+		}
+		
+		return retval;
 	}
 }

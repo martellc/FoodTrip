@@ -121,7 +121,7 @@ $(window).on('scroll', function(){
 				</div>
 			</div>
 		</div>
-		<div id="foodTrip" class="tabContent" ng-show="tabIndex==1">
+		<div id="foodTrip" class="tabContent" ng-show="tabIndex==1 && tripView.flatFoodGraph != null">
 			<section id="cd-timeline" class="col-xd-12 col-md-12">
 				<div class="cd-timeline-block" ng-repeat="step in tripView.flatFoodGraph">
 					<div class="cd-timeline-img cd-picture">
@@ -140,7 +140,7 @@ $(window).on('scroll', function(){
 			</section>
 		</div>
 
-		<div ng-if="tabIndex==2" class="tabContent">
+		<div ng-if="tabIndex==2 && tripView.flatFoodGraph != null" class="tabContent">
 			<div class="col-xd-12 col-md-12">
 				<div class="div-map">
 					<map id="productMap" class="map500"

@@ -333,7 +333,7 @@ public class ModelUtils {
 		return c.getTime();
 	}
 
-	public static NotificationWS toNotificationWS(Notification n, Product p,Company c) {
+	public static NotificationWS toNotificationWS(Notification n, Product p, Company c, Company producer) {
 		NotificationWS nWS = new NotificationWS();
 		nWS.setDate(n.getDate());
 		nWS.setId(n.getId());
@@ -343,7 +343,8 @@ public class ModelUtils {
 		nWS.setState(n.getState());
 		nWS.setStepID(n.getStepID());
 		nWS.setCompany(ModelUtils.toCompanyWS(c));
-
+		nWS.setCompany(ModelUtils.toCompanyWS(producer));
+		
 		return nWS;
 	}
 }

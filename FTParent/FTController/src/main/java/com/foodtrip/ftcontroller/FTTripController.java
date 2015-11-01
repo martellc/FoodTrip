@@ -48,20 +48,24 @@ public class FTTripController extends FTController {
 		TripView t = new TripView();
 		boolean isDefault = false;
 		
-		if (orderID == null || endStepID == null) {
+		if (orderID == null) {
 			logger.error("Invalid null value");
 			orderID = DEFAULT_TRIP_ORDER;
 			endStepID = DEFAULT_TRIP_ENDPOINT;
-			isDefault =true;
-		}
-		
-		StepRepository stepRepository = connector.getStepRepository();
-		Step endPoint = stepRepository.findOne(endStepID);
-		if(endPoint == null) {
-			logger.error("Invalid end point");
 			isDefault = true;
 		}
-
+		
+		//L'end point non è sempre necessario
+		Step endPoint = null;
+		StepRepository stepRepository = connector.getStepRepository();
+		if (endStepID != null) {
+			stepRepository.findOne(endStepID);
+			if(endPoint == null) {
+				logger.error("No end point found");
+				isDefault = true;
+			}
+		}
+		
 		OrderRepository orderRepository = connector.getOrderRepository();
 		Order order = orderRepository.findOne(orderID);
 		if (order == null || order.getStep() == null) {
@@ -85,21 +89,25 @@ public class FTTripController extends FTController {
 			throw new FoodtripException(FoodtripError.INVALID_ORDER.getCode());	
 		}
 		
+
+		//add the path from the farmer to final distributor
 		Node start = connector.getGraphDatabaseService().getNodeById(firstStep.getId());
-		Node end = connector.getGraphDatabaseService().getNodeById(endStepID);
-		TraversalDescription traversalDescription = Traversal.description()
-				.breadthFirst()
-				.relationships(Step.Rels.STEP)
-				.evaluator(Evaluators.excludeStartPosition())
-				.evaluator(Evaluators.endNodeIs(Evaluation.INCLUDE_AND_CONTINUE,Evaluation.EXCLUDE_AND_CONTINUE, end))
-				.uniqueness(Uniqueness.NODE_PATH );
-		List<String> mapPathsList = new ArrayList<String>();
-		FoodStepWS graph = getFoodStepWS(start,end,traversalDescription,mapPathsList);
-		List<FoodStepWS> flatFoodGraph = createFlatFoodGraph(graph);
-		
-		t.setFoodGraph(graph);
-		t.setFlatFoodGraph(flatFoodGraph);
-		t.setPaths(mapPathsList.toArray(new String[mapPathsList.size()]));
+		if(endPoint != null) {
+			Node end = connector.getGraphDatabaseService().getNodeById(endStepID);
+			TraversalDescription traversalDescription = Traversal.description()
+					.breadthFirst()
+					.relationships(Step.Rels.STEP)
+					.evaluator(Evaluators.excludeStartPosition())
+					.evaluator(Evaluators.endNodeIs(Evaluation.INCLUDE_AND_CONTINUE,Evaluation.EXCLUDE_AND_CONTINUE, end))
+					.uniqueness(Uniqueness.NODE_PATH );
+			List<String> mapPathsList = new ArrayList<String>();
+			FoodStepWS graph = getFoodStepWS(start,end,traversalDescription,mapPathsList);
+			List<FoodStepWS> flatFoodGraph = createFlatFoodGraph(graph);
+			
+			t.setFoodGraph(graph);
+			t.setFlatFoodGraph(flatFoodGraph);
+			t.setPaths(mapPathsList.toArray(new String[mapPathsList.size()]));
+		}
 		
 		//add the product
 		Product product = order.getOrderProductRel().getProduct();

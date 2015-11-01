@@ -251,7 +251,8 @@ public class FTCompanyController extends FTController {
 					continue;
 				}
 				
-				notificationsWS[i] = ModelUtils.toNotificationWS(n,p,c);
+				Company producer = repoCompany.findOne(n.getCompanyID());
+				notificationsWS[i] = ModelUtils.toNotificationWS(n,p,c,producer);
 				i++;
 			}
 			return notificationsWS;

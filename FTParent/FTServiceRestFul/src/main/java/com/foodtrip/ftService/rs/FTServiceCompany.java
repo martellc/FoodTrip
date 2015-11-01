@@ -111,12 +111,7 @@ public class FTServiceCompany {
 	@POST
 	@Produces({MediaType.APPLICATION_JSON })
 	public Response updateCompany(CompanyWS company) {
-		return Response.status(Status.INTERNAL_SERVER_ERROR)
-				.entity("200")
-				.type(MediaType.APPLICATION_JSON)
-				.build();
-		
-		/*try {
+		try {
 			CompanyWS updatedCompany = new FTCompanyController().updateCompany(company);		
 			return Response.status(Status.ACCEPTED)
 					.type(MediaType.APPLICATION_JSON)
@@ -127,6 +122,6 @@ public class FTServiceCompany {
 					.entity(e.getBusinessCode())
 					.type(MediaType.APPLICATION_JSON)
 					.build();
-		}*/
+		}
 	}
 }

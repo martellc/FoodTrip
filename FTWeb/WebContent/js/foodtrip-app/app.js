@@ -12,6 +12,10 @@ app.config(['$routeProvider',
 		templateUrl: 'home.html',
 		controller: 'mainController'
 	}).
+	when('/contacts', {
+		templateUrl: 'contacts.html',
+		controller: 'mainController'
+	}).
 	when('/faq', {
 		templateUrl: 'faq.html',
 		controller: 'mainController'
@@ -52,7 +56,7 @@ app.config(['$translateProvider', function ($translateProvider) {
 		'WHY': 'Why',
 		'DOWNLOAD': 'Download',
 		'FOODTRIP': 'Food trip',
-		'PRODUCT_DETAIL': 'Product detail',
+		'PRODUCT_DETAIL': 'Place of production',
 		'MAP':'Trip Map',
 		'SAWING_DATE':'Sawed',
 		'HARVEST_DATE':'Harvest',
@@ -109,6 +113,8 @@ app.config(['$translateProvider', function ($translateProvider) {
 		'Intermediary':'Intermediary',
 		'Consumer distrubition':'Distrubution',
 		'STEPS':'Steps',
+		'Contacts':'Contact us',
+		'CONTACTS_MESSAGE':'If you have any doubt or you are interested and want to know more about Foodtrip and his architecture write us at ',
 		'FOODTRIP_NOT_FOUND':'Opssss il Foodtrip che hai inserito non esiste. Questo e\' un esempio di come avrebbe risposto il servizio con un codice corretto (676-690).'
 	});
 
@@ -126,7 +132,7 @@ app.config(['$translateProvider', function ($translateProvider) {
 		'WHY': 'Scopo',
 		'DOWNLOAD': 'Download',
 		'FOODTRIP': 'Food trip',
-		'PRODUCT_DETAIL': 'Dettagli del prodotto',
+		'PRODUCT_DETAIL': 'Luogo di produzione',
 		'MAP':'Mappa del viaggio',
 		'SAWING_DATE':'Seminato il',
 		'HARVEST_DATE':'Raccolto il',
@@ -145,15 +151,15 @@ app.config(['$translateProvider', function ($translateProvider) {
 		'COMPANY_DETAIL':'Dettagli compagnia',
 		'REGISTER':'Registrati',
 		'REGISTRATION_COMPLETE':'Il processo di registrazione si e\' concluso correttamente',
-		'MAIN_MESSAGE':'Conosci cio\' che mangi!',
-		'INTRO_MESSAGE':'Foodtrip e\' il primo software di tracciabilita\' dal produttore al consumatore che fornisce tutti i dettagli su quello che stai mangiando.',
+		'MAIN_MESSAGE':'Conosci cosa mangi!',
+		'INTRO_MESSAGE':'Foodtrip e\' il primo software di tracciabilita\' che certifica la filiera dal produttore al consumatore. Trasparenza totale senza compromessi.',
 		'LEARN_MORE':'Scopri i dettagli >',
 		'HOW_WORKS':'Come funziona',
-		'HOW_WORKS_MESSAGE':'Trasparenza e tracciabilita\' sono le parole chiave in Foodtrip. Utilizzando il meglio della tecnologia "Mobile" e grazie alle aziende che sono registrate al servizio siamo in grado di fornire una vera e propria Carta d\'identita\' dei prodotti alimetari.',
+		'HOW_WORKS_MESSAGE':'Utilizzando la tecnologia Mobile, offriamo l\'opportunita\' alle aziende registrate di salvare i dettagli su ogni alimento che producono e i passaggi intermedi fino al consumatore finale. Il risultato? Una carta d\'identita\' digitale dei prodotti alimentari.',
 		'REGISTER_YOUR_COMPANY':'Registra la tua compagnia',
-		'REGISTER_YOUR_COMPANY_MESSAGE':'Se sei un produttore, un intermediario, un distrubutore finale di prodotti alimentari o se il tuo business ruota intorno al cibo considera la possibilita\' di entrare nella nostra comunita\'. Registrati, e differenzia il tuo business con Foodtrid',
+		'REGISTER_YOUR_COMPANY_MESSAGE':'Se sei un produttore, un intermediario, un distrubutore finale di prodotti alimentari o se il tuo business ruota intorno al cibo considera la possibilita\' di entrare nella nostra comunita\'. Registrati, e differenzia il tuo business con Foodtrid.',
 		'TRY_IT':'Provalo',
-		'TRY_IT_MESSAGE':'Se sei interessato o semplicimente curioso, prova il nostro servizio. Inserisci per esempio (676-690) qui sotto e clicca "Mostra il viaggio"',
+		'TRY_IT_MESSAGE':'Se sei interessato o semplicimente curioso, prova il nostro servizio. Inserisci il Foodtrip ID (es. 676-690) e clicca "Mostra il viaggio"',
 		'VIEW_DETAILS':'Dettagli',
 		'REGISTER_YOURSELF':'Dicci qualcosa su di te',
 		'INSTALL_MESSAGE':'Installa Foodtrip sul tuo telefonino Android ed inserisci la chiave privata al momento della registrazione.',
@@ -186,6 +192,8 @@ app.config(['$translateProvider', function ($translateProvider) {
 		'Intermediary':'Intermediario',
 		'Consumer distrubition':'Distributore',
 		'STEPS':'Passo per passo',
+		'Contacts':'Contatti',
+		'CONTACTS_MESSAGE':'Per qualsiasi dubbio o se site interessati ad adottare Foodtrip e volete saperne di piu\' scriveteci qui ',
 		'FOODTRIP_NOT_FOUND':'Opssss il Foodtrip che hai inserito non esiste. Questo e\' un esempio di come avrebbe risposto il servizio con un codice corretto (676-690).'
 	});
 

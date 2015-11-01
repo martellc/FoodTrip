@@ -1,51 +1,51 @@
 <div class="jumbotron">
    <div class="container">
-	<form name="formNewCompany" class="css-form col-md-9 col-xs-12"  novalidate>
+	<form name="formNewUser" class="css-form col-md-9 col-xs-12"  novalidate>
 	    
     	  <h2 class="formTitle">{{'REGISTER_YOURSELF' | translate}}</h2>
     
 		  <div class="col-md-4 col-xs-12 top10">  
-		    <label for="name">{{'NAME' | translate}}</label>
+		    <label for="name">{{'NAME' | translate}} (*)</label>
 		    <input type="text" class="form-control" id="name" ng-model="userInfo.name" required>
 		  </div>
 		  
 		  <div class="col-md-4 col-xs-12 top10">  
-		    <label for="surname">{{'SURNAME' | translate}}</label>
+		    <label for="surname">{{'SURNAME' | translate}} (*)</label>
 		    <input type="text" class="form-control" id="surname" ng-model="userInfo.surname" required>
 		  </div>
 		  
 		   <div class="col-md-4 col-xs-12 top10"> 
-		    <label for="gender">{{'SEX' | translate}}</label>
+		    <label for="gender">{{'SEX' | translate}} (*)</label>
 		    <fieldset class="form-control" style="background-color:inherit;border:none;border-radius:0px;box-shadow:none" id ="gender" required>
-				<input  type="radio" id="sex" ng-model="userInfo.gender" value=0" checked="checked">M
+				<input  type="radio" id="sex" ng-model="userInfo.gender" value="0" checked="checked">M
 	  		  	<input style="margin-left:10px" type="radio" id="sex2" ng-model="userInfo.gender" value="1" >F
 			</fieldset>
 		  </div>
 	
 	 	  <div class="col-md-4 col-xs-12 top10"> 
-		    <label for="dataNascita">{{'BIRTH_DATE' | translate}}</label>
+		    <label for="dataNascita">{{'BIRTH_DATE' | translate}} (*)</label>
 		    <input type="date" class="form-control" placeholder="yyyy-MM-dd" id="dataNascita" ng-model="birthDate" required>
 		  </div>
 		  
 		  <div class="col-md-4 col-xs-12 top10"> 
-		    <label for="luogoNascita">{{'BIRTH_PLACE' | translate}}</label>
+		    <label for="luogoNascita">{{'BIRTH_PLACE' | translate}} (*)</label>
 		    <input class="form-control" id="luogoNascita" ng-model="userInfo.birthPlace" required>
 		  </div>
 		  
 		  <div class="col-md-4 col-xs-12 top10"> 
-		    <label for="cf">{{'TAX_CODE' | translate}}</label>
-		    <input name="ngModelValue" onblur="controllaCF()" type="text" class="form-control" id="cf" ng-model="userInfo.fiscalCode"/>
+		    <label for="cf">{{'TAX_CODE' | translate}} (*)</label>
+		    <input name="ngModelValue" onblur="controllaCF()" required type="text" class="form-control" id="cf" ng-model="userInfo.fiscalCode"/>
 		  </div>
 		  
 		  
 		  <div class="col-md-12 col-xs-12 top40"> 
-		    <label for="email">{{'EMAIL' | translate}}</label>
+		    <label for="email">{{'EMAIL' | translate}} (*)</label>
 		    <input type="email" class="form-control" id="email" ng-model="userInfo.email" required>
 		  </div>
 		
 		  
 		  <div class="col-md-12 top40"> 
-		   	<label for="streetname">{{'ADDRESS' | translate}}</label>
+		   	<label for="streetname">{{'ADDRESS' | translate}} (*)</label>
 		  </div>
 		  <div class="col-md-8 col-xs-8"> 
 		     	<input type="text" class="form-control col-md-8 col-xs-8" id="streetname" placeholder="{{'STREETNAME' | translate}}" ng-model="userInfo.address.streetName" required>
@@ -57,15 +57,16 @@
 		  		<input type="text" placeholder="{{'ZIP' | translate}}" class="form-control col-md-8 col-xs-8" id="streetnum" ng-model="userInfo.address.zipCode" required>
 		  </div>
 		  <div class="col-md-4 col-xs-4 top10">
-		  		<input type="text" class="form-control col-md-8 col-xs-8" id="city" placeholder="{{'CITY' | translate}}'" ng-model="userInfo.address.cityWS.name" required>
+		  		<input type="text" class="form-control col-md-8 col-xs-8" id="city" placeholder="{{'CITY' | translate}}" ng-model="userInfo.address.city.name" required>
 		  </div>
 		  <div class="col-md-4 col-xs-4 top10">
 		  		<input type="text" class="form-control col-md-8 col-xs-8" id="state" placeholder="{{'STATE' | translate}}" ng-model="userInfo.address.state" >
 		  </div>
 		  
-		  <div class="col-md-12 col-xs-12 top40">
-		  	<a href="#register3" type="submit" role="button" class="btn2 btn2-success"   ng-click="addCompany(userInfo,birthDate)">{{'REGISTER' | translate}}</a>
+		  <div class="col-md-12 col-xs-12 top40"> 
+		  	<button type="submit" role="button" class="btn2 btn2-success" ng-disabled="formNewUser.$invalid"  ng-click="addCompany(userInfo,birthDate)">{{'REGISTER' | translate}}</a>
 		  </div>
 	</form>
   </div>
 </div>
+<div ng-include="'loadingDiv.html'"> </div>

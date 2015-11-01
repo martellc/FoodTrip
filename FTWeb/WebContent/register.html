@@ -1,3 +1,4 @@
+
 <div class="jumbotron">
    <div>
    	
@@ -8,17 +9,17 @@
 	     <h2 class="formTitle">{{'REGISTER_YOUR_COMPANY' | translate}}</h2>
 	
 		 <div class="col-md-6 col-xs-12 top10">  
-		    <label for="name">{{'COMPANY_NAME' | translate}}</label>
+		    <label for="name">{{'COMPANY_NAME' | translate}} (*)</label>
 		    <input type="text" class="form-control" id="name" ng-model="newCompany.name" required/>
 		  </div>
 		  
 		  <div class="col-md-6 col-xs-12 top10">  
-		    <label for="name">{{'COMPANY_VAT' | translate}}</label>
+		    <label for="name">{{'COMPANY_VAT' | translate}} (*)</label>
 		    <input type="text" class="form-control" id="name" ng-model="newCompany.vatNumber" required />
 		  </div>
 		  
 		  <div class="col-md-6 col-xs-12 top10">  
-		    <label for="tipologia" style="display:block">{{'COMPANY_TYPE' | translate}}</label>
+		    <label for="tipologia" style="display:block">{{'COMPANY_TYPE' | translate}} (*)</label>
 			<table style="width:100%">
 				 <td>
 				     <select class="form-control" name="tipologia" ng-model="newCompany.type" required>
@@ -36,58 +37,61 @@
 		  
 
 		  <div class="col-md-6 col-xs-12 top10">  
-		    <label for="foundingDate">{{'FOUNDING_DATE' | translate}}</label>
+		    <label for="foundingDate">{{'FOUNDING_DATE' | translate}} (*)</label>
 		    <input type="date" placeholder="yyyy-MM-dd" class="form-control" id="foundingDate" ng-model="foundingDate" required>
 		  </div>
 		
-		  <div class="col-md-12 top40"> 
-		   	<label for="streetname">{{'ADDRESS' | translate}}</label>
+		  <div class="top40 col-md-12 col-xs-12" ></div>
+		  
+		  <div class="col-md-12 col-xs-12"> 
+		   	<label for="streetname">{{'ADDRESS' | translate}} (*)</label>
 		  </div>
 		  <div class="col-md-8 col-xs-8"> 
-		     	<input type="text" class="form-control col-md-8 col-xs-8" id="streetname" placeholder="{{'STREETNAME' | translate}}" ng-model="newCompany.creator.address.streetName" required>
+		     	<input type="text" class="form-control col-md-8 col-xs-8" id="streetname" placeholder="{{'STREETNAME' | translate}}" ng-model="newCompany.address.streetName" required>
 		  </div>
 		  <div class="col-md-4 col-xs-4">
-		  		<input type="text" class="form-control col-md-8 col-xs-8" placeholder="{{'CIVICO' | translate}}" id="CIVICO" ng-model="newCompany.creator.address.streetNumber" required>
+		  		<input type="text" class="form-control col-md-8 col-xs-8" placeholder="{{'CIVICO' | translate}}" id="CIVICO" ng-model="newCompany.address.streetNumber" required>
 		  </div>
 		  <div class="col-md-4 col-xs-4 top10">
-		  		<input type="text" placeholder="CAP" class="form-control col-md-8 col-xs-8" id="{{'ZIP' | translate}}" ng-model="newCompany.creator.address.zipCode" required>
+		  		<input type="text" placeholder="CAP" class="form-control col-md-8 col-xs-8" id="{{'ZIP' | translate}}" ng-model="newCompany.address.zipCode" required>
 		  </div>
 		  <div class="col-md-4 col-xs-4 top10">
-		  		<input type="text" class="form-control col-md-8 col-xs-8" id="city" placeholder="{{'CITY' | translate}}'" ng-model="newCompany.creator.address.cityWS.name" required>
+		  		<input type="text" class="form-control col-md-8 col-xs-8" id="city" placeholder="{{'CITY' | translate}}" ng-model="newCompany.address.city.name" required>
 		  </div>
 		  <div class="col-md-4 col-xs-4 top10">
-		  		<input type="text" class="form-control col-md-8 col-xs-8" id="state" placeholder="{{'STATE' | translate}}" ng-model="newCompany.creator.address.state" required>
+		  		<select class="form-control col-md-8 col-xs-8" id="country" onfocus="populateCountries('country')" name="country" ng-model="newCompany.address.state" required></select>
 		  </div>
 		 
-		 
-		  <div class="col-md-4 col-xs-12 top40">  
-		    <label for="name">{{'COMPANY_EMAIL' | translate}}</label>
+		  <div class="top40 col-md-12 col-xs-12 "></div>
+		  
+		  <div class="col-md-4 col-xs-12 top10">  
+		    <label for="name">{{'COMPANY_EMAIL' | translate}} (*)</label>
 		    <input type="email" required class="form-control" id="name" ng-model="newCompany.email">
 		  </div>
 		  
-		  <div class="col-md-4 col-xs-12 top40">  
-		    <label for="name">{{'FACEBOOK_ID' | translate}}</label>
+		  <div class="col-md-4 col-xs-12 top10">  
+		    <label for="name">{{'FACEBOOK_ID' | translate}} </label>
 		    <input type="email"  class="form-control" id="name" ng-model="newCompany.facebookID">
 		  </div>
 		  
-		  <div class="col-md-4 col-xs-12 top40">  
+		  <div class="col-md-4 col-xs-12 top10">  
 		    <label for="name">{{'GPLUS_ID' | translate}}</label>
 		    <input type="email"  class="form-control" id="name" ng-model="newCompany.googlePlusID">
 		  </div> 
 		
 		  
-		  <div class="col-md-12 col-xs-12 top40">  
+		  <div class="col-md-12 col-xs-12 top10">  
 		    <label for="name">{{'DESCRIPTION' | translate}}</label>
 		     <textarea rows="4" cols="50"  class="form-control" id="name" ng-model="newCompany.description"></textarea>
 		  </div>
 		 
-		 <div class="col-md-12 col-xs-12 top40">  
+		 <div class="col-md-12 col-xs-12 top10">  
 		    <label for="name">{{'COMPANY_CERT' | translate}}</label>
 		     <textarea rows="4" cols="50"  class="form-control" id="name" ng-model="newCompany.certifications"></textarea>
 		  </div>
 		
-		  <div class="col-md-12 col-xs-12 top40">
-		  	<a role="button" href="#register2" style="float:right" type="submit" class="btn2 btn2-success"  ng-click="showRegistrationPhase2(newCompany,foundingDate)">{{'NEXT' | translate}}</a>
+		  <div class="col-md-12 col-xs-12 top10"> 
+		  	<button role="button"  style="float:right" type="submit" class="btn2 btn2-success" ng-disabled="formNewCompany.$invalid" ng-click="showRegistrationPhase2(newCompany,foundingDate)">{{'NEXT' | translate}}</button>
 		  </div>
 	</form>
   </div>
